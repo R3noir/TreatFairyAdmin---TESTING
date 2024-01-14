@@ -1,0 +1,36 @@
+.body{
+    font-family: 'Roboto', sans-serif;
+}
+
+h1{
+    font-weight: 900;
+}
+
+.logo {
+    width: 20%; /* Adjust as needed */
+    border-radius: 50%; /* Makes the image circular */
+}
+
+/* For password showing */
+.toggle-button {
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background-color: white;
+}
+
+#togglePassword:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+#togglePassword:active {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+    .column-left {
+        display: none !important;
+    }
+}
