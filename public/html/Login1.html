@@ -2,23 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!--For responsivebess-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Two Columns</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+</head>
+<style>
+    .login-container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .login-box {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    .login-button {
+        border-radius: 20px;
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col bg-primary">
-                Column 1
+<div class="container login-container">
+    <div class="login-box">
+        <h1 class="text-center">TreatFairy Admin Login</h1>
+        <form>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
             </div>
-            <div class="col bg-secondary">
-                Column 2
-            </div>
-        </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group position-relative">
+                    <input type="password" class="form-control form-control-lg" id="password">
+                    <button id="togglePassword" type="button" class="btn btn-link toggle-button">
+                        <i class="material-icons">visibility_off</i>
+                    </button>
+                </div>
+                <div class="form-group form-check text-right">
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+            <button type="submit" class="btn btn-primary btn-block login-button">Login</button>
+        </form>
     </div>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function (e) {
+    const passwordInput = document.getElementById('password');
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    
+    // Get the i element
+    const icon = this.querySelector('i');
+    
+    // Toggle the text content of the i element
+    if (icon.textContent === 'visibility') {
+        icon.textContent = 'visibility_off';
+    } else {
+        icon.textContent = 'visibility';
+    }
+
+    document.querySelector('.login-button').addEventListener('click', async function(e) {
+        e.preventDefault();
+
+        // Define your parameters
+        const params = {
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+        };
+
+        // Call the API
+        await fetch('/auth', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                // Handle error
+                console.error(data.error);
+            } else {
+                // Handle successful login
+                console.log(data.user);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
 </body>
 </html>

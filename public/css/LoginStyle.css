@@ -1,0 +1,113 @@
+body
+{
+    background: url(../Images/Login_BG.png);
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.center {
+    min-width: 30vw;
+}
+
+.center div, .center a{
+    margin: 3vh 0 3vh 0;
+}
+
+.center form{
+    width: 100%;
+}
+
+.center img{
+    width: 15vw;
+    height: 15vw;
+    object-fit: cover;
+}
+
+#snackbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    min-width: 20vw;
+    max-width: 20vw;
+    max-height: 8vh;
+    min-height: 8vh;
+    background-color: #333;
+    color: #FF4F4F;
+    text-align: left;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+#snackbar.hide {
+    visibility: hidden;
+}
+
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+#snackbar .material-icons {
+    font-size: 30px;
+    padding: 0 10px 0 10px;
+}
+
+#snackbar .message {
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    width: 20vw; 
+    padding: 0 10px 0 0px;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+    .center img {
+        width: 50vw;
+        height: 50vw;
+    }
+    .center{
+        min-width: 70vw;
+    }
+    #snackbar{
+        min-width: 70vw;
+        max-width: 70vw;
+    }
+    #snackbar .message {
+        width: 70vw;
+    }
+}
