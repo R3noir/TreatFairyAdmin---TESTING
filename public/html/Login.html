@@ -28,13 +28,13 @@
             <img src="../Images/Logo_transparent.png">
             <h3>Welcome Admin!</h3>
         </div>
-        <form class="login" autocomplete="off">
+        <form id="login-form" autocomplete="off">
 		    <div class="form-floating">
-		        <input type="text" class="form-control" id="email" placeholder="email" name="email" required>
+		        <input type="text" class="form-control" id="email-in" placeholder="email" name="email" required>
                 <label for="email">Email</label>
             </div>
             <div class="form-floating position-relative">
-                <input type="password" class="form-control" id="password" placeholder="password" name="password" required>
+                <input type="password" class="form-control" id="password-in" placeholder="password" name="password" required>
                 <label for="password">Password</label>
                 <button type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y h-100" id="togglePassword">
                     <span class="material-icons">
@@ -43,17 +43,16 @@
                 </button>
             </div>
                 <a href="#" class="text-end d-block text-decoration-none text-dark">Forgot Password?</a>
-                <button type="submit" class="btn btn-dark w-100 rounded-pill" id="login">Login</button>
+                <button type="submit" class="btn btn-dark w-100 rounded-pill" id="login-btn">Login</button>
 		</form>
         <div class="text-center text-light">
             Copyright &copy; All rights reserved.
         </div>
     </div>
     <div id="snackbar">
-        <span class="material-icons">
-            error
+        <span class= "material-icons" id="snackbar-icon">
         </span>
-        <span class="message">Lorem ipsum something message here long message here Lorem ipsum something message here long message here Lorem ipsum something message here long message here</span>
+        <span id="snackbar-message"></span>
     </div>
     <script src="../js/Login.js"></script>
 </body>
