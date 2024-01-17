@@ -16,9 +16,10 @@
 * Open chrome and visit http://localhost:3000/
 
 ## Whats Working
-* Login page responsiveness, design
-* Snackbar testing in progress by click the visibility icon in the password
-* Hiding and unhiding password
+* Loging in (use email: Robedillo11@gmail.com password: Clarence01!!)
+* Snackbar
+* Responsive design
+
 
 
 
