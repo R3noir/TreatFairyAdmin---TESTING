@@ -15,6 +15,14 @@
 * after installing the above mentioned packages, to test/run this webapp type in terminal node .\index.js
 * Open chrome and visit http://localhost:3000/
 
+## Update
+* Now working /inventory
+* Now working /salesinvoice
+* Responsive sidebar
+
+## What to add
+* Menubar to collapse the sidebar at will
+
 ## Whats Working
 * Loging in (use email: Robedillo11@gmail.com password: Clarence01!!)
 * Snackbar

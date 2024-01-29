@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const app = express();
 const path = require('path');
-const Routes = require('./Routes.js'); // Import your routes
+const routes = require('./routes.js'); // Import your routes
 const authRoutes = require('./authRoutes.js'); // Import your authentication routes
 
 app.use(express.json());
@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Use your routes
-app.use('/', Routes);
+app.use('/', routes);
 
 // Use your authentication routes
 app.use('/auth', authRoutes);
