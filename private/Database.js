@@ -2,7 +2,7 @@ require('dotenv').config()
 const supabase = require('@supabase/supabase-js')
 
 class Database {
-    constructor(URL, KEY) {
+    constructor() {
         if(Database.instance) {
             return Database.instance;
         }
@@ -15,4 +15,4 @@ class Database {
     }
 }
 
-module.exports = new Database().client;
+module.exports = Database;                                                                                      

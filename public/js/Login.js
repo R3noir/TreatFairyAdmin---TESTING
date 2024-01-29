@@ -47,7 +47,7 @@ form.addEventListener('submit', async function(event) {
         email: emailinput.value,
         password: passwordinput.value
     }
-    await fetch('/api/auth', {
+    await fetch('/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
