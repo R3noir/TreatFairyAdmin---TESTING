@@ -57,21 +57,22 @@ body{
 main {
   max-height: calc(100vh - 50px); 
   overflow: auto;
-
 }
 
 .content{
-  margin: 0px 30px 30px 0px;
+  margin: 30px 30px 30px 0px;
+}
 
+.menu-div{
+  padding-top: 10px;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  background-color: #FAF9F6;
 }
 
 #menu-button{
-  padding-top: 30px;
-  position: fixed;
-  width: 100%;
-  background-color: #FAF9F6;
   color: #9cd49c;
-  z-index: 1;
 }
 
 .page-header{
