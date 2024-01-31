@@ -1,3 +1,8 @@
+body{
+  font-family: 'Roboto', sans-serif;
+
+}
+
 .material-symbols-outlined {
   font-variation-settings:
   'wght' 600,
@@ -54,6 +59,23 @@ main {
   overflow-y: auto; /* Add a vertical scrollbar if necessary */
   overflow-x: auto; /* Add a horizontal scrollbar if necessary */
 
+}
+
+.content{
+  margin: 30px 30px 30px 30px;
+}
+
+.page-header{
+  margin: 30px 0 30px 0;
+}
+
+.dataTables_wrapper .dataTables_filter {
+  width: 100%;
+  text-align: center;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  width: 100%;
 }
 @media (max-width: 678px) {
   .logo-img {
