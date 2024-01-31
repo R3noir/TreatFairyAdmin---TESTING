@@ -1,4 +1,3 @@
-
 .material-symbols-outlined {
   font-variation-settings:
   'wght' 600,
@@ -15,7 +14,6 @@
   height: 100%; /* Full height */
 }
 
-
 #sidebar-nav{
   width: 320px;
   height: 100vh;
@@ -25,9 +23,6 @@
 #sidebar-nav .logo{
   background: transparent;
   padding: 15px 0 15px 0;
-}
-.list-group{
-  
 }
 
 .list-group a{
