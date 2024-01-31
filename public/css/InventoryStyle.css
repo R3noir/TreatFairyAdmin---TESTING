@@ -13,7 +13,6 @@
   position: relative;
   height: 100%; /* Full height */
 }
-
 #sidebar-nav{
   width: 320px;
   height: 100vh;
@@ -53,6 +52,8 @@
 main {
   height: 100vh; /* Full viewport height */
   overflow-y: auto; /* Add a vertical scrollbar if necessary */
+  overflow-x: auto; /* Add a horizontal scrollbar if necessary */
+
 }
 @media (max-width: 678px) {
   .logo-img {
