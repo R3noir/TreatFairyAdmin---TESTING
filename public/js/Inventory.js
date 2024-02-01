@@ -63,14 +63,24 @@ document.addEventListener('DOMContentLoaded', function() {
             { 
                 data: null,
                 render: function() {
-                    return `
-                        <button class="btn edit-button table-icon">
-                            <span class="material-symbols-outlined">edit</span>
-                        </button>
-                        <button class="btn archive-button table-icon">
-                            <span class="material-symbols-outlined">archive</span>
-                        </button>
-                    `;
+                    if (showArchived.checked) {
+                        // Render a different button if the checkbox is checked
+                        return `
+                            <button class="btn unarchive-button table-icon">
+                                <span class="material-symbols-outlined">unarchive</span>
+                            </button>
+                        `;
+                    } else {
+                        // Render the default buttons if the checkbox is not checked
+                        return `
+                            <button class="btn edit-button table-icon">
+                                <span class="material-symbols-outlined">edit</span>
+                            </button>
+                            <button class="btn archive-button table-icon">
+                                <span class="material-symbols-outlined">archive</span>
+                            </button>
+                        `;
+                    }
                 }
             }
         ]
