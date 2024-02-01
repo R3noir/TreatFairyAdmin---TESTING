@@ -15,7 +15,7 @@
     <!--Data Table CSS-->
     <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="../css/InventoryStyle.css">
+    <link rel="stylesheet" type="text/css" href="../css/Inventory.css">
     <link rel="icon" href="../Images/Logo.png">
 </head>
 <body>
@@ -70,25 +70,26 @@
                         </span>
                     </a>
                 </div>
-                <div style="margin-left: 30px;">
+                <div>
                     <div class="page-header">
                         <h1>INVENTORY</h1>
                     </div>
-                    <div class="searchdiv">
-                        <i class="material-symbols-outlined">
+                    <div class="search-div">
+                        <i class="material-symbols-outlined input-icon">
                             search
                         </i>
                         <input id="customSearch" type="text" placeholder="Search...">
                     </div>
-                    <div class="add-item">
-                        <button class="add-btn">
-                            <i class="material-symbols-outlined">
-                                add_circle
-                            </i>
-                            Add New Product
-                        </button>
+                    <button type="button" class="btn add-btn icon" data-bs-toggle="modal" data-bs-target="#addProductModal" >
+                        <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            add_circle
+                        </span> 
+                        Add New Prodcut
+                    </button>
+                    <div class="show-archived-div">
+                        <input type="checkbox" id="archived-checkbox">
+                        <label for="archived-checkbox">Show Archived Products</label>
                     </div>
-
                         <table id="InventoryTable" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
@@ -110,10 +111,10 @@
                                     <td>109.00</td>
                                     <td>135.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -128,10 +129,10 @@
                                     <td>64.00</td>
                                     <td>75.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -146,10 +147,10 @@
                                     <td>114.00</td>
                                     <td>129.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -164,10 +165,10 @@
                                     <td>109.00</td>
                                     <td>135.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -182,10 +183,10 @@
                                     <td>64.00</td>
                                     <td>75.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -200,10 +201,10 @@
                                     <td>114.00</td>
                                     <td>129.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -218,12 +219,12 @@
                                     <td>109.00</td>
                                     <td>135.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 edit
                                             </span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -238,10 +239,10 @@
                                     <td>64.00</td>
                                     <td>75.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -256,10 +257,10 @@
                                     <td>114.00</td>
                                     <td>129.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -274,10 +275,10 @@
                                     <td>109.00</td>
                                     <td>135.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -292,10 +293,10 @@
                                     <td>64.00</td>
                                     <td>75.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -310,10 +311,10 @@
                                     <td>114.00</td>
                                     <td>129.00</td>
                                     <td>
-                                        <button class="btn edit-button">
+                                        <button class="btn edit-button table-icon">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button class="btn archive-button">
+                                        <button class="btn archive-button table-icon">
                                             <span class="material-symbols-outlined">
                                                 archive
                                             </span>
@@ -323,8 +324,65 @@
                             </tbody>
                         </table>
                         <div id="customPagination" class="d-flex justify-content-center"></div>
+                        <div id="snackbar">
+                            <span class= "material-symbols-outlined icon" id="snackbar-icon" style="font-size: 24px; margin-right: 10px;">
+                                
+                            </span>
+                            <diV id="snackbar-message">
+                                
+                            </diV>
+                        </div>
                 </div>
             </main>
+            <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="addProductForm">
+                        <div class="mb-3">
+                          <label for="productName" class="form-label">Product Name</label>
+                          <input type="text" class="form-control" id="productName" required maxlength="70">
+                          <small id="charCount" class="form-text text-muted">0 / 70</small>
+                        </div>
+                        <div class="mb-3">
+                          <label for="expirationDate" class="form-label">Earliest Expiration Date</label>
+                          <input type="date" class="form-control" id="expirationDate" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="quantity" class="form-label">Quantity</label>
+                          <input type="number" class="form-control" id="quantity" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="wholesalePrice" class="form-label">Whole Sale Price</label>
+                          <input type="number" class="form-control" id="wholesalePrice" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="retailPrice" class="form-label">Retail Price</label>
+                          <input type="number" class="form-control" id="retailPrice" step="0.01" required>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-danger icon">
+                            <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                                Close
+                            </span> 
+                            Cancel
+                        </button>
+                      <button type="submit" class="btn btn-primary icon" form="addProductForm">
+                        <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            check
+                        </span> 
+                            Add Product
+                        </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>

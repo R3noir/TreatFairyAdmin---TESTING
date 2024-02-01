@@ -1,3 +1,12 @@
+.container-fluid{
+  height: 100vh;
+}
+
+.flex-nowrap{
+  width: 100%;
+  height: 100%;
+}
+
 body{
   font-family: 'Roboto', sans-serif;
   background-color: #FAF9F6;
@@ -11,19 +20,44 @@ body{
   font-size: 38px;
 }
 
+.input-icon{
+  position: absolute;
+  font-size: 24px;
+  top: 50%;
+  left: 20px; /* Adjust as needed */
+  transform: translateY(-50%);
+}
+
+.table-icon{
+  font-size: 32px;
+}
+
+.icon{
+  display: flex;
+  align-items:center;
+}
+
+.icon i{
+  font-size: 24px;
+  margin-left: 10px;
+}
+
 .logo-img{
   max-width: 180px;
   object-fit: cover;
 }
+
 #sidebar {
   position: relative;
   height: 100%; /* Full height */
 }
+
 #sidebar-nav{
   width: 320px;
   height: 100%;
   background: linear-gradient(180deg, #9cd49c, #20e7bf);
 }
+
 #sidebar-nav .logo{
   background: transparent;
   padding: 15px 0 15px 0;
@@ -40,14 +74,17 @@ body{
   justify-content: start;
   align-items: center;
 }
+
 .list-group span{
   margin: 15px 10px 15px 10px;
 }
+
 .list-group-item{
   width: 100%;
   height: 100%;
   margin: 30px 0 30px 0;
 }
+
 .list-group-item.active {
   color: #181818;
   background-color: #D7FEEC;
@@ -60,14 +97,15 @@ main {
 }
 
 .content{
-  margin: 0px 30px 30px 0px;
+  position: relative;
+  padding: 0px 30px 30px 30px;
 }
 
 
 .menu-div{
-  padding-top: 30px;
   position: fixed;
   width: 100%;
+  padding-top: 30px;
   z-index: 1;
   background-color: #FAF9F6;
 }
@@ -80,19 +118,11 @@ main {
   margin: 90px 0 30px 0;
 }
 
-.searchdiv {
-  max-height: 45px;
+.search-div {
+  min-height: 45px;
   position: relative;
   margin-bottom: 30px;
   filter: drop-shadow(0px 4px 4px #181818);
-}
-
-.searchdiv i{
-  position: absolute;
-  font-size: 24px;
-  top: 50%;
-  left: 20px; /* Adjust as needed */
-  transform: translateY(-50%);
 }
 
 #customSearch{
@@ -102,28 +132,16 @@ main {
   padding: 10px 30px 10px 50px;
 }
 
-.add-item {
-  text-align: right;
-}
-
-.add-btn{
-  width: 200px;
-  background-color: #D7FEEC;
-  min-height: 40px;
-  border-radius: 6px;
+.add-btn {
+  margin-left: auto;
   border: 0.3px solid #181818;
-  filter: drop-shadow(0px 4px 4px #181818);
-  text-align: center;
-  padding-left: 30px;
+  background-color: #D7FEEC;
   margin-bottom: 30px;
 }
 
-.add-btn i{
-  position: absolute;
-  font-size: 24px;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
+.show-archived-div{
+  margin-bottom: 30px;
+  text-align: left;
 }
 
 .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter {
@@ -134,18 +152,6 @@ main {
 #InventoryTable td, #InventoryTable th {
   text-align: center;
   vertical-align: middle;
-}
-
-.edit-button {
-  border: none;
-  background-color: none;
-
-}
-.edit-button span{
-  font-size: 32px;
-}
-.archive-button span{
-  font-size: 32px;
 }
 
 #customPagination {
@@ -163,10 +169,56 @@ main {
   font-weight: bold;
 }
 
-@media (max-width: 678px) {
+#snackbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed; 
+  bottom: 30px; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  width: 400px;
+  height: 50px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  visibility: hidden;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s;
+  animation: fadein 0.5s;
+}
+
+#snackbar.hide {
+  visibility: hidden;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+#snackbar-message {
+  padding-left: 20px;
+  max-width: 80%;
+  height: 50px; 
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
+}
+
+@media (max-width: 768px) {
   .logo-img {
-      width: 25vw; /* Increase the width for mobile devices */
-      height: 26vw; /* Increase the height for mobile devices */
+      width: 20vw; /* Increase the width for mobile devices */
+      height: 20vw; /* Increase the height for mobile devices */
   }
   .material-symbols-outlined {
     font-size: 20px;
@@ -186,6 +238,21 @@ main {
   .list-group-item{
     margin: 20px 0 20px 0;
   }
-  
+  .content{
+    display: grid;
+    grid-template-columns: minmax(min-content, max-content);
+  }
+  .menu-div{
+    padding-left: 20px;
+  }
+  #snackbar {
+    width: 70%; /* Make the snackbar take up 90% of the screen width */
+    left: 50%; /* Center the snackbar */
+    transform: translateX(-50%); /* Adjust position to center */
+    font-size: 14px; /* Reduce the font size */
+  }
+  .snackbar-message {
+    font-size: 14px; /* Reduce the font size */
+  }
 }
 
