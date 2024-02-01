@@ -1,16 +1,15 @@
-const Database = require('./Database.js');
+const database = require('./Database.js');
 
-class Authentication extends Database {
+class Authentication {
     constructor() {
-        super();
-        if (Authentication.instance) {
-            return Authentication.instance;
+        if (!Authentication.instance) {
+            Authentication.instance = this;
         }
-        Authentication.instance = this;
+        return Authentication.instance;
     }
 
     async signInWithPassword({ email, password }) {
-        const { data, error } = await this.client.auth.signInWithPassword({
+        const { data, error } = await database._client.auth.signInWithPassword({
             email: email,
             password: password
         });
@@ -21,7 +20,7 @@ class Authentication extends Database {
     }
 
     async getUser() {
-        const user = this.client.auth.user();
+        const user = database._client.auth.getUser();
         return { user };
     }
 }

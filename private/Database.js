@@ -15,4 +15,4 @@ class Database {
     }
 }
 
-module.exports = Database;                                                                                      
+module.exports = new Database();                                                                                      

@@ -3,7 +3,9 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const routes = require('./routes.js'); // Import your routes
+const queryRoutes = require('./queryRoutes.js'); // Import your query routes
 const authRoutes = require('./authRoutes.js'); // Import your authentication routes
+
 
 app.use(express.json());
 
@@ -15,6 +17,8 @@ app.use('/', routes);
 
 // Use your authentication routes
 app.use('/auth', authRoutes);
+
+app.use('/query', queryRoutes);
 
 // Start the server
 const port = process.env.PORT || 3000;

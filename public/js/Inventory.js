@@ -2,12 +2,18 @@
 const addproductnameinput = document.getElementById('productName')
 const addproductnamecount =   document.getElementById('charCount')
 const customPagination = document.getElementById('customPagination');
+const showArchived = document.getElementById('archived-checkbox');
 
 const snackbar = document.getElementById('snackbar');
 const snackbarmessage = document.getElementById('snackbar-message');
 const snackbaricon = document.getElementById('snackbar-icon');
 const snackBarDelayMs = 3500;
 const buttonDelayMs = 1000;
+
+const successcolor = '#4CAF50';
+const errorcolor = '#F44336';
+const successfuicon = 'check_circle';
+const erroricon = 'error';
 //On page load
 document.addEventListener('DOMContentLoaded', function() {
     const table = $('#InventoryTable').DataTable({
@@ -33,7 +39,50 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         columnDefs: [
             { targets: 6, orderable: false } // This option removes the sort icon from the action column
-         ]
+         ],
+        ajax: {
+            url: '/query/fetchinventory',
+            type: 'POST',
+            dataSrc: function (data) {
+                // Filter the data to only include items where archived is false
+                if(showArchived.checked) {
+                    return data.data.filter(item => item.archived);
+                }
+                else{
+                    return data.data.filter(item => !item.archived);
+                }
+            }
+        },
+        columns: [
+            { data: 'itemid' },
+            { data: 'itemname' },
+            { data: 'earliestexpiry' },
+            { data: 'quantity' },
+            { data: 'wholesaleprice' },
+            { data: 'retailprice' },
+            { 
+                data: null,
+                render: function() {
+                    return `
+                        <button class="btn edit-button table-icon">
+                            <span class="material-symbols-outlined">edit</span>
+                        </button>
+                        <button class="btn archive-button table-icon">
+                            <span class="material-symbols-outlined">archive</span>
+                        </button>
+                    `;
+                }
+            }
+        ]
+    });
+
+    document.getElementById('customSearch').addEventListener('keyup', function() {
+        table.column(1).search(this.value).draw();
+    });
+
+    showArchived.addEventListener('change', function() {
+        // Redraw the table when the checkbox is checked or unchecked
+        table.ajax.reload();
     });
 
     customPagination.addEventListener('click', function(e) {
@@ -54,13 +103,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-
-    document.getElementById('customSearch').addEventListener('keyup', function() {
-        table.column(1).search(this.value).draw();
-    });
 });
 
-document.getElementById('productName').addEventListener('input', function (e) {
+addproductnameinput.addEventListener('input', function (e) {
     const target = e.target, 
         maxLength = target.getAttribute('maxlength'),
         currentLength = target.value.length;
@@ -68,13 +113,11 @@ document.getElementById('productName').addEventListener('input', function (e) {
     if (currentLength >= maxLength) {
       console.log("You have reached the maximum number of characters.");
     }
-    
     addproductnamecount.innerHTML = currentLength + ' / ' + maxLength;
   });
-  
 
-function ShowSnackbar(Parameters){
-    snackbar.style.color = Parameters.color;
+
+function ShowSnackbar(Parameters){    snackbar.style.color = Parameters.color;
     snackbarmessage.innerHTML = Parameters.message;
     snackbaricon.innerHTML = Parameters.icon;
     snackbar.className = 'show';
