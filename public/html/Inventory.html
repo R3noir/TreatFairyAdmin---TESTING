@@ -21,7 +21,7 @@
 <body>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="col-auto px-0">
+            <div class="col-auto px-0 d-flex">
                 <div id="sidebar" class="collapse collapse-horizontal show">
                     <div id="sidebar-nav">
                         <div class="logo border-0 d-flex align-items-center justify-content-center" data-bs-parent="#sidebar">
@@ -32,37 +32,45 @@
                                 <span class="material-symbols-outlined">
                                     inventory_2
                                 </span>
-                                INVENTORY
+                                <div class="text-center">
+                                    INVENTORY
+                                </div>
                             </a>
                             <a href="/salesinvoice" class="list-group-item border-0" data-bs-parent="#sidebar">
                                 <span class="material-symbols-outlined">
                                     receipt_long
                                 </span>
-                                SALES INVOICE
+                                <div class="text-center">
+                                    SALES INVOICE
+                                </div>
                             </a>
                             <a href="#" class="list-group-item border-0" data-bs-parent="#sidebar">
                                 <span class="material-symbols-outlined">
                                     assignment_ind
                                 </span>
-                                ACCESS CONTROL
+                                <div class="text-center">
+                                    ACCESS CONTROL
+                                </div>
                             </a>
                             <a href="#" class="list-group-item border-0" data-bs-parent="#sidebar">
                                 <span class="material-symbols-outlined">
                                     account_circle
                                 </span>
-                                ACCOUNT
+                                <div class="text-center">
+                                    ACCOUNT
+                                </div>
                             </a>
                             <a href="#" class="list-group-item active border-0" data-bs-parent="#sidebar">
                                 <span class="material-symbols-outlined">
                                     logout
                                 </span>
-                                LOGOUT
+                                <div class="text-center">
+                                    LOGOUT
+                                </div>
                             </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <main class="col content">
                 <div class="menu-div">
                     <a href="#" id= "menu-button" data-bs-target="#sidebar" data-bs-toggle="collapse">
                         <span class="material-symbols-outlined">
@@ -70,6 +78,8 @@
                         </span>
                     </a>
                 </div>
+            </div>
+            <main class="col content">
                 <div>
                     <div class="page-header">
                         <h1>INVENTORY</h1>

@@ -2,11 +2,6 @@
   height: 100vh;
 }
 
-.flex-nowrap{
-  width: 100%;
-  height: 100%;
-}
-
 body{
   font-family: 'Roboto', sans-serif;
   background-color: #FAF9F6;
@@ -15,7 +10,7 @@ body{
 
 .material-symbols-outlined {
   font-variation-settings:
-  'wght' 600,
+  'wght' 400,
   'opsz' 48;
   font-size: 38px;
 }
@@ -49,12 +44,13 @@ body{
 
 #sidebar {
   position: relative;
-  height: 100%; /* Full height */
+  height: 100vh; /* Full height */
 }
 
 #sidebar-nav{
   width: 320px;
   height: 100%;
+  overflow-y: auto;
   background: linear-gradient(180deg, #9cd49c, #20e7bf);
 }
 
@@ -67,7 +63,7 @@ body{
   max-height: 65px;
   max-width: 230px;
   color: #181818;
-  font-size: 20px;
+  font-size: 16px;
   background: transparent;
   font-weight: bold;
   display: flex;
@@ -75,8 +71,13 @@ body{
   align-items: center;
 }
 
+.text-center{
+  flex-grow: 1;
+  text-align: center;
+}
+
 .list-group span{
-  margin: 15px 10px 15px 10px;
+  margin: 10px 0 10px 0;
 }
 
 .list-group-item{
@@ -92,7 +93,7 @@ body{
 }
 
 main {
-  max-height: calc(100vh - 30px); 
+  max-height: 100vh;
   overflow: auto;
 }
 
@@ -101,17 +102,15 @@ main {
   padding: 0px 30px 30px 30px;
 }
 
-
-.menu-div{
-  position: fixed;
-  width: 100%;
-  padding-top: 30px;
-  z-index: 1;
-  background-color: #FAF9F6;
+#menu-button {
+  color: grey;
 }
 
-#menu-button{
-  color: #9cd49c;
+#menu-button span{
+  background-color: #9cd49c;
+  border-radius: 0 50% 30% 0;
+  margin-top: 50px;
+  padding: 10px;
 }
 
 .page-header{
@@ -180,7 +179,7 @@ main {
   width: 400px;
   height: 50px;
   background-color: #333;
-  color: #fff;
+  color: #FAF9F6;
   text-align: center;
   line-height: 50px;
   visibility: hidden;
@@ -217,8 +216,8 @@ main {
 
 @media (max-width: 768px) {
   .logo-img {
-      width: 20vw; /* Increase the width for mobile devices */
-      height: 20vw; /* Increase the height for mobile devices */
+      width: 150px; /* Increase the width for mobile devices */
+      height: 150px; /* Increase the height for mobile devices */
   }
   .material-symbols-outlined {
     font-size: 20px;
@@ -242,9 +241,6 @@ main {
     display: grid;
     grid-template-columns: minmax(min-content, max-content);
   }
-  .menu-div{
-    padding-left: 20px;
-  }
   #snackbar {
     width: 70%; /* Make the snackbar take up 90% of the screen width */
     left: 50%; /* Center the snackbar */
@@ -254,5 +250,17 @@ main {
   .snackbar-message {
     font-size: 14px; /* Reduce the font size */
   }
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+  border: transparent;
 }
 
