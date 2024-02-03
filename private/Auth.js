@@ -20,9 +20,10 @@ class Authentication {
     }
 
     async getUser() {
-        const user = database._client.auth.getUser();
-        return { user };
+        const user = (await database._client.auth.getUser()).data
+        return user.user
     }
+
 }
 
 module.exports = new Authentication();

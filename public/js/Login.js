@@ -18,6 +18,7 @@ const errorcolor = '#F44336';
 const successfuicon = 'check_circle';
 const erroricon = 'error';
 
+const redirectDelayMs = 2000;
 //Functions
 function ShowSnackbar(Parameters){
     snackbar.className = 'show';
@@ -64,10 +65,13 @@ form.addEventListener('submit', async function(event) {
             });
         } else {
             ShowSnackbar({
-                message: 'Successfully logged in',
+                message: 'Successfully logged in! Redirecting...',
                 color: successcolor,
                 icon: successfuicon
             });
+            setTimeout(function() {
+                window.location.href = '/inventory';
+            }, redirectDelayMs);
         }
     })
 });

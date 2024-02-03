@@ -1,36 +1,97 @@
-.body{
+body
+{
+    background: url(../Images/Login_BG.png);
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    overflow-y: scroll;
+    overflow-x: hidden;
     font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-h1{
-    font-weight: 900;
+.center {
+    min-width: 30vw;
 }
 
-.logo {
-    width: 20%; /* Adjust as needed */
-    border-radius: 50%; /* Makes the image circular */
+.center div, .center a{
+    margin: 3vh 0 3vh 0;
 }
 
-/* For password showing */
-.toggle-button {
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    background-color: white;
+.center form{
+    width: 100%;
 }
 
-#togglePassword:focus {
-    outline: none;
-    box-shadow: none;
+.center img{
+    width: 15vw;
+    height: 15vw;
+    object-fit: cover;
 }
 
-#togglePassword:active {
-    top: 50%;
-    transform: translateY(-50%);
-}
+#snackbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed; 
+    bottom: 30px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 400px;
+    height: 50px;
+    background-color: #333;
+    color: #FAF9F6;
+    text-align: center;
+    line-height: 50px;
+    visibility: hidden;
+  }
+  
+  #snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+  }
+  
+  #snackbar.hide {
+    visibility: hidden;
+  }
+  
+  @-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  #snackbar-message {
+    padding-left: 20px;
+    max-width: 80%;
+    height: 50px; 
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+  }
 
 @media (max-width: 768px) {
-    .column-left {
-        display: none !important;
+    .center img {
+        width: 50vw;
+        height: 50vw;
     }
+    .center{
+        min-width: 70vw;
+    }
+    #snackbar {
+        width: 70%; /* Make the snackbar take up 90% of the screen width */
+        left: 50%; /* Center the snackbar */
+        transform: translateX(-50%); /* Adjust position to center */
+        font-size: 14px; /* Reduce the font size */
+      }
+      .snackbar-message {
+        font-size: 14px; /* Reduce the font size */
+      }
 }

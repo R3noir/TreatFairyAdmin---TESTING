@@ -1,12 +1,3 @@
-
-const addproductnameinput = document.getElementById('productName')
-const addproductnamecount =   document.getElementById('charCount')
-const customPagination = document.getElementById('customPagination');
-const showArchived = document.getElementById('archived-checkbox');
-
-const snackbar = document.getElementById('snackbar');
-const snackbarmessage = document.getElementById('snackbar-message');
-const snackbaricon = document.getElementById('snackbar-icon');
 const snackBarDelayMs = 3500;
 const buttonDelayMs = 1000;
 
@@ -15,42 +6,17 @@ const errorcolor = '#F44336';
 const successfuicon = 'check_circle';
 const erroricon = 'error';
 //On page load
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
     const table = $('#InventoryTable').DataTable({
-        "dom": 'lrti', // This option removes the default search bar and pagination
-        "drawCallback": function(settings) {
-            const api = this.api();
-            const info = api.page.info();
-            const currentPage = info.page + 1; // DataTables uses zero-based page numbers
-            const length = info.length;
-            const total = info.recordsTotal;
-            const pageNum = Math.ceil(total / length);
-            let paginationHtml = '<span class="paginate_button previous">&laquo;</span>';
-            for (let i = 1; i <= pageNum; i++) {
-                if (i === currentPage) {
-                    paginationHtml += '<span class="paginate_button current">' + i + '</span>';
-                } else {
-                    paginationHtml += '<span class="paginate_button">' + i + '</span>';
-                }
-            }
-            paginationHtml += '<span class="paginate_button next">&raquo;</span>';
-
-            customPagination.innerHTML = paginationHtml;
-        },
-        columnDefs: [
-            { targets: 6, orderable: false } // This option removes the sort icon from the action column
-         ],
+        dom: 'lrti',
+        columnDefs: [{ targets: 6, orderable: false }],
         ajax: {
             url: '/query/fetchinventory',
             type: 'POST',
             dataSrc: function (data) {
-                // Filter the data to only include items where archived is false
-                if(showArchived.checked) {
-                    return data.data.filter(item => item.archived);
-                }
-                else{
-                    return data.data.filter(item => !item.archived);
-                }
+                return $('#archived-checkbox').is(':checked') ? 
+                    data.data.filter(item => item.archived) : 
+                    data.data.filter(item => !item.archived);
             }
         },
         columns: [
@@ -63,76 +29,88 @@ document.addEventListener('DOMContentLoaded', function() {
             { 
                 data: null,
                 render: function() {
-                    if (showArchived.checked) {
-                        // Render a different button if the checkbox is checked
-                        return `
-                            <button class="btn unarchive-button table-icon">
-                                <span class="material-symbols-outlined">unarchive</span>
-                            </button>
-                        `;
-                    } else {
-                        // Render the default buttons if the checkbox is not checked
-                        return `
-                            <button class="btn edit-button table-icon">
-                                <span class="material-symbols-outlined">edit</span>
-                            </button>
-                            <button class="btn archive-button table-icon">
-                                <span class="material-symbols-outlined">archive</span>
-                            </button>
-                        `;
-                    }
+                    return $('#archived-checkbox').is(':checked') ? 
+                        '<button class="btn unarchive-button table-icon"><span class="material-symbols-outlined">unarchive</span></button>' 
+                        :
+                        '<button class="btn edit-button table-icon"><span class="material-symbols-outlined">edit</span></button><button class="btn archive-button table-icon"><span class="material-symbols-outlined">archive</span></button>';
                 }
             }
         ]
     });
 
-    document.getElementById('customSearch').addEventListener('keyup', function() {
+    $('#customSearch').on('keyup', function() {
         table.column(1).search(this.value).draw();
     });
 
-    showArchived.addEventListener('change', function() {
-        // Redraw the table when the checkbox is checked or unchecked
+    $('#archived-checkbox').on('change', function() {
         table.ajax.reload();
     });
 
-    customPagination.addEventListener('click', function(e) {
-        if (e.target.classList.contains('paginate_button')) {
-            const page = e.target.textContent;
-            let currentPage = table.page.info().page;
-            let totalPages = table.page.info().pages;
-            if (page === '«') {
-                if (currentPage > 0) {
-                    table.page(currentPage - 1).draw(false);
-                }
-            } else if (page === '»') {
-                if (currentPage < totalPages - 1) {
-                    table.page(currentPage + 1).draw(false);
-                }
-            } else {
-                table.page(parseInt(page) - 1).draw(false);
-            }
+    $('#customPagination').on('click', '.paginate_button', function() {
+        const page = $(this).text();
+        let currentPage = table.page.info().page;
+        let totalPages = table.page.info().pages;
+        if (page === '«' && currentPage > 0) {
+            table.page(currentPage - 1).draw(false);
+        } else if (page === '»' && currentPage < totalPages - 1) {
+            table.page(currentPage + 1).draw(false);
+        } else {
+            table.page(parseInt(page) - 1).draw(false);
         }
     });
+
 });
 
-addproductnameinput.addEventListener('input', function (e) {
-    const target = e.target, 
-        maxLength = target.getAttribute('maxlength'),
-        currentLength = target.value.length;
-    
-    if (currentLength >= maxLength) {
-      console.log("You have reached the maximum number of characters.");
-    }
-    addproductnamecount.innerHTML = currentLength + ' / ' + maxLength;
-  });
-
-
-function ShowSnackbar(Parameters){    snackbar.style.color = Parameters.color;
-    snackbarmessage.innerHTML = Parameters.message;
-    snackbaricon.innerHTML = Parameters.icon;
-    snackbar.className = 'show';
-    setTimeout(function()
-        { snackbar.className = snackbar.className.replace('show', 'hide'); 
-
-        }, snackBarDelayMs);
+function ShowSnackbar(Parameters) {
+    $('#snackbar').css('color', Parameters.color);
+    $('#snackbar-message').text(Parameters.message);
+    $('#snackbar-icon').text(Parameters.icon);
+    $('#snackbar').addClass('show');
+    setTimeout(function() {
+        $('#snackbar').removeClass('show').addClass('hide');
+    }, snackBarDelayMs);
 }
+
+function attachCharCountListener(inputSelector, countSelector) {
+    const maxLength = $(inputSelector).attr('maxlength');
+    const currentLength = $(inputSelector).val().length;
+    $(countSelector).text(currentLength + ' / ' + maxLength);
+    $(inputSelector).on('input', function() {
+        const maxLength = $(this).attr('maxlength');
+        const currentLength = $(this).val().length;
+        if (currentLength >= maxLength) {
+            console.log("You have reached the maximum number of characters.");
+        }
+        $(countSelector).text(currentLength + ' / ' + maxLength);
+    });
+}
+
+$(document).on('click', '.unarchive-button', function() {
+    $('#unarchiveModal').modal('show');
+});
+
+$(document).on('click', '.edit-button', function() {
+    const table = $('#InventoryTable').DataTable();
+    const data = table.row($(this).parents('tr')).data();
+
+    // Get the form within the modal
+    const form = $('#editModal').find('#editProductForm');
+
+    // Fill the form inputs with the row data
+    form.find('#productName').val(data.itemname);
+    form.find('#expirationDate').val(data.earliestexpiry);
+    form.find('#quantity').val(data.quantity);
+    form.find('#wholesalePrice').val(data.wholesaleprice);
+    form.find('#retailPrice').val(data.retailprice);
+
+
+    $('#created').text('Created by ' + data.createdby.replace(/['"]+/g, '') + ' on ' + data.createdat);
+    $('#updated').text('Updated by ' + data.updatedby.replace(/['"]+/g, '') + ' on ' + data.lastupdateat);
+    
+    attachCharCountListener(`#editModal #productName`, `#editModal #charCount`);
+    $('#editModal').modal('show');
+});
+
+$(document).on('click', '.archive-button', function() {
+    $('#archiveModal').modal('show');
+});
