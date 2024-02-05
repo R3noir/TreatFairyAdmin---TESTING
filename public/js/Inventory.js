@@ -35,17 +35,25 @@ $(document).ready(function() {
                         '<button class="btn edit-button table-icon"><span class="material-symbols-outlined">edit</span></button><button class="btn archive-button table-icon"><span class="material-symbols-outlined">archive</span></button>';
                 }
             }
-        ]
+        ],
+        drawCallback: function(settings) {
+            const api = this.api();
+            const info = api.page.info();
+            const currentPage = info.page + 1; // DataTables uses zero-based page numbers
+            const totalPages = info.pages;
+            let paginationHtml = '';
+            paginationHtml += '<span class="paginate_button previous' + (currentPage === 1 ? ' disabled' : '') + '">&laquo;</span>';
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPage) {
+                    paginationHtml += '<span class="paginate_button current">' + i + '</span>';
+                } else {
+                    paginationHtml += '<span class="paginate_button">' + i + '</span>';
+                }
+            }
+            paginationHtml += '<span class="paginate_button next' + (currentPage === totalPages ? ' disabled' : '') + '">&raquo;</span>';
+            $('#customPagination').html(paginationHtml);
+        }
     });
-
-    $('#customSearch').on('keyup', function() {
-        table.column(1).search(this.value).draw();
-    });
-
-    $('#archived-checkbox').on('change', function() {
-        table.ajax.reload();
-    });
-
     $('#customPagination').on('click', '.paginate_button', function() {
         const page = $(this).text();
         let currentPage = table.page.info().page;
@@ -54,11 +62,18 @@ $(document).ready(function() {
             table.page(currentPage - 1).draw(false);
         } else if (page === '»' && currentPage < totalPages - 1) {
             table.page(currentPage + 1).draw(false);
-        } else {
+        } else if (page !== '«' && page !== '»') {
             table.page(parseInt(page) - 1).draw(false);
         }
     });
 
+    $('#customSearch').on('keyup', function() {
+        table.column(1).search(this.value).draw(true); // true to go back to the first page
+    });
+
+    $('#archived-checkbox').on('change', function() {
+        table.ajax.reload();
+    });
 });
 
 function ShowSnackbar(Parameters) {
@@ -104,8 +119,8 @@ $(document).on('click', '.edit-button', function() {
     form.find('#retailPrice').val(data.retailprice);
 
 
-    $('#created').text('Created by ' + data.createdby.replace(/['"]+/g, '') + ' on ' + data.createdat);
-    $('#updated').text('Updated by ' + data.updatedby.replace(/['"]+/g, '') + ' on ' + data.lastupdateat);
+    $('#created').text('Created by ' + data.createdby + ' on ' + data.createdat);
+    $('#updated').text('Updated by ' + data.updatedby + ' on ' + data.lastupdateat);
     
     attachCharCountListener(`#editModal #productName`, `#editModal #charCount`);
     $('#editModal').modal('show');

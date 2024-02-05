@@ -14,5 +14,4 @@ class Database {
         return this._client;
     }
 }
-
 module.exports = new Database();                                                                                      
