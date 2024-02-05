@@ -9,14 +9,19 @@ class Authentication {
     }
 
     async signInWithPassword({ email, password }) {
-        const { data, error } = await database._client.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
-        if(error) {
-            return { error };
+        try{
+            const { data, error } = await database._client.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+            if(error) {
+                return { error : error.message };
+            }
+            return { data };
         }
-        return { data };
+        catch(e){
+            return { error: e.message }
+        }
     }
 
     async getUser() {

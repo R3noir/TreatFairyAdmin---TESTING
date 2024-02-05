@@ -6,16 +6,17 @@ const Validate = require('./private/FormValidation.js');
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     if(!Validate.validateEmail(email)) {
-        return res.status(200).json({ error: 'Invalid email'});
+        return res.status(400).json({ error: 'Invalid email'});
     }
-    Auth.signInWithPassword({ email, password })
+    await Auth.signInWithPassword({ email, password })
         .then(response => {
             if(response.error) {
-                return res.status(200).json({ error: response.error.message});
+                return res.status(400).json({ error : response.error });
             }
             else{
-                return res.status(200).json({ status: response.data });
+                return res.status(200).json({ data: response.data });
             }
         });
 });
+
 module.exports = router;

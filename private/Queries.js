@@ -10,11 +10,32 @@ class Queries {
     }
 
     async getInventory() {
-        const { data, error } = await this.database.client.rpc('getinventory')
-        if (error) {
-            return { error };
+        try{
+            const { data, error } = await this.database.client.rpc('getinventory')
+            if (error) {
+                return { error: error.message  };
+            }
+            return { data };
         }
-        return { data };
+        catch(e){
+            return { error: e.message }
+        }
+    }
+
+    async getID(){
+        try{
+            const { data, error } = await this.database.client
+            .from('admin')
+            .select('userid')
+            .eq('authuid', (await database._client.auth.getUser()).data.user.id)
+            if (error) {
+                return { error: error.message };
+            }
+            return { data };
+        }
+        catch(e){
+            return { error: e.message }
+        }
     }
 }
 

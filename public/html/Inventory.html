@@ -71,15 +71,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="menu-div">
-                    <a href="#" id= "menu-button" data-bs-target="#sidebar" data-bs-toggle="collapse">
-                        <span class="material-symbols-outlined">
-                            menu
-                        </span>
-                    </a>
-                </div>
             </div>
             <main class="col content">
+                <header>
+                    <div class="menu-div">
+                      <a href="#" id= "menu-button" data-bs-target="#sidebar" data-bs-toggle="collapse">
+                        <span class="material-symbols-outlined">
+                          menu
+                        </span>
+                      </a>
+                    </div>
+                  </header>
                     <div class="page-header">
                         <h1>INVENTORY</h1>
                     </div>
@@ -116,7 +118,7 @@
                         </table>
                         <div id="customPagination" class="d-flex justify-content-center"></div>
                         <div id="snackbar">
-                            <span class= "material-symbols-outlined icon" id="snackbar-icon" style="font-size: 24px; margin-right: 10px;">
+                            <span class= "material-symbols-outlined icon" id="snackbar-icon" style="font-size: 24px;">
                                 
                             </span>
                             <diV id="snackbar-message">
@@ -158,17 +160,17 @@
                       </form>
                     </div>
                     <div class="modal-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-danger icon" data-bs-dismiss="modal">
-                            <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                        <button type="button" class="button icon cancel" data-bs-dismiss="modal">
+                            <span class="material-symbols-outlined" style="font-size: 24px;">
                                 Close
                             </span> 
-                            Cancel
+                            <div>Cancel</div>
                         </button>
-                      <button type="submit" class="btn icon AddProduct" form="addProductForm">
-                        <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                      <button type="submit" class="button icon confirm" form="addProductForm">
+                        <span class="material-symbols-outlined" style="font-size: 24px;">
                             check
                         </span> 
-                            Add Product
+                        <div>Add Product</div>
                         </button>
                     </div>
                   </div>
@@ -211,13 +213,18 @@
                               <small class="text-muted" id="updated"></small>
                         </div>
                         <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn btn-danger icon" data-bs-dismiss="modal">
-                                <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            <button type="button" class="button icon cancel" data-bs-dismiss="modal">
+                                <span class="material-symbols-outlined" style="font-size: 24px;">
                                     Close
                                 </span> 
-                                Cancel
+                                <div>Cancel</div>
                             </button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="button icon confirm">
+                                <span class="material-symbols-outlined" style="font-size: 24px;">
+                                    check
+                                </span> 
+                                <div>Save Changes</div>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -234,13 +241,18 @@
                             Are you sure you want to archive this item?
                         </div>
                         <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn btn-danger icon" data-bs-dismiss="modal">
-                                <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            <button type="button" class="button icon cancel" data-bs-dismiss="modal">
+                                <span class="material-symbols-outlined" style="font-size: 24px;">
                                     Close
                                 </span> 
                                 Cancel
                             </button>
-                            <button type="button" class="btn btn-primary">Archive</button>
+                            <button type="button" class="button icon confirm">
+                                <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                                    check
+                                </span> 
+                                Archive
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -257,13 +269,18 @@
                             Are you sure you want to unarchive this item?
                         </div>
                         <div class="modal-footer d-flex justify-content-between">
-                           <button type="button" class="btn btn-danger icon" data-bs-dismiss="modal">
-                                <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                           <button type="button" class="button icon cancel" data-bs-dismiss="modal">
+                                <span class="material-symbols-outlined" style="font-size: 24px;">
                                     Close
                                 </span> 
-                                Cancel
+                                <div>Cancel</div>
                             </button>
-                            <button type="button" class="btn btn-primary">Unarchive</button>
+                            <button type="button" class="button icon confirm">
+                                <span class="material-symbols-outlined" style="font-size: 24px;">
+                                    check
+                                </span> 
+                                <div>Unarchive</div>
+                            </button>
                         </div>
                     </div>
                 </div>

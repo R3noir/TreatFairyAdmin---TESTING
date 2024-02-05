@@ -30,15 +30,36 @@ body{
   font-size: 32px;
 }
 
-.btn{
-  border: none;
-  outline: none;
-  box-shadow: none;
-}
-
 .icon{
   display: flex;
   align-items:center;
+  justify-content: space-evenly;
+  padding: 8px 0px 8px 0px;
+}
+
+.button{
+  border: 0.5px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  width: 150px;
+}
+
+.button > span{
+  padding-left: 10px;
+}
+
+.button > div {
+  flex: 1;
+  text-align: center;
+}
+
+.confirm{
+  background-color: #d7feec; 
+}
+
+.cancel{
+  color: #FFFFFF;
+  background-color: #ff0432; 
 }
 
 .logo-img{
@@ -46,7 +67,9 @@ body{
   object-fit: cover;
 }
 
-
+.modal{
+  border-radius: 35px;
+}
 
 #sidebar {
   position: relative;
@@ -119,14 +142,12 @@ main {
 }
 
 #menu-button {
+  position: fixed;
   color:#181818;
-}
-
-#menu-button span{
-  background-color: #9cd49c;
-  border-radius: 0 50% 30% 0;
-  margin-top: 50px;
-  padding: 10px;
+  background-color: #FAF9F6;
+  width: 100%;
+  z-index: 2;
+  padding-top: 10px;
 }
 
 .page-header{
@@ -139,6 +160,7 @@ main {
   margin-bottom: 30px;
   border-radius: 15px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.50);
+  z-index: 1;
 }
 
 #customSearch{
@@ -153,9 +175,9 @@ main {
 }
 
 .add-btn {
+  background-color: #D7FEEC;
   margin-left: auto;
   border: 0.5px solid rgba(0, 0, 0, 0.50);
-  background-color: #D7FEEC;
   margin-bottom: 30px;
   padding: 10px;
   border-radius: 15px;
@@ -192,10 +214,6 @@ main {
   font-weight: bold;
 
 }
-.AddProduct{
-  background-color: #d7feec; 
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-}
 
 #snackbar {
   display: flex;
@@ -212,6 +230,7 @@ main {
   text-align: center;
   line-height: 50px;
   visibility: hidden;
+  z-index: 9999;
 }
 
 #snackbar.show {
@@ -292,4 +311,3 @@ main {
   border-radius: 20px;
   border: transparent;
 }
-

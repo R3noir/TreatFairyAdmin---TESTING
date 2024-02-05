@@ -5,6 +5,7 @@ const path = require('path');
 const routes = require('./routes.js'); // Import your routes
 const queryRoutes = require('./queryRoutes.js'); // Import your query routes
 const authRoutes = require('./authRoutes.js'); // Import your authentication routes
+const insertroutes = require('./insertRoutes.js');
 
 
 app.use(express.json());
@@ -19,6 +20,8 @@ app.use('/', routes);
 app.use('/auth', authRoutes);
 
 app.use('/query', queryRoutes);
+
+app.use('/insert', insertroutes);
 
 // Start the server
 const port = process.env.PORT || 3000;
