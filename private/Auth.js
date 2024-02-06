@@ -30,6 +30,18 @@ class Authentication {
         return user.user
     }
 
+    async ensureAuthenticated(token) {
+        try {
+            const { data: user, error } = await this.database._client.auth.api.getUser(token);
+            if (error || !user) {
+                return { error: 'User is not authenticated' };
+            }
+            return { user };
+        } catch (e) {
+            return { error: e.message };
+        }
+    }
+
 }
 
 module.exports = new Authentication(database);

@@ -4,12 +4,13 @@ const Queries = require('./private/Queries.js');
 const Auth = require('./private/Auth.js');
 
 async function ensureAuthenticated(req, res, next) {
-    const user = await Auth.getUser();
-    if(user == null) {
-        res.redirect('/');
-    } else {
-        next();
+    const token = req.headers.authorization;
+    const { user, error } = await Auth.ensureAuthenticated(token);
+    if (error) {
+        return res.status(401).json({ error });
     }
+    req.user = user;
+    next();
 }
 
 router.post('/fetchinventory', ensureAuthenticated , async (req, res) => {
