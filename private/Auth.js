@@ -1,7 +1,8 @@
 const database = require('./Database.js');
 
 class Authentication {
-    constructor() {
+    constructor(database) {
+        this.database = database;
         if (!Authentication.instance) {
             Authentication.instance = this;
         }
@@ -10,7 +11,7 @@ class Authentication {
 
     async signInWithPassword({ email, password }) {
         try{
-            const { data, error } = await database._client.auth.signInWithPassword({
+            const { data, error } = await this.database._client.auth.signInWithPassword({
                 email: email,
                 password: password
             });
@@ -25,10 +26,10 @@ class Authentication {
     }
 
     async getUser() {
-        const user = (await database._client.auth.getUser()).data
+        const user = (await this.database._client.auth.getUser()).data
         return user.user
     }
 
 }
 
-module.exports = new Authentication();
+module.exports = new Authentication(database);
