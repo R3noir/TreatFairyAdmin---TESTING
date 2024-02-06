@@ -21,6 +21,7 @@ $(document).ready(function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('AJAX error:', textStatus, errorThrown);
+                console.log('Server response:', jqXHR.responseText);
                 ShowSnackbar({ message: errorThrown, color: errorcolor, icon: erroricon })
             }
         },
