@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const Auth = require('./private/Auth.js'); // Make sure to adjust the path to your Auth.js file
+const Auth = require('./private/Auth.js');
 
 async function ensureAuthenticated(req, res, next) {
     const user = await Auth.getUser();
@@ -22,6 +22,15 @@ router.get('/inventory', ensureAuthenticated, (req, res) => {
 router.get('/salesinvoice', ensureAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/html/SalesInvoice.html'));
 });
+
+router.get('/accesscontrol', ensureAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/html/AccessControl.html'));
+});
+
+router.get('/account', ensureAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/html/Account.html'));
+});
+
 router.get('/resetpassword', ensureAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/html/ResetPassword.html'));
 });
