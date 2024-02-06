@@ -4,12 +4,10 @@ const Queries = require('./private/Queries.js');
 const Auth = require('./private/Auth.js');
 
 async function ensureAuthenticated(req, res, next) {
-    const token = req.headers.authorization;
-    const { user, error } = await Auth.ensureAuthenticated(token);
-    if (error) {
-        return res.status(401).json({ error });
+    const { data, error } = await Auth.ensureAuthenticated();
+    if (error || data == null) {
+        res.redirect('/')
     }
-    req.user = user;
     next();
 }
 

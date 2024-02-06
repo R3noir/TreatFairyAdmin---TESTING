@@ -4,13 +4,13 @@ const path = require('path');
 const Auth = require('./private/Auth.js');
 
 async function ensureAuthenticated(req, res, next) {
-    const user = await Auth.getUser();
-    if(user == null) {
-        res.redirect('/');
-    } else {
-        next();
+    const { data, error } = await Auth.ensureAuthenticated();
+    if (error || data.session == null) {
+        return res.status(401).json({ error: 'Unauthorized'});
     }
+    next();
 }
+
 
 router.get('/', async (req, res) => {
     res.sendFile(path.join(__dirname, 'public/html/Login.html'));

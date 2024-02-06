@@ -4,13 +4,13 @@ const Insert = require('./private/Insert.js');
 const Auth = require('./private/Auth.js');
 
 async function ensureAuthenticated(req, res, next) {
-    const user = await Auth.getUser();
-    if(user == null) {
-        res.redirect('/');
-    } else {
-        next();
+    const { data, error } = await Auth.ensureAuthenticated();
+    if (error || data == null) {
+        res.redirect('/')
     }
+    next();
 }
+
 
 router.post('/inventory', ensureAuthenticated, async (req, res) => {
     const response = await Insert.insertInventory(req.body);
