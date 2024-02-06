@@ -5,7 +5,7 @@ const Auth = require('./private/Auth.js');
 
 async function ensureAuthenticated(req, res, next) {
     const { data, error } = await Auth.ensureAuthenticated();
-    if (error || data.session == null) {
+    if (error || data == null) {
         return res.status(401).json({ error: 'Unauthorized'});
     }
     next();
