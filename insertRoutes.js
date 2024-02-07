@@ -4,11 +4,14 @@ const Insert = require('./private/Insert.js');
 const Auth = require('./private/Auth.js');
 
 async function ensureAuthenticated(req, res, next) {
-    const { data, error } = await Auth.ensureAuthenticated();
-    if (error || data == null) {
-        res.redirect('/')
-    }
-    next();
+    await Auth.isSessionExpired().then(response => {
+        if (response.error) {
+            return res.redirect('/');
+        }
+        else {
+            next();
+        }
+    });
 }
 
 

@@ -36,7 +36,7 @@ $(document).ready(function() {
                 data: null,
                 render: function() {
                     return $('#archived-checkbox').is(':checked') ? 
-                        '<button class="btn unarchive-button table-icon"><span class="material-symbols-outlined">unarchive</span></button>' 
+                        '<button class="unarchive-button table-icon"><span class="material-symbols-outlined">unarchive</span></button>' 
                         :
                         '<button class="btn edit-button table-icon"><span class="material-symbols-outlined">edit</span></button><button class="btn archive-button table-icon"><span class="material-symbols-outlined">archive</span></button>';
                 }
@@ -160,6 +160,7 @@ $('#addProductForm').on('submit', async function(event) {
     event.preventDefault();
     
     const userid = await userID();
+    console.log(userid)
     const item = {
         itemname: $(this).find('#productName').val(),
         earliestexpiry: $(this).find('#expirationDate').val(),

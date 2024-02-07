@@ -4,11 +4,14 @@ const path = require('path');
 const Auth = require('./private/Auth.js');
 
 async function ensureAuthenticated(req, res, next) {
-    const { data, error } = await Auth.ensureAuthenticated();
-    if (error || data == null) {
-        return res.status(401).json({ error: 'Unauthorized'});
-    }
-    next();
+    await Auth.isSessionExpired().then(response => {
+        if (response.error) {
+            return res.redirect('/');
+        }
+        else {
+            next();
+        }
+    });
 }
 
 

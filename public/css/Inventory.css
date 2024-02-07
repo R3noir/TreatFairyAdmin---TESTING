@@ -37,29 +37,22 @@ body{
   padding: 8px 0px 8px 0px;
 }
 
-.button{
-  border: 0.5px solid rgba(0, 0, 0, 0.25);
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
+.modal .btn{
   width: 150px;
-}
-
-.button > span{
-  padding-left: 10px;
-}
-
-.button > div {
-  flex: 1;
-  text-align: center;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 5px;
 }
 
 .confirm{
-  background-color: #d7feec; 
+--bs-btn-bg: #d7feec; 
+--bs-btn-hover-color: #181818;
+--bs-btn-hover-bg: #bde6d4;
 }
 
 .cancel{
-  color: #FFFFFF;
-  background-color: #f52b2b; 
+  --bs-btn-bg: #fed7d7; 
+  --bs-btn-hover-color: #181818;
+  --bs-btn-hover-bg: #e6bdbd; 
 }
 
 .logo-img{
@@ -67,8 +60,13 @@ body{
   object-fit: cover;
 }
 
-.modal{
+.modal-content{
   border-radius: 35px;
+  padding: 30px;
+}
+
+.modal-content, .modal-header, .modal-footer{
+  border: 0;
 }
 
 #sidebar {
@@ -105,14 +103,13 @@ body{
   text-align: center;
 }
 
-.list-group span{
+.list-group span, a{
   margin: 10px 0 10px 0;
 }
 
 .list-group-item{
   width: 100%;
   height: 100%;
-  margin: 20px 0 20px 0;
 }
 
 .list-group-item:hover {
@@ -141,13 +138,15 @@ main {
   padding: 0px 30px 30px 30px;
 }
 
+.menu-div{
+  margin-top: 10px;
+}
+
 #menu-button {
-  position: fixed;
   color:#181818;
   background-color: #FAF9F6;
   width: 100%;
   z-index: 2;
-  padding-top: 10px;
 }
 
 .page-header{
@@ -270,6 +269,12 @@ main {
   .material-symbols-outlined {
     font-size: 20px;
   }
+  .modal .btn{
+    width: 120px;
+    padding: 5px;
+    font-size: 12px;
+  }
+  
   #sidebar-nav{
     width: 180px;
   }
@@ -278,12 +283,6 @@ main {
     max-width: 150px;
     color: #181818;
     font-size: 15px;
-  }
-  .list-group span{
-    margin: 10px 5px 10px 5px;
-  }
-  .list-group-item{
-    margin: 20px 0 20px 0;
   }
   .content{
     display: grid;
@@ -298,6 +297,7 @@ main {
   .snackbar-message {
     font-size: 14px; /* Reduce the font size */
   }
+  
 }
 
 ::-webkit-scrollbar {

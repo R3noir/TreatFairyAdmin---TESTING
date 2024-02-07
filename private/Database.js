@@ -6,7 +6,11 @@ class Database {
         if(Database.instance) {
             return Database.instance;
         }
-        this._client = supabase.createClient( process.env.URL , process.env.KEY );
+        this._client = supabase.createClient( process.env.URL , process.env.KEY, {
+            auth: {
+                autoRefreshToken: false,
+            }
+        } );
         Database.instance = this;
     }
 
