@@ -36,6 +36,7 @@ class Authentication {
 
     async isSessionExpired() {
         if (!this.session) {
+            console.log('No session found')
             return { error: 'No session found' };
         }
 
@@ -45,16 +46,23 @@ class Authentication {
         
         if (decodedToken.exp < currentTime) {
             this.database._client.auth.signOut();
+            console.log('Session expired')
             return { error: 'Session expired' };
         }
 
         if (decodedToken.exp < currentTime + bufferTime) {
             const refreshSession = (await this.database._client.auth.refreshSession()).data.session;
             this.session = refreshSession.access_token;
+            if(!this.session){
+                console.log('Session expired')
+            }
+            if (!refreshSession) {
+                console.log(refreshSession)
+                console.log('resfresh session failed')
+            }
         }
         return { message: 'Session is valid' };
     }
-
 }
 
 module.exports = new Authentication(database);
