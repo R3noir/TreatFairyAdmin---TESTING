@@ -11,9 +11,18 @@ $(document).ready(function() {
     const table = $('#InventoryTable').DataTable({
         dom: 'lrti',
         columnDefs: [{ targets: 6, orderable: false }],
+        serverSide: true,
         ajax: {
             url: '/query/fetchinventory',
             type: 'POST',
+            data: function (d) {
+                return {
+                    start: parseInt(d.start),
+                    length: parseInt(d.length),
+                    archived: $('#archived-checkbox').is(':checked'),
+                    search: $('#customSearch').val()
+                };
+            },
             dataSrc: function (data) {
                 return $('#archived-checkbox').is(':checked') ? 
                     data.data.filter(item => item.archived) : 
@@ -36,7 +45,7 @@ $(document).ready(function() {
                 data: null,
                 render: function() {
                     return $('#archived-checkbox').is(':checked') ? 
-                        '<button class="unarchive-button table-icon"><span class="material-symbols-outlined">unarchive</span></button>' 
+                        '<button class="btn unarchive-button table-icon"><span class="material-symbols-outlined">unarchive</span></button>' 
                         :
                         '<button class="btn edit-button table-icon"><span class="material-symbols-outlined">edit</span></button><button class="btn archive-button table-icon"><span class="material-symbols-outlined">archive</span></button>';
                 }
@@ -74,10 +83,13 @@ $(document).ready(function() {
     });
 
     $('#customSearch').on('keyup', function() {
-        table.column(1).search(this.value).draw(true); // true to go back to the first page
+         setTimeout(function() {
+            table.ajax.reload();
+        }, 500);
     });
 
     $('#archived-checkbox').on('change', function() {
+        $('#customSearch').val('');
         table.ajax.reload();
     });
 });
@@ -106,23 +118,6 @@ function attachCharCountListener(inputSelector, countSelector) {
     });
 }
 
-async function userID() {
-    return fetch('/query/getid', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            ShowSnackbar({ message: data.error, color: errorcolor, icon: erroricon });
-        } else {
-            return data.data[0].userid;
-        }
-    });
-}
-
 $(document).on('click', '.add-btn', function() {
     $('#addProductModal').modal('show');
     attachCharCountListener(`#addProductModal #productName`, `#addProductModal #charCount`);
@@ -144,8 +139,9 @@ $(document).on('click', '.edit-button', function() {
     form.find('#retailPrice').val(data.retailprice);
 
 
-    $('#created').text('Created by ' + data.createdby + ' on ' + data.createdat);
-    $('#updated').text('Updated by ' + data.updatedby + ' on ' + data.lastupdateat);
+    $('#created').text('Created by ' + data.created_by + ' on ' + data.created_at);
+    $('#updated').text('Updated by ' + data.last_update_by + ' on ' + data.last_update_at);
+    console.log(new Date().toLocaleString())
     
     attachCharCountListener(`#editModal #productName`, `#editModal #charCount`);
     $('#editModal').modal('show');
@@ -159,40 +155,29 @@ $('#addProductForm').on('submit', async function(event) {
     // Prevent the form from being submitted normally
     event.preventDefault();
     
-    const userid = await userID();
-    console.log(userid)
-    const item = {
-        itemname: $(this).find('#productName').val(),
-        earliestexpiry: $(this).find('#expirationDate').val(),
-        quantity: $(this).find('#quantity').val(),
-        retailprice: $(this).find('#retailPrice').val(),
-        wholesaleprice: $(this).find('#retailPrice').val(),
-        createdby: userid,
-        createdat: new Date().toISOString(),
-        lastupdateby: userid,
-        lastupdateat: new Date().toISOString(),
-        archived: false 
-    };
-
     await fetch('/insert/inventory', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(item),
+        body: JSON.stringify({
+            productName: $('#productName').val(),
+            expirationDate: $('#expirationDate').val(),
+            quantity: $('#quantity').val(),
+            retailPrice: $('#retailPrice').val(),
+        }),
     })
     .then(response => response.json())
     .then(data => {
-        if (data.error) {
-            ShowSnackbar({ message: data.error, color: errorcolor, icon: erroricon });
-            $('#addProductForm').trigger('reset');
-            $('#addProductModal').modal('hide');
-        } else {
-            ShowSnackbar({ message: 'Product added successfully', color: successcolor, icon: successfuicon });
-            $('#addProductForm').trigger('reset');
-            $('#addProductModal').modal('hide');
-            $('#InventoryTable').DataTable().ajax.reload(); // Refresh the table
+        if (data.message_error) {
+            ShowSnackbar({ message: data.message_error, color: data.message_error ? errorcolor : successcolor, icon: data.message_error ? erroricon : successfuicon });
         }
+        else{
+            ShowSnackbar({ message: data.message, color: data.message_error ? errorcolor : successcolor, icon: data.message_error ? erroricon : successfuicon });
+        }
+        $('#addProductForm').trigger('reset');
+        $('#addProductModal').modal('hide');
+        $('#InventoryTable').DataTable().ajax.reload(); // Refresh the table
+        })
     });
-});
 

@@ -1,92 +1,93 @@
-.container-fluid{
+.container-fluid, #sidebar, main {
   height: 100vh;
 }
 
-body{
+body {
   font-family: 'Roboto', sans-serif;
   background-color: #FAF9F6;
   overflow: hidden;
 }
 
 .material-symbols-outlined {
-  font-variation-settings:
-  'wght' 400,
-  'opsz' 48;
+  font-variation-settings: 'wght' 400, 'opsz' 48;
   font-size: 38px;
 }
 
-.input-icon{
+.input-icon {
   position: absolute;
   font-size: 24px;
   top: 50%;
-  left: 20px; /* Adjust as needed */
+  left: 20px;
   transform: translateY(-50%);
 }
 
-.table-icon span{
+.table-icon span, .icon {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 32px;
 }
 
-.icon{
-  display: flex;
-  align-items:center;
+.icon {
   justify-content: space-evenly;
-  padding: 8px 0px 8px 0px;
+  padding: 8px 0;
 }
 
-.modal .btn{
+.modal .btn {
   width: 150px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   padding: 5px;
 }
 
-.confirm{
---bs-btn-bg: #d7feec; 
---bs-btn-hover-color: #181818;
---bs-btn-hover-bg: #bde6d4;
+.modal{
+  --data-bs-backdrop: 'static';
+  --data-bs-keyboard: 'false';
 }
 
-.cancel{
-  --bs-btn-bg: #fed7d7; 
+.confirm, .cancel {
   --bs-btn-hover-color: #181818;
+}
+
+.confirm {
+  --bs-btn-bg: #d7feec; 
+  --bs-btn-hover-bg: #bde6d4;
+}
+
+.cancel {
+  --bs-btn-bg: #fed7d7; 
   --bs-btn-hover-bg: #e6bdbd; 
 }
 
-.logo-img{
+.logo-img {
   max-width: 180px;
   object-fit: cover;
 }
 
-.modal-content{
+.modal-content, .modal-header, .modal-footer {
+  border: 0;
+}
+
+.modal-content {
   border-radius: 35px;
   padding: 30px;
 }
 
-.modal-content, .modal-header, .modal-footer{
-  border: 0;
-}
-
 #sidebar {
   position: relative;
-  height: 100vh; /* Full height */
 }
 
-#sidebar-nav{
+#sidebar-nav {
   width: 320px;
   height: 100%;
   overflow-y: auto;
   background: linear-gradient(180deg, #9cd49c, #20e7bf);
 }
 
-#sidebar-nav .logo{
+#sidebar-nav .logo {
   background: transparent;
-  padding: 15px 0 15px 0;
+  padding: 15px 0;
 }
 
-.list-group a{
+.list-group a {
   max-height: 65px;
   max-width: 230px;
   color: #181818;
@@ -98,16 +99,17 @@ body{
   align-items: center;
 }
 
-.text-center{
+.text-center {
   flex-grow: 1;
   text-align: center;
 }
 
-.list-group span, a{
-  margin: 10px 0 10px 0;
+.list-group-item > span {
+  padding: 10px 0;
 }
 
-.list-group-item{
+.list-group-item {
+  margin: 10px 0;
   width: 100%;
   height: 100%;
 }
@@ -119,26 +121,26 @@ body{
 }
 
 .list-group-item.active {
+  margin-top: 10px !important;
   color: #181818;
   background-color: #D7FEEC;
   border-radius: 20px;
 }
 
-#logout-button{
-  margin-top: 100px;
+#logout-button {
+  margin-top: 100px !important;
 }
 
 main {
-  max-height: 100vh;
   overflow: auto;
 }
 
-.content{
+.content {
   position: relative;
-  padding: 0px 30px 30px 30px;
+  padding: 30px;
 }
 
-.menu-div{
+.menu-div {
   margin-top: 10px;
 }
 
@@ -149,8 +151,8 @@ main {
   z-index: 2;
 }
 
-.page-header{
-  margin: 90px 0 30px 0;
+.page-header {
+  margin: 90px 0 30px;
 }
 
 .search-div {
@@ -162,7 +164,7 @@ main {
   z-index: 1;
 }
 
-#customSearch{
+#customSearch {
   width: 100%;
   border: 0.5px solid rgba(0, 0, 0, 0.50);
   border-radius: 15px;
@@ -183,7 +185,7 @@ main {
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.show-archived-div{
+.show-archived-div {
   margin-bottom: 30px;
   text-align: left;
 }
@@ -211,7 +213,6 @@ main {
 
 #customPagination .paginate_button.current {
   font-weight: bold;
-
 }
 
 #snackbar {
@@ -263,8 +264,8 @@ main {
 
 @media (max-width: 768px) {
   .logo-img {
-      width: 150px; /* Increase the width for mobile devices */
-      height: 150px; /* Increase the height for mobile devices */
+      width: 150px;
+      height: 150px;
   }
   .material-symbols-outlined {
     font-size: 20px;
@@ -289,13 +290,13 @@ main {
     grid-template-columns: minmax(min-content, max-content);
   }
   #snackbar {
-    width: 70%; /* Make the snackbar take up 90% of the screen width */
-    left: 50%; /* Center the snackbar */
-    transform: translateX(-50%); /* Adjust position to center */
-    font-size: 14px; /* Reduce the font size */
+    width: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
   }
   .snackbar-message {
-    font-size: 14px; /* Reduce the font size */
+    font-size: 14px;
   }
   
 }

@@ -9,13 +9,26 @@ class Queries {
         return Queries.instance;
     }
 
-    async getInventory() {
+    async getInventory(offset, limit, archived, search) {
         try{
-            const { data, error } = await this.database.client.rpc('getinventory')
+            const { data, error } = await this.database.client.rpc('getinventory', { offsets: offset, limits: limit, archiveds: archived, search: search })
             if (error) {
                 return { error: error.message  };
             }
             return { data };
+        }
+        catch(e){
+            return { error: e.message }
+        }
+    }
+
+    async getTotalInventoryRecords(archived, search) {
+        try{
+            const { data, error } = await this.database.client.rpc('getinventorycount', { archiveds: archived, search: search })
+            if (error) {
+                return { error: error.message  };
+            }
+            return { data: parseInt(data) };
         }
         catch(e){
             return { error: e.message }

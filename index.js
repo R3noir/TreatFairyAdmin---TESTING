@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express');
+const rateLimit = require("express-rate-limit");
 const app = express();
 const path = require('path');
 const routes = require('./routes.js'); // Import your routes
@@ -7,6 +8,12 @@ const queryRoutes = require('./queryRoutes.js'); // Import your query routes
 const authRoutes = require('./authRoutes.js'); // Import your authentication routes
 const insertroutes = require('./insertRoutes.js');
 
+const limiter = rateLimit({
+    windowMs: 1 * 60 * 1000,
+    max: 700
+  });  
+
+app.use(limiter);
 
 app.use(express.json());
 

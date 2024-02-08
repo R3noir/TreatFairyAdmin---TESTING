@@ -105,7 +105,7 @@
     text-align: center;
   }
   
-  .list-group span, a{
+  .list-group span, .list-group a {
     margin: 10px 0 10px 0;
   }
   
