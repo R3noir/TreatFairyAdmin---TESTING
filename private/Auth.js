@@ -21,7 +21,7 @@ class Authentication {
             if(error) {
                 return { error : error.message };
             }
-            this.session = data.session.access_token;
+            await (this.session = data.session.access_token);
             return { message: 'User signed in successfully' };
         }
         catch(e){
