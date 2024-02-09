@@ -69,9 +69,7 @@ form.addEventListener('submit', async function(event) {
                 color: successcolor,
                 icon: successfuicon
             });
-            setTimeout(function() {
-                window.location.href = '/inventory';
-            }, redirectDelayMs);
+            window.location.href = '/inventory';
         }
     })
 });
