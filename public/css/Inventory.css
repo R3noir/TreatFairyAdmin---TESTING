@@ -38,7 +38,7 @@ body {
   padding: 5px;
 }
 
-.modal{
+.modal .fade{
   --data-bs-backdrop: 'static';
   --data-bs-keyboard: 'false';
 }

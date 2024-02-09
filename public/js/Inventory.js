@@ -35,17 +35,42 @@ $(document).ready(function() {
             }
         },
         columns: [
-            { data: 'itemid' },
-            { data: 'itemname' },
-            { data: 'earliestexpiry' },
+            { data: 'item_id' },
+            { data: 'item_name' },
+            { data: 'earliest_expiry' },
             { data: 'quantity' },
-            { data: 'wholesaleprice' },
-            { data: 'retailprice' },
+            { 
+                data: 'wholesale_price',
+                render: function(data, type, row) {
+                    if (type === 'display') {
+                        return parseFloat(data).toFixed(2);
+                    }
+                    return data;
+                }
+            },
+            { 
+                data: 'retail_price',
+                render: function(data, type, row) {
+                    if (type === 'display') {
+                        return parseFloat(data).toFixed(2);
+                    }
+                    return data;
+                }
+            },
+            { 
+                data: 'last_update_at',
+                render: function(data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        return new Date(data).toLocaleString();
+                    }
+                    return data;
+                }
+            },
             { 
                 data: null,
                 render: function() {
                     return $('#archived-checkbox').is(':checked') ? 
-                        '<button class="btn unarchive-button table-icon"><span class="material-symbols-outlined">unarchive</span></button>' 
+                        '<button class="btn view-button table-icon"><span class="material-symbols-outlined">open_in_new</span></button><button class="btn unarchive-button table-icon"><span class="material-symbols-outlined">unarchive</span></button>' 
                         :
                         '<button class="btn edit-button table-icon"><span class="material-symbols-outlined">edit</span></button><button class="btn archive-button table-icon"><span class="material-symbols-outlined">archive</span></button>';
                 }
@@ -130,21 +155,83 @@ $(document).on('click', '.unarchive-button', function() {
 $(document).on('click', '.edit-button', function() {
     const table = $('#InventoryTable').DataTable();
     const data = table.row($(this).parents('tr')).data();
-    const form = $('#editModal').find('#editProductForm');
+    const form = $('#editModal')
 
-    form.find('#productName').val(data.itemname);
-    form.find('#expirationDate').val(data.earliestexpiry);
+    form.find('#productName').val(data.item_name);
+    form.find('#expirationDate').val(data.earliest_expiry);
     form.find('#quantity').val(data.quantity);
-    form.find('#wholesalePrice').val(data.wholesaleprice);
-    form.find('#retailPrice').val(data.retailprice);
+    form.find('#wholesalePrice').val(data.wholesale_price);
+    form.find('#retailPrice').val(data.retail_price);
+    form.find('#created').text('Created by ' + data.created_by + ' on ' + new Date(data.created_at).toLocaleString() );
+    form.find('#updated').text('Updated by ' + data.last_update_by + ' on ' + new Date(data.last_update_at).toLocaleString());
 
-
-    $('#created').text('Created by ' + data.created_by + ' on ' + data.created_at);
-    $('#updated').text('Updated by ' + data.last_update_by + ' on ' + data.last_update_at);
-    console.log(new Date().toLocaleString())
-    
     attachCharCountListener(`#editModal #productName`, `#editModal #charCount`);
     $('#editModal').modal('show');
+
+    $(document).on('click', '#editModal .confirm', function() {
+        const fields = {
+            item_name: '#productName',
+            earliest_expiry: '#expirationDate',
+            quantity: '#quantity',
+            wholesale_price: '#wholesalePrice',
+            retail_price: '#retailPrice'
+        };
+
+        let updatedData = {};
+
+        for (let field in fields) {
+            let newValue = form.find(fields[field]).val();
+            if (typeof data[field] === 'number') {
+                newValue = parseFloat(newValue);
+            }
+            if (data[field] !== newValue) {
+                updatedData[field] = newValue;
+            }
+        }
+
+        if (Object.keys(updatedData).length > 0) {
+            if (updatedData.hasOwnProperty('retail_price') && !updatedData.hasOwnProperty('wholesale_price')) {
+                updatedData.wholesale_price = parseFloat(form.find('#wholesalePrice').val());
+                
+            } else if (updatedData.hasOwnProperty('wholesale_price') && !updatedData.hasOwnProperty('retail_price')) {
+                updatedData.retail_price = parseFloat(form.find('#retailPrice').val());
+            }
+            updatedData.item_id = data.item_id;
+            fetch('/update/updateinventory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedData),
+            }).then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    ShowSnackbar({ message: data.error, color: errorcolor, icon: erroricon });
+                } else {
+                    ShowSnackbar({ message: data.message, color: successcolor, icon: successfuicon });
+                    $('#editModal').modal('hide');
+                    $('#InventoryTable').DataTable().ajax.reload();
+                }
+            });
+        }
+    });
+});
+
+$(document).on('click', '.view-button', function() {
+    const table = $('#InventoryTable').DataTable();
+    const data = table.row($(this).parents('tr')).data();
+    const form = $('#productInfoModal')
+
+    form.find('#itemId').text('Item ID: ' + data.item_id);
+    form.find('#earliestExpiry').text('Earliest Expiry: ' + data.earliest_expiry);
+    form.find('#quantity').text('Quantity: ' + data.quantity);
+    form.find('#wholesalePrice').text('Wholesale Price: ' + data.wholesale_price);
+    form.find('#retailPrice').text('Retail Price: ' + data.retail_price);
+    form.find('#created').text('Created by ' + data.created_by + ' on ' + new Date(data.created_at).toLocaleString() );
+    form.find('#updated').text('Updated by ' + data.last_update_by + ' on ' +  new Date(data.last_update_at).toLocaleString());
+    form.find('#archived').text('Archived by ' + data.archived_by + ' on ' + new Date(data.archived_at).toLocaleString());
+
+    $('#productInfoModal').modal('show');
 });
 
 $(document).on('click', '.archive-button', function() {
@@ -165,6 +252,7 @@ $('#addProductForm').on('submit', async function(event) {
             expirationDate: $('#expirationDate').val(),
             quantity: $('#quantity').val(),
             retailPrice: $('#retailPrice').val(),
+            wholesalePrice: $('#wholesalePrice').val()
         }),
     })
     .then(response => response.json())
@@ -174,10 +262,10 @@ $('#addProductForm').on('submit', async function(event) {
         }
         else{
             ShowSnackbar({ message: data.message, color: data.message_error ? errorcolor : successcolor, icon: data.message_error ? erroricon : successfuicon });
+            $('#addProductForm').trigger('reset');
+            $('#addProductModal').modal('hide');
+            $('#InventoryTable').DataTable().ajax.reload(); // Refresh the table
         }
-        $('#addProductForm').trigger('reset');
-        $('#addProductModal').modal('hide');
-        $('#InventoryTable').DataTable().ajax.reload(); // Refresh the table
+
         })
     });
-

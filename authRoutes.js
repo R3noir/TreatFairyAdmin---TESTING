@@ -8,15 +8,24 @@ router.post('/login', async (req, res) => {
     if(!Validate.validateEmail(email)) {
         return res.status(400).json({ error: 'Invalid email'});
     }
-    await Auth.signInWithPassword({ email, password })
-        .then(response => {
-            if(response.error) {
-                return res.status(400).json({ error : response.error });
-            }
-            else{
-                return res.status(200).json({ data: response.data });
-            }
-        });
+    const response = await Auth.signInWithPassword({ email, password });
+    if(response.error) {
+        return res.status(400).json({ error : response.error });
+    }
+    else{
+        return res.status(200).json({ data: response.data });
+    }
+});
+
+router.get('/logout', async (req, res) => {
+    try {
+        await Auth.logOut();
+        // Redirect to the login page after logout
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error logging out');
+    }
 });
 
 module.exports = router;

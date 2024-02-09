@@ -31,15 +31,15 @@ class Authentication {
 
     async getUser() {
         const user = (await this.database._client.auth.getUser());
-        return user
+        return user.data.user
     }
 
     async isSessionExpired() {
-        if (!this.session) {
+        const user = await this.getUser();
+        if (!this.session | !user){
             console.log('No session found')
             return { error: 'No session found' };
         }
-
         const decodedToken = jwt.decode(this.session);
         const currentTime = Date.now() / 1000;
         const bufferTime = 5 * 60;  // 5 minutes
@@ -62,6 +62,14 @@ class Authentication {
             }
         }
         return { message: 'Session is valid' };
+    }
+
+    async logOut() {
+        const { error } = await this.database._client.auth.signOut()
+        if (error) {
+            return { error: error.message }
+        }
+        return { message: 'Logged out successfully' };
     }
 }
 

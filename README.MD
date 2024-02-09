@@ -11,22 +11,29 @@
     npm install @supabase/supabase-js
     npm install dotenv
     npm install express
+    npm install body-parser
+    npm install express-rate-limit
+    npm install jsonwebtoken
     ```
 * after installing the above mentioned packages, to test/run this webapp type in terminal node .\index.js
 * Open chrome and visit http://localhost:3000/
 
 ## Update
-* Now working /inventory
-* Now working /salesinvoice
-* Responsive sidebar
+/inventory working
+Add items working
+Edit itemsWorking
+Search Working
+Paginations Working
+Sesssion Checks Working
+Limit to 700 requests per minute 
 
 ## What to add
-* Menubar to collapse the sidebar at will
+
 
 ## Whats Working
 * Loging in (use email: Robedillo11@gmail.com password: Clarence01!!)
-* Snackbar
-* Responsive design
+* 70% of the inventory is working
+
 
 
 

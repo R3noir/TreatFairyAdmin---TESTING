@@ -3,6 +3,7 @@ const router = express.Router();
 const Insert = require('./private/Insert.js');
 const Auth = require('./private/Auth.js');
 const Query = require('./private/Queries.js');
+const Formvalidation = require('./private/FormValidation.js');
 
 async function ensureAuthenticated(req, res, next) {
     await Auth.isSessionExpired().then(response => {
@@ -17,19 +18,25 @@ async function ensureAuthenticated(req, res, next) {
 
 router.post('/inventory', ensureAuthenticated ,async (req, res) => {
     try {
+        const validateform = Formvalidation.validateNewProduct(req.body);
+        if(validateform.error){
+            return res.status(400).json({ message_error: validateform.error });
+        }
+        
         const userid = (await(Query.getID())).data[0].userid;
         const item = {
-            itemname: req.body.productName,
-            earliestexpiry: req.body.expirationDate,
+            item_name: req.body.productName,
+            earliest_expiry: req.body.expirationDate,
             quantity: req.body.quantity,
-            retailprice: req.body.retailPrice,
-            wholesaleprice: req.body.retailPrice,
+            retail_price: req.body.retailPrice,
+            wholesale_price: req.body.wholesalePrice,
             created_by: userid,
-            created_at: new Date().toLocaleString(),
+            created_at: new Date().toLocaleString("en-US", {timeZone: "Asia/Manila"}),
             last_update_by: userid,
-            last_update_at: new Date().toLocaleString(),
+            last_update_at: new Date().toLocaleString("en-US", {timeZone: "Asia/Manila"}),
             archived: false,
-            archived_at: null
+            archived_at: null,
+            archived_by: null
         };
             const result = await Insert.insertInventory(item);
             if (result.error) {
@@ -38,6 +45,7 @@ router.post('/inventory', ensureAuthenticated ,async (req, res) => {
                 res.status(200).json({ message: 'Product added successfully' });
             }
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message });
     }
 });
