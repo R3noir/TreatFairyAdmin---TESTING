@@ -22,10 +22,6 @@ class Authentication {
                 return { error : error.message };
             }
             await (this.session = data.session.access_token);
-            const sessioncheck = await this.checksession();
-            if (sessioncheck.error) {
-                return { error: sessioncheck.error };
-            }
             return { message: 'User signed in successfully' };
         }
         catch(e){
@@ -36,20 +32,6 @@ class Authentication {
     async getUser() {
         const user = (await this.database._client.auth.getUser());
         return user.data.user
-    }
-
-    async checksession() {
-        try{
-            const user = await this.getUser();
-            if (!this.session | !user) {
-                return { error: 'Session not initialized' };
-            }
-            return { message: 'Session is valid' };
-        }
-        catch(e){
-            return { error: e.message }
-        }
-
     }
 
     async isSessionExpired() {
