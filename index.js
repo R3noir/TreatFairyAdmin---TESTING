@@ -21,11 +21,9 @@ app.use(express.json());
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Use your routes
-app.use('/', routes);
-
-// Use your authentication routes
 app.use('/auth', authRoutes);
+
+app.use('/', routes);
 
 app.use('/query', queryRoutes);
 
