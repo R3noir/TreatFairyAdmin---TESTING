@@ -35,6 +35,8 @@ class Authentication {
     async refreshSession() {
         try{
             const session = await this.database._client.auth.getSession();
+            console.log('session is what:', session);
+            /*
             const decodedToken = jwt.decode(session.data.session.access_token);
             const currentTime = Date.now() / 1000;
             const bufferTime = 30  // 5 minutes before expiry
@@ -46,6 +48,7 @@ class Authentication {
                 }
                 return { message: 'Session refreshed successfully' };
             }
+            */
                 return { message: 'Session is valid' };
         }
         catch(e){
