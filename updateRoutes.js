@@ -25,7 +25,7 @@ router.post('/updateinventory', ensureAuthenticated ,async (req, res) => {
             }
         }
         if(req.body.retail_price | req.body.wholesale_price){
-            if(req.body.wholesale_price > req.body.retail_price){
+            if(req.body.wholesale_price < req.body.retail_price){
                 return res.status(400).json({ error: 'Wholesale price is greater than retail price' });
             }
         }

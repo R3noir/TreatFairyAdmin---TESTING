@@ -26,16 +26,16 @@ class Validation {
         if(!this.validateName(body.productName)){
             return { error: 'Invalid product name' };
         }
-        if((!(new Date(body.expirationDate) < this.getDate()))){
+        if(((new Date(body.expirationDate) < this.getDate()))){
             return { error: 'Invalid expiration date' };
         }
         if(body.quantity <= 0){
             return { error: 'Invalid quantity' };
         }
-        if(body.retailPrice <= 0 | body.retailPrice < body.wholesalePrice){
+        if(body.retailPrice <= 0 | body.retailPrice > body.wholesalePrice){
             return { error: 'Invalid retail price' };
         }
-        if(body.wholesalePrice <= 0){
+        if(body.wholesalePrice <= 0 | body.wholesalePrice < body.retailPrice){
             return { error: 'Invalid wholesale price' };
         }
         return { message: 'Valid' };

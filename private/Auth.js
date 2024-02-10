@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 class Authentication {
     constructor(database) {
         this.database = database;
+        let session;
         if (!Authentication.instance) {
             Authentication.instance = this;
         }
@@ -20,6 +21,7 @@ class Authentication {
             if(error) {
                 return { error : error.message };
             }
+            await (this.session = data.session.access_token);
             return { message: 'User signed in successfully' };
         }
         catch(e){
@@ -32,47 +34,39 @@ class Authentication {
         return user.data.user
     }
 
-    async refreshSession() {
+    async isSessionExpired() {
         try{
-            const session = await this.database._client.auth.getSession();
-            const decodedToken = jwt.decode(session.data.session.access_token);
-            const currentTime = Date.now() / 1000;
-            const bufferTime = 30  // 5 minutes before expiry
-            if (decodedToken.exp < currentTime + bufferTime) {
-                const { error } = await this.database._client.auth.refreshSession();
-                if (error) {
-                    return { error: error.message };
-                }
-                return { message: 'Session refreshed successfully' };
+            const user = await this.getUser();
+            if (!this.session | !user){
+                console.log('No session found')
+                return { error: 'No session found' };
             }
-                return { message: 'Session is valid' };
+            const decodedToken = jwt.decode(this.session);
+            const currentTime = Date.now() / 1000;
+            const bufferTime = 5 * 60;  // 5 minutes
+            
+            if (decodedToken.exp < currentTime) {
+                this.database._client.auth.signOut();
+                console.log('Session expired')
+                return { error: 'Session expired' };
+            }
+
+            if (decodedToken.exp < currentTime + bufferTime) {
+                const refreshSession = (await this.database._client.auth.refreshSession()).data.session;
+                this.session = refreshSession.access_token;
+                if(!this.session){
+                    console.log('Session expired')
+                }
+                if (!refreshSession) {
+                    console.log(refreshSession)
+                    console.log('resfresh session failed')
+                }
+            }
+            return { message: 'Session is valid' };
         }
         catch(e){
             return { error: e.message }
         }
-    }
-
-    isSessionExpired() {
-        return new Promise((resolve, reject) => {
-            try {
-                const {data} = this.database._client.auth.onAuthStateChange(async (event, session) => {
-                    this.database._client.auth.getSession();
-                    if (event === 'TOKEN_REFRESHED') {
-                        this.database._client.auth.signOut();
-                        resolve({ error: 'session expired' });
-                    }
-                    data.subscription.unsubscribe()
-                    const refreshResult = await this.refreshSession();
-                    if (refreshResult.error) {
-                        resolve({ error: refreshResult.error });
-                    } else {
-                        resolve({ message: 'Session is valid' });
-                    }
-                });
-            } catch (e) {
-                reject({ error: e.message });
-            }
-        });
     }
 
     async logOut() {
