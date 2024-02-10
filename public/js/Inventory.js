@@ -29,8 +29,10 @@ $(document).ready(function() {
                     data.data.filter(item => !item.archived);
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                if(jqXHR.status === 401) {
+                    window.location.href = '/Forbidden';
+                }
                 console.log('AJAX error:', textStatus, errorThrown);
-                console.log('Server response:', jqXHR.responseText);
                 ShowSnackbar({ message: errorThrown, color: errorcolor, icon: erroricon })
             }
         },
@@ -205,6 +207,9 @@ $(document).on('click', '.edit-button', function() {
                 body: JSON.stringify(updatedData),
             }).then(response => response.json())
             .then(data => {
+                if(data.status === 401) {
+                    window.location.href = '/Forbidden';
+                }
                 if (data.error) {
                     ShowSnackbar({ message: data.error, color: errorcolor, icon: erroricon });
                 } else {
@@ -257,6 +262,9 @@ $('#addProductForm').on('submit', async function(event) {
     })
     .then(response => response.json())
     .then(data => {
+        if(data.status === 401) {
+            window.location.href = '/Forbidden';
+        }
         if (data.message_error) {
             ShowSnackbar({ message: data.message_error, color: data.message_error ? errorcolor : successcolor, icon: data.message_error ? erroricon : successfuicon });
         }

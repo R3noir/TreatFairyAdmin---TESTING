@@ -5,7 +5,6 @@ const Auth = require('./private/Auth.js');
 
 async function ensureAuthenticated(req, res, next) {
     await Auth.isSessionExpired().then(response => {
-        console.log(response)
         if (response.error) {
             return res.redirect('/');
         }
@@ -18,6 +17,10 @@ async function ensureAuthenticated(req, res, next) {
 
 router.get('/', async (req, res) => {
     res.sendFile(path.join(__dirname, 'public/html/Login.html'));
+});
+
+router.get('/forbidden', async (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/html/Forbidden.html'));
 });
 
 router.get('/inventory', ensureAuthenticated, (req, res) => {

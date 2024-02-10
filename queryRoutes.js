@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded({ extended: true })); // for parsing applicatio
 async function ensureAuthenticated(req, res, next) {
     await Auth.isSessionExpired().then(response => {
         if (response.error) {
-            return res.status(400).json({ error : response.error  });
+            return res.status(401).json({ error : response.error  });
         }
         else {
             next();
