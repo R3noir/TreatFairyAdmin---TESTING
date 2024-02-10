@@ -4,16 +4,15 @@ const path = require('path');
 const Auth = require('./private/Auth.js');
 
 async function ensureAuthenticated(req, res, next) {
-    await Auth.isSessionExpired().then(response => {
-        if (response.error) {
-            return res.redirect('/');
-        }
-        else {
-            next();
-        }
-    });
+    const response = await Auth.checkAndRefreshSession(req, res);
+    console.log(response)
+    if (response.status != 200) {
+        return res.redirect('/');
+    }
+    else {
+        next();
+    }
 }
-
 
 router.get('/', async (req, res) => {
     res.sendFile(path.join(__dirname, 'public/html/Login.html'));

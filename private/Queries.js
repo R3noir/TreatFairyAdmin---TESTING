@@ -1,4 +1,5 @@
 const database = require('./Database.js');
+const Auth = require('./Auth.js');
 
 class Queries {
     constructor(database) {
@@ -40,7 +41,7 @@ class Queries {
             const { data, error } = await this.database.client
             .from('admin')
             .select('user_id')
-            .eq('auth_uuid', (await database._client.auth.getUser()).data.user.id)
+            .eq('auth_uuid', (await Auth.getUser()).data.user.id)
             if (error) {
                 return { error: error.message };
             }

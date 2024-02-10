@@ -8,13 +8,12 @@ router.post('/login', async (req, res) => {
     if(!Validate.validateEmail(email)) {
         return res.status(400).json({ error: 'Invalid email'});
     }
-    const response = await Auth.signInWithPassword({ email, password });
-    if(response.error) {
-        return res.status(400).json({ error : response.error });
+    const response = await Auth.signInWithPassword(req.body, res);
+    console.log(response)
+    if(response.status != 200) {
+        return res.status(response.status).json({ error : response.error });
     }
-    else{
-        return res.status(200).json({ data: response.data });
-    }
+        return res.status(200).json({ message: 'Login successful' });
 });
 
 router.get('/logout', async (req, res) => {

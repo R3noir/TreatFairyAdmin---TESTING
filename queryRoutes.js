@@ -8,15 +8,15 @@ router.use(bodyParser.json()); // for parsing application/json
 router.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 async function ensureAuthenticated(req, res, next) {
-    await Auth.isSessionExpired().then(response => {
-        if (response.error) {
-            return res.status(401).json({ error : response.error  });
-        }
-        else {
-            next();
-        }
-    });
+    const response = await Auth.checkAndRefreshSession(req, res);
+    if (response.status != 200) {
+        return res.redirect('/');
+    }
+    else {
+        next();
+    }
 }
+
 router.post('/fetchinventory', ensureAuthenticated , async (req, res) => {
     const start = parseInt(req.body.start);
     const length = parseInt(req.body.length);

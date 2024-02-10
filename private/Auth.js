@@ -1,7 +1,6 @@
 const database = require('./Database.js');
 const jwt = require('jsonwebtoken');
 
-
 class Authentication {
     constructor(database) {
         this.database = database;
@@ -11,83 +10,70 @@ class Authentication {
         return Authentication.instance;
     }
 
-    async signInWithPassword({ email, password }) {
+    async signInWithPassword(req, res) {
         try{
             const { data, error } = await this.database._client.auth.signInWithPassword({
-                email: email,
-                password: password
+                email: req.email,
+                password: req.password
             });
             if(error) {
-                return { error : error.message };
+                return { status: 400, error: error.message };
             }
-            return { message: 'User signed in successfully' };
+            res.cookie('sb:token', data.session.access_token, { httpOnly: true });
+            res.cookie('sb:refreshToken', data.session.refresh_token, { httpOnly: true })
+            return { status: 200, message: 'User signed in successfully' };
         }
         catch(e){
-            return { error: e.message }
+            return { status: 500, error: e };
         }
     }
 
-    async getUser() {
-        const user = (await this.database._client.auth.getUser());
-        return user.data.user
+    async getUser(req, res) {
+        try {
+            const token = req.cookies['sb:token'];
+            const { data, error } = await this.database._client.auth.api.getUser(token);
+            if (error) {
+                return { status: 400, error: error.message };
+            }
+            return { status: 200, data: data };
+        } catch (e) {
+            return { status: 500, error: e };
+        }
     }
 
-    async refreshSession() {
-        try{
-            const session = await this.database._client.auth.getSession();
-            console.log('session is what:', session);
-            /*
-            const decodedToken = jwt.decode(session.data.session.access_token);
-            const currentTime = Date.now() / 1000;
-            const bufferTime = 30  // 5 minutes before expiry
-            console.log('session is what:', session);
-            if (decodedToken.exp < currentTime + bufferTime) {
-                const { error } = await this.database._client.auth.refreshSession();
+    async logOut(res) {
+        try {
+            res.clearCookie('sb:token');
+            return { status: 200, message: 'Logged out successfully' };
+        } catch (e) {
+            return { status: 500, error: e };
+        }
+    }
+
+    async checkAndRefreshSession(req, res) {
+        try {
+            const token = req.cookies['sb:token'];
+            const refreshToken = req.cookies['sb:refreshToken'];
+            const { data, error } = await this.database._client.auth.setSession({
+                token,
+                refreshToken
+            })
+            const sessionExpiresAt = new Date(jwt.decode(token).exp);
+            const now = new Date();
+            const timeLeft = sessionExpiresAt.getTime() - now.getTime();
+
+            if (timeLeft < 30 * 60 * 1000) {
+                const { data, error } = await this.database._client.auth.refreshSession(refreshToken);
                 if (error) {
-                    return { error: error.message };
+                    console.log(error)
+                    return { status: 400, location: '/' };
                 }
-                return { message: 'Session refreshed successfully' };
+                res.cookie('sb:token', refreshData.session.access_token, { httpOnly: true });
             }
-            */
-                return { message: 'Session is valid' };
+                    return { status: 200 };
+        } catch (e) {
+            return { status: 500, error: e };
         }
-        catch(e){
-            return { error: e.message }
-        }
-    }
-
-    isSessionExpired() {
-        return new Promise((resolve, reject) => {
-            try {
-                const {data} = this.database._client.auth.onAuthStateChange(async (event, session) => {
-                    this.database._client.auth.getSession();
-                    if (event === 'TOKEN_REFRESHED') {
-                        console.log('Token refreshed');
-                        this.database._client.auth.signOut();
-                        resolve({ error: 'session expired' });
-                    }
-                    data.subscription.unsubscribe()
-                    const refreshResult = await this.refreshSession();
-                    console.log('Token refresh called');
-                    if (refreshResult.error) {
-                        console.log('token error:', refreshResult);
-                        resolve({ error: refreshResult.error });
-                    } else {
-                        resolve({ message: 'Session is valid' });
-                    }
-                });
-            } catch (e) {
-                reject({ error: e.message });
-            }
-        });
-    }
-
-    async logOut() {
-        const { error } = await this.database._client.auth.signOut()
-        if (error) {
-            return { error: error.message }
-        }
-        return { message: 'Logged out successfully' };
     }
 }
 
