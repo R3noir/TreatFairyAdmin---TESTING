@@ -54,12 +54,8 @@ class Authentication {
             if (decodedToken.exp < currentTime + bufferTime) {
                 const refreshSession = (await this.database._client.auth.refreshSession()).data.session;
                 this.session = refreshSession.access_token;
-                if(!this.session){
-                    console.log('Session expired')
-                }
                 if (!refreshSession) {
-                    console.log(refreshSession)
-                    console.log('resfresh session failed')
+                    return { error: 'Session expired' };
                 }
             }
             return { message: 'Session is valid' };
