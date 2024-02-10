@@ -38,6 +38,7 @@ class Authentication {
             const decodedToken = jwt.decode(session.data.session.access_token);
             const currentTime = Date.now() / 1000;
             const bufferTime = 30  // 5 minutes before expiry
+            console.log('session is what:', session);
             if (decodedToken.exp < currentTime + bufferTime) {
                 const { error } = await this.database._client.auth.refreshSession();
                 if (error) {
@@ -58,12 +59,15 @@ class Authentication {
                 const {data} = this.database._client.auth.onAuthStateChange(async (event, session) => {
                     this.database._client.auth.getSession();
                     if (event === 'TOKEN_REFRESHED') {
+                        console.log('Token refreshed');
                         this.database._client.auth.signOut();
                         resolve({ error: 'session expired' });
                     }
                     data.subscription.unsubscribe()
                     const refreshResult = await this.refreshSession();
+                    console.log('Token refresh called');
                     if (refreshResult.error) {
+                        console.log('token error:', refreshResult);
                         resolve({ error: refreshResult.error });
                     } else {
                         resolve({ message: 'Session is valid' });
