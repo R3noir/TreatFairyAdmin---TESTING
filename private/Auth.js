@@ -37,7 +37,7 @@ class Authentication {
             const session = await this.database._client.auth.getSession();
             const decodedToken = jwt.decode(session.data.session.access_token);
             const currentTime = Date.now() / 1000;
-            const bufferTime = 5 * 60  // 5 minutes before expiry
+            const bufferTime = 30  // 5 minutes before expiry
             if (decodedToken.exp < currentTime + bufferTime) {
                 const { error } = await this.database._client.auth.refreshSession();
                 if (error) {

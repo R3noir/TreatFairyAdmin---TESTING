@@ -26,7 +26,7 @@ class Validation {
         if(!this.validateName(body.productName)){
             return { error: 'Invalid product name' };
         }
-        if(new Date(body.expirationDate) < getDate()){
+        if((!(new Date(body.expirationDate) < this.getDate()))){
             return { error: 'Invalid expiration date' };
         }
         if(body.quantity <= 0){
@@ -48,7 +48,7 @@ class Validation {
             return this.validateName(data);
         }
         if (field === 'earliest_expiry') {
-            return new Date(data) > getDate();
+            return ((new Date(data) > this.getDate()));
         }
         if (field === 'quantity') {
             return data > 0;

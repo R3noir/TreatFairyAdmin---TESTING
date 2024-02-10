@@ -42,18 +42,4 @@ router.post('/fetchinventory', ensureAuthenticated , async (req, res) => {
         }
     });
 });
-
-router.post('/getid', ensureAuthenticated , async (req, res) => {
-    await Queries.getID()
-    .then(response => {
-        if(response.error) {
-            return res.status(500).json({ error : response.error  });
-        }
-        else{
-            return res.status(200).json({ data: response.data });
-        }
-    });
-
-});
-
 module.exports = router;

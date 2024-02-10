@@ -24,12 +24,12 @@ router.post('/updateinventory', ensureAuthenticated ,async (req, res) => {
                 return res.status(400).json({ error: `Invalid ${field}` });
             }
         }
-        if(req.body.retail_price){
-            if(!(req.body.wholesale_price < req.body.retail_price)){
-                return res.status(400).json({ error: 'Wholesale Price less than retail_price' });
+        if(req.body.retail_price | req.body.wholesale_price){
+            if(req.body.wholesale_price > req.body.retail_price){
+                return res.status(400).json({ error: 'Wholesale price is greater than retail price' });
             }
         }
-        const userid = (await(Query.getID())).data[0].userid;
+        const userid = await(Query.getID())
         req.body.last_update_by = userid;
         req.body.last_update_at = new Date().toLocaleString("en-US", {timeZone: "Asia/Manila"});
         const { data, error } = await Update.updateInventory(req.body, req.body.item_id)
@@ -41,7 +41,7 @@ router.post('/updateinventory', ensureAuthenticated ,async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message_error: error });
     }
 });
 

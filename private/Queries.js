@@ -39,12 +39,13 @@ class Queries {
         try{
             const { data, error } = await this.database.client
             .from('admin')
-            .select('userid')
-            .eq('authuid', (await database._client.auth.getUser()).data.user.id)
+            .select('user_id')
+            .eq('auth_uuid', (await database._client.auth.getUser()).data.user.id)
             if (error) {
                 return { error: error.message };
             }
-            return { data };
+            const user_id = data[0].user_id;
+            return user_id;
         }
         catch(e){
             return { error: e.message }

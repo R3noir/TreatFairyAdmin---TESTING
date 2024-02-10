@@ -23,7 +23,7 @@ router.post('/inventory', ensureAuthenticated ,async (req, res) => {
             return res.status(400).json({ message_error: validateform.error });
         }
         
-        const userid = (await(Query.getID())).data[0].userid;
+        const userid = await(Query.getID())
         const item = {
             item_name: req.body.productName,
             earliest_expiry: req.body.expirationDate,

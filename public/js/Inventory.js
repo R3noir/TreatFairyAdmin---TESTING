@@ -205,11 +205,15 @@ $(document).on('click', '.edit-button', function() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(updatedData),
-            }).then(response => response.json())
-            .then(data => {
-                if(data.status === 401) {
+            })
+            .then(response => {
+                if(response.status === 401) {
                     window.location.href = '/Forbidden';
+                    return;
                 }
+                return response.json();
+            })
+            .then(data => {
                 if (data.error) {
                     ShowSnackbar({ message: data.error, color: errorcolor, icon: erroricon });
                 } else {
@@ -260,11 +264,14 @@ $('#addProductForm').on('submit', async function(event) {
             wholesalePrice: $('#wholesalePrice').val()
         }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if(data.status === 401) {
+    .then(response => {
+        if(response.status === 401) {
             window.location.href = '/Forbidden';
+            return;
         }
+        return response.json();
+    })
+    .then(data => {
         if (data.message_error) {
             ShowSnackbar({ message: data.message_error, color: data.message_error ? errorcolor : successcolor, icon: data.message_error ? erroricon : successfuicon });
         }
