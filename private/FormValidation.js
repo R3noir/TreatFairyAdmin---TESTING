@@ -22,8 +22,18 @@ class Validation {
         const nameRegex = /^[a-zA-Z\s].{0,70}$/;
         return nameRegex.test(name);
     }
+
+    validateProdctName(name) {
+        const nameRegex = /^[a-zA-Z\s].{0,75}$/;
+        return nameRegex.test(name);
+    }
+
+    validateItemID(id) {
+        return (id > 0 & id <= 32767);
+    }
+
     validateNewProduct(body){
-        if(!this.validateName(body.productName)){
+        if(!this.validateProdctName(body.productName)){
             return { error: 'Invalid product name' };
         }
         if(((new Date(body.expirationDate) < this.getDate()))){
@@ -40,12 +50,13 @@ class Validation {
         }
         return { message: 'Valid' };
     }
+    
     validateUpdateInventory(field, data) {
         if(field === 'item_id'){
-            return true
+            return this.validateItemID(data);
         }
         if (field === 'item_name') {
-            return this.validateName(data);
+            return this.validateProdctName(data);
         }
         if (field === 'earliest_expiry') {
             return ((new Date(data) > this.getDate()));
@@ -59,7 +70,6 @@ class Validation {
         if (field === 'retail_price') {
             return data > 0;
         }
-
     }
 }
 

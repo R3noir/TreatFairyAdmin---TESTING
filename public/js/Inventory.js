@@ -33,7 +33,7 @@ $(document).ready(function() {
                     window.location.href = '/Forbidden';
                 }
                 console.log('AJAX error:', textStatus, errorThrown);
-                ShowSnackbar({ message: errorThrown, color: errorcolor, icon: erroricon })
+                ShowSnackbar({ message: jqXHR.responseJSON.error, color: errorcolor, icon: erroricon })
             }
         },
         columns: [
@@ -109,7 +109,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#customSearch').on('keyup', function() {
+    $('#customSearch').on('input', function() {
          setTimeout(function() {
             table.ajax.reload();
         }, 500);
@@ -151,6 +151,9 @@ $(document).on('click', '.add-btn', function() {
 });
 
 $(document).on('click', '.unarchive-button', function() {
+    const table = $('#InventoryTable').DataTable();
+    const data = table.row($(this).parents('tr')).data();
+    $('#unarchiveItemForm').data('item-data', data);
     $('#unarchiveModal').modal('show');
 });
 
@@ -244,6 +247,9 @@ $(document).on('click', '.view-button', function() {
 });
 
 $(document).on('click', '.archive-button', function() {
+    const table = $('#InventoryTable').DataTable();
+    const data = table.row($(this).parents('tr')).data();
+    $('#archiveItemForm').data('item-data', data);
     $('#archiveModal').modal('show');
 });
 
@@ -283,4 +289,126 @@ $('#addProductForm').on('submit', async function(event) {
         }
 
         })
+});
+
+$('#editProductForm').on('submit', async function(event) {
+    event.preventDefault();
+
+    const form = $('#editModal');
+    const fields = {
+        item_name: '#productName',
+        earliest_expiry: '#expirationDate',
+        quantity: '#quantity',
+        wholesale_price: '#wholesalePrice',
+        retail_price: '#retailPrice'
+    };
+
+    let updatedData = {};
+
+    for (let field in fields) {
+        let newValue = form.find(fields[field]).val();
+        if (typeof data[field] === 'number') {
+            newValue = parseFloat(newValue);
+        }
+        if (data[field] !== newValue) {
+            updatedData[field] = newValue;
+        }
+    }
+
+    if (Object.keys(updatedData).length > 0) {
+        if (updatedData.hasOwnProperty('retail_price') && !updatedData.hasOwnProperty('wholesale_price')) {
+            updatedData.wholesale_price = parseFloat(form.find('#wholesalePrice').val());
+            
+        } else if (updatedData.hasOwnProperty('wholesale_price') && !updatedData.hasOwnProperty('retail_price')) {
+            updatedData.retail_price = parseFloat(form.find('#retailPrice').val());
+        }
+        updatedData.item_id = data.item_id;
+
+        await fetch('/update/updateinventory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData),
+        })
+        .then(response => {
+            if(response.status === 401) {
+                window.location.href = '/Forbidden';
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                ShowSnackbar({ message: data.error, color: errorcolor, icon: erroricon });
+            } else {
+                ShowSnackbar({ message: data.message, color: successcolor, icon: successfuicon });
+                $('#editModal').modal('hide');
+                $('#InventoryTable').DataTable().ajax.reload();
+            }
+        });
+    }
+});
+
+$('#archiveItemForm').on('submit', async function(event) {
+    event.preventDefault();
+    const table = $('#InventoryTable').DataTable();
+    const data = $(this).data('item-data');
+    await fetch('/update/archive', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            item_id: data.item_id
+        }),
+    })
+    .then(response => {
+        if(response.status === 401) {
+            window.location.href = '/Forbidden';
+            return;
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.error) {
+            ShowSnackbar({ message: data.error, color: errorcolor, icon: erroricon });
+        } else {
+            ShowSnackbar({ message: data.message, color: successcolor, icon: successfuicon });
+            $('#archiveModal').modal('hide');
+            $('#InventoryTable').DataTable().ajax.reload();
+        }
     });
+});
+
+$('#unarchiveItemForm').on('submit', async function(event) {
+    event.preventDefault();
+
+    const table = $('#InventoryTable').DataTable();
+    const data = $(this).data('item-data');
+    await fetch('/update/unarchive', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            item_id: data.item_id
+        }),
+    })
+    .then(response => {
+        if(response.status === 401) {
+            window.location.href = '/Forbidden';
+            return;
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.error) {
+            ShowSnackbar({ message: data.error, color: errorcolor, icon: erroricon });
+        } else {
+            ShowSnackbar({ message: data.message, color: successcolor, icon: successfuicon });
+            $('#unarchiveModal').modal('hide');
+            $('#InventoryTable').DataTable().ajax.reload();
+        }
+    });
+});

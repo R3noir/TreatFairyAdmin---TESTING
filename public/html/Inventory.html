@@ -220,7 +220,7 @@
                                 </span> 
                                 <div>Cancel</div>
                             </button>
-                            <button type="button" class="btn icon confirm">
+                            <button type="submit" class="btn icon confirm" form="editProductForm">
                                 <span class="material-symbols-outlined" style="font-size: 24px;">
                                     check
                                 </span> 
@@ -241,20 +241,22 @@
                         <div class="modal-body">
                             Are you sure you want to archive this item?
                         </div>
-                        <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn icon cancel" data-bs-dismiss="modal">
-                                <span class="material-symbols-outlined" style="font-size: 24px;">
-                                    Close
-                                </span> 
-                                Cancel
-                            </button>
-                            <button type="button" class="btn icon confirm">
-                                <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
-                                    check
-                                </span> 
-                                Archive
-                            </button>
-                        </div>
+                        <form id="archiveItemForm">
+                            <div class="modal-footer d-flex justify-content-between">
+                                <button type="button" class="btn icon cancel" data-bs-dismiss="modal">
+                                    <span class="material-symbols-outlined" style="font-size: 24px;">
+                                        Close
+                                    </span> 
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn icon confirm"form = "archiveItemForm">
+                                    <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                                        check
+                                    </span> 
+                                    Archive
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -300,20 +302,22 @@
                         <div class="modal-body">
                             Are you sure you want to unarchive this item?
                         </div>
-                        <div class="modal-footer d-flex justify-content-between">
-                           <button type="button" class="btn icon cancel" data-bs-dismiss="modal">
-                                <span class="material-symbols-outlined" style="font-size: 24px;">
-                                    Close
-                                </span> 
-                                <div>Cancel</div>
-                            </button>
-                            <button type="button" class="btn icon confirm">
-                                <span class="material-symbols-outlined" style="font-size: 24px;">
-                                    check
-                                </span> 
-                                <div>Unarchive</div>
-                            </button>
-                        </div>
+                        <form id="unarchiveItemForm">
+                            <div class="modal-footer d-flex justify-content-between">
+                            <button type="button" class="btn icon cancel" data-bs-dismiss="modal">
+                                    <span class="material-symbols-outlined" style="font-size: 24px;">
+                                        Close
+                                    </span> 
+                                    <div>Cancel</div>
+                                </button>
+                                <button type="submit" class="btn icon confirm" form="unarchiveItemForm">
+                                    <span class="material-symbols-outlined" style="font-size: 24px;">
+                                        check
+                                    </span> 
+                                    <div>Unarchive</div>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

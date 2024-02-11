@@ -15,17 +15,17 @@
     <!--Data Table CSS-->
     <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="../css/Accesscontrol.css">
+    <link rel="stylesheet" type="text/css" href="../css/Inventory.css">
     <link rel="icon" href="../Images/Logo.png">
 </head>
 <body>
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <div class="col-auto px-0 d-flex">
-                <div id="sidebar" class="collapse collapse-horizontal show">
+                <nav id="sidebar" class="collapse collapse-horizontal show">
                     <div id="sidebar-nav">
                         <div class="logo border-0 d-flex align-items-center justify-content-center" data-bs-parent="#sidebar">
-                            <img class="logo-img" alt="" src="../Images/Logo_transparent.png"/>
+                            <img class="logo-img" alt="" src="../Images/Logo_transparent.svg"/>
                         </div>
                         <div class="list-group rounded-0 d-flex align-items-center justify-content-center">
                             <a href="/inventory" class="list-group-item border-0" data-bs-parent="#sidebar">
@@ -60,7 +60,7 @@
                                     ACCOUNT
                                 </div>
                             </a>
-                            <a href="#" id="logout-button" class="list-group-item active border-0" data-bs-parent="#sidebar">
+                            <a href="/auth/logout" id="logout-button" class="list-group-item active border-0" data-bs-parent="#sidebar">
                                 <span class="material-symbols-outlined">
                                     logout
                                 </span>
@@ -70,7 +70,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </nav>
             </div>
             <main class="col content">
                 <header>

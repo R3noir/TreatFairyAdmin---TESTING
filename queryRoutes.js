@@ -22,6 +22,9 @@ router.post('/fetchinventory', ensureAuthenticated , async (req, res) => {
     const length = parseInt(req.body.length);
     const archived = req.body.archived; 
     const search = req.body.search;
+    if(search.length  > 75){
+        return res.status(400).json({ error : 'Search is too long' });
+    }
     await Queries.getInventory(start, length, archived, search)
     .then(async response => {
         if(response.error) {

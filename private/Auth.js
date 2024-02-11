@@ -38,12 +38,11 @@ class Authentication {
         try{
             const user = await this.getUser();
             if (!this.session | !user){
-                console.log('No session found')
                 return { error: 'No session found' };
             }
             const decodedToken = jwt.decode(this.session);
             const currentTime = Date.now() / 1000;
-            const bufferTime = 5 * 60;  // 5 minutes
+            const bufferTime = 30;  // 1 minute
             
             if (decodedToken.exp < currentTime) {
                 this.database._client.auth.signOut();
@@ -52,6 +51,7 @@ class Authentication {
             }
 
             if (decodedToken.exp < currentTime + bufferTime) {
+                console.log('Session will expire soon')
                 const refreshSession = (await this.database._client.auth.refreshSession()).data.session;
                 this.session = refreshSession.access_token;
                 if (!refreshSession) {
