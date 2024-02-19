@@ -1,314 +1,45 @@
-.container-fluid, #sidebar, main {
-  height: 100vh;
-}
-
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #FAF9F6;
-  overflow: hidden;
-}
-
-.material-symbols-outlined {
-  font-variation-settings: 'wght' 400, 'opsz' 48;
-  font-size: 38px;
-}
-
-.input-icon {
-  position: absolute;
-  font-size: 24px;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
-}
-
-.table-icon span, .icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.icon {
-  justify-content: space-evenly;
-  padding: 8px 0;
-}
-
-.modal .btn {
-  width: 150px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  padding: 5px;
-}
-
-.modal .fade{
-  --data-bs-backdrop: 'static';
-  --data-bs-keyboard: 'false';
-}
-
-.confirm, .cancel {
-  --bs-btn-hover-color: #181818;
-}
-
-.confirm {
-  --bs-btn-bg: #d7feec; 
-  --bs-btn-hover-bg: #bde6d4;
-}
-
-.cancel {
-  --bs-btn-bg: #fed7d7; 
-  --bs-btn-hover-bg: #e6bdbd; 
-}
-
-.logo-img {
-  max-width: 180px;
-  object-fit: cover;
-}
-
-.modal-content, .modal-header, .modal-footer {
-  border: 0;
-}
-
-.modal-content {
-  border-radius: 35px;
-  padding: 30px;
-}
-
-#sidebar {
-  position: relative;
-}
-
-#sidebar-nav {
-  width: 320px;
-  height: 100%;
-  overflow-y: auto;
-  background: linear-gradient(180deg, #9cd49c, #20e7bf);
-}
-
-#sidebar-nav .logo {
-  background: transparent;
-  padding: 15px 0;
-}
-
-.list-group a {
-  max-height: 65px;
-  max-width: 230px;
-  color: #181818;
-  font-size: 16px;
-  background: transparent;
-  font-weight: bold;
-  display: flex;
-  justify-content: start;
-  align-items: center;
-}
-
-.text-center {
-  flex-grow: 1;
-  text-align: center;
-}
-
-.list-group-item > span {
-  padding: 10px 0;
-}
-
-.list-group-item {
-  margin: 10px 0;
-  width: 100%;
-  height: 100%;
-}
-
-.list-group-item:hover {
-  background-color: rgba(215, 254, 236, 0.5);
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.list-group-item.active {
-  margin-top: 10px !important;
-  color: #181818;
-  background-color: #D7FEEC;
-  border-radius: 20px;
-}
-
-#logout-button {
-  margin-top: 100px !important;
-}
-
-main {
-  overflow: auto;
-}
-
-.content {
-  position: relative;
-  padding: 30px;
-}
-
-.menu-div {
-  margin-top: 10px;
-}
-
-#menu-button {
-  color:#181818;
-  background-color: #FAF9F6;
-  width: 100%;
-  z-index: 2;
-}
-
-.page-header {
-  margin: 90px 0 30px;
-}
-
-.search-div {
-  min-height: 45px;
-  position: relative;
-  margin-bottom: 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.50);
-  z-index: 1;
-}
-
-#customSearch {
-  width: 100%;
-  border: 0.5px solid rgba(0, 0, 0, 0.50);
-  border-radius: 15px;
-  padding: 10px 30px 10px 50px;
-}
-
-#customSearch:focus {
-  outline: none;
-}
-
-.add-btn {
-  background-color: #D7FEEC;
-  margin-left: auto;
-  border: 0.5px solid rgba(0, 0, 0, 0.50);
-  margin-bottom: 30px;
-  padding: 10px;
-  border-radius: 15px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.show-archived-div {
-  margin-bottom: 30px;
-  text-align: left;
-}
-
-.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter {
-  text-align: left;
-  margin-bottom: 15px;
-}
-
-#InventoryTable td, #InventoryTable th {
-  text-align: center;
-  vertical-align: middle;
-}
-
-#customPagination {
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-}
-
-#customPagination .paginate_button {
-  margin: 0 15px;
-  cursor: pointer;
-}
-
-#customPagination .paginate_button.current {
-  font-weight: bold;
-}
-
-#snackbar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed; 
-  bottom: 30px; 
-  left: 50%; 
-  transform: translateX(-50%); 
-  width: 400px;
-  height: 50px;
-  background-color: #333;
-  color: #FAF9F6;
-  text-align: center;
-  line-height: 50px;
-  visibility: hidden;
-  z-index: 9999;
-}
-
-#snackbar.show {
-  visibility: visible;
-  -webkit-animation: fadein 0.5s;
-  animation: fadein 0.5s;
-}
-
-#snackbar.hide {
-  visibility: hidden;
-}
-
-@-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;} 
-  to {bottom: 30px; opacity: 1;}
-}
-
-@keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
-}
-
-#snackbar-message {
-  padding-left: 20px;
-  max-width: 80%;
-  height: 50px; 
-  overflow: hidden;
-  white-space: nowrap; 
-  text-overflow: ellipsis; 
-}
-
-@media (max-width: 768px) {
-  .logo-img {
-      width: 150px;
-      height: 150px;
-  }
-  .material-symbols-outlined {
-    font-size: 20px;
-  }
-  .modal .btn{
-    width: 120px;
-    padding: 5px;
-    font-size: 12px;
+    .table-icon span, .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
-  #sidebar-nav{
-    width: 180px;
-  }
-  .list-group a{
-    max-height: 65px;
-    max-width: 150px;
-    color: #181818;
-    font-size: 15px;
-  }
-  .content{
-    display: grid;
-    grid-template-columns: minmax(min-content, max-content);
-  }
-  #snackbar {
-    width: 70%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 14px;
-  }
-  .snackbar-message {
-    font-size: 14px;
+  .add-btn {
+    background-color: #D7FEEC;
+    margin-left: auto;
+    border: 0.5px solid rgba(0, 0, 0, 0.50);
+    margin-bottom: 30px;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   }
   
-}
-
-::-webkit-scrollbar {
-  width: 9px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background-color: rgba(155, 155, 155, 0.5);
-  border-radius: 20px;
-  border: transparent;
-}
+  .show-archived-div {
+    margin-bottom: 30px;
+    text-align: left;
+  }
+  
+  .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter {
+    text-align: left;
+    margin-bottom: 15px;
+  }
+  
+  #InventoryTable td, #InventoryTable th {
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  #customPagination {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  #customPagination .paginate_button {
+    margin: 0 15px;
+    cursor: pointer;
+  }
+  
+  #customPagination .paginate_button.current {
+    font-weight: bold;
+  }
