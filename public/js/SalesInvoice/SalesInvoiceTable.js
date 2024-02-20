@@ -1,23 +1,17 @@
 $(document).ready(function() {
     $.fn.dataTable.ext.errMode = 'none';
-    const table = $('#InventoryTable').DataTable({
+    const table = $('#SalesInvoiceTable').DataTable({
         dom: 'lrti',
-        columnDefs: [{ targets: 7, orderable: false }],
+        columnDefs: [{ targets: 5, orderable: false }],
         ajax: {
-            url: '/query/fetchinventory',
+            url: '/query/fetchinvoices',
             type: 'POST',
             data: function (d) {
                 return {
                     start: parseInt(d.start),
                     length: parseInt(d.length),
-                    archived: $('#archived-checkbox').is(':checked'),
                     search: $('#customSearch').val()
                 };
-            },
-            dataSrc: function (data) {
-                return $('#archived-checkbox').is(':checked') ? 
-                    data.data.filter(item => item.archived) : 
-                    data.data.filter(item => !item.archived);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if(jqXHR.status === 401) {
@@ -28,10 +22,10 @@ $(document).ready(function() {
             }
         },
         columns: [
-            { data: 'item_id' },
-            { data: 'item_name' },
+            { data: 'invoice_id' },
+            { data: 'name' },
             { 
-                data: 'earliest_expiry',
+                data: 'sold_date',
                 render: function(data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         return new Date(data).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric' });
@@ -39,30 +33,20 @@ $(document).ready(function() {
                     return data;
                 }
             },
-            { data: 'quantity' },
-            { 
-                data: 'wholesale_price',
+            {
+                data: 'total',
                 render: function(data, type, row) {
                     if (type === 'display') {
-                        return parseFloat(data).toFixed(2);
+                        return parseFloat(data).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                     }
                     return data;
                 }
             },
             { 
-                data: 'retail_price',
+                data: 'amount_paid',
                 render: function(data, type, row) {
                     if (type === 'display') {
-                        return parseFloat(data).toFixed(2);
-                    }
-                    return data;
-                }
-            },
-            { 
-                data: 'last_update_at',
-                render: function(data, type, row) {
-                    if (type === 'display' || type === 'filter') {
-                        return new Date(data).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                        return parseFloat(data).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                     }
                     return data;
                 }
@@ -70,10 +54,7 @@ $(document).ready(function() {
             { 
                 data: null,
                 render: function() {
-                    return $('#archived-checkbox').is(':checked') ? 
-                        '<button class="btn view-button table-icon"><span class="material-symbols-outlined">open_in_new</span></button><button class="btn unarchive-button table-icon"><span class="material-symbols-outlined">unarchive</span></button>' 
-                        :
-                        '<button class="btn edit-button table-icon"><span class="material-symbols-outlined">edit</span></button><button class="btn archive-button table-icon"><span class="material-symbols-outlined">archive</span></button>';
+                    return '</button><button class="btn edit-button table-icon"><span class="material-symbols-outlined">edit</span></button><button class="btn delete-button table-icon"><span class="material-symbols-outlined">delete</span>';
                 }
             }
         ],
@@ -107,15 +88,9 @@ $(document).ready(function() {
             table.page(parseInt(page) - 1).draw(false);
         }
     });
-
     $('#customSearch').on('input', function() {
          setTimeout(function() {
             table.ajax.reload();
         }, 500);
-    });
-
-    $('#archived-checkbox').on('change', function() {
-        $('#customSearch').val('');
-        table.ajax.reload();
     });
 });

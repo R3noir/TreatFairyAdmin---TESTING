@@ -16,6 +16,7 @@
     <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="../css/Layout.css">
+    <link rel="stylesheet" type="text/css" href="../css/SalesInvoice.css">
     <link rel="icon" href="../Images/Logo.png">
 </head>
 <body>
@@ -89,17 +90,22 @@
                         <i class="material-symbols-outlined input-icon">
                             search
                         </i>
-                        <input id="customSearch" type="text" placeholder="Search...">
+                        <input id="customSearch" type="text" placeholder="Search Client Name...">
                     </div>
+                    <button type="button" class="add-btn icon" data-bs-toggle="modal" data-bs-target="#" >
+                        <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            add_circle
+                        </span> 
+                        Add New Sales Invoice
+                    </button>
                         <table id="SalesInvoiceTable" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Product Name</th>
-                                    <th>Earliest Expiry</th>
-                                    <th>Quantity</th>
-                                    <th>Wholesale Price</th>
-                                    <th>Retail Price</th>
+                                    <th>Client Name</th>
+                                    <th>Sold Date</th>
+                                    <th>Total</th>
+                                    <th>Amount Paid</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -122,6 +128,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    <script src="../js/Salesinvoice.js"></script>
+    <script src="../js/Snackbar.js"></script>
+    <script src="../js/CharCountListener.js"></script>
+    <script src="../js/SalesInvoice/SalesInvoiceTable.js"></script>
 </body>
 </html>

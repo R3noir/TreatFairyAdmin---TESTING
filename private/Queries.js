@@ -35,6 +35,32 @@ class Queries {
         }
     }
 
+    async getInvoice(offset, limit, search) {
+        try{
+            const { data, error } = await this.database.client.rpc('getinvoices', { offsets: offset, limits: limit, search: search })
+            if (error) {
+                return { error: error.message  };
+            }
+            return { data };
+        }
+        catch(e){
+            return { error: e.message }
+        }
+    }
+
+    async getTotalInvoiceRecords(search) {
+        try{
+            const { data, error } = await this.database.client.rpc('getinvoicescount', { search: search })
+            if (error) {
+                return { error: error.message  };
+            }
+            return { data: parseInt(data) };
+        }
+        catch(e){
+            return { error: e.message }
+        }
+    }
+
     async getID(){
         try{
             const { data, error } = await this.database.client

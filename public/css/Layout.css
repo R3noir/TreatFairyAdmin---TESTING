@@ -141,6 +141,12 @@
     padding: 8px 0;
   }
 
+  .table-icon span, .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .input-icon {
     position: absolute;
     font-size: 24px;
@@ -167,6 +173,16 @@
   
   #customSearch:focus {
     outline: none;
+  }
+
+  .add-btn {
+    background-color: #D7FEEC;
+    margin-left: auto;
+    border: 0.5px solid rgba(0, 0, 0, 0.50);
+    margin-bottom: 30px;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   }
   
   #snackbar {

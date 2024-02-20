@@ -20,7 +20,6 @@ router.post('/login', async (req, res) => {
 router.get('/logout', async (req, res) => {
     try {
         await Auth.logOut();
-        // Redirect to the login page after logout
         res.redirect('/');
     } catch (error) {
         console.error(error);

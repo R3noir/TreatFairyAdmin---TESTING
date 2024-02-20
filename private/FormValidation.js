@@ -24,7 +24,7 @@ class Validation {
     }
 
     validateProdctName(name) {
-        const nameRegex = /^[a-zA-Z\s].{0,75}$/;
+        const nameRegex = /^[a-zA-Z][a-zA-Z0-9\s()\-'"!]{0,74}$/
         return nameRegex.test(name);
     }
 
@@ -36,40 +36,62 @@ class Validation {
         if(!this.validateProdctName(body.productName)){
             return { error: 'Invalid product name' };
         }
-        if(((new Date(body.expirationDate) < this.getDate()))){
+        if(Date.parse(body.expirationDate) < Date.parse(this.getDate())){
             return { error: 'Invalid expiration date' };
         }
         if(body.quantity <= 0){
             return { error: 'Invalid quantity' };
         }
-        if(body.retailPrice <= 0 | body.retailPrice > body.wholesalePrice){
+        if(body.retailPrice <= 0){
             return { error: 'Invalid retail price' };
         }
-        if(body.wholesalePrice <= 0 | body.wholesalePrice < body.retailPrice){
+        if(body.wholesalePrice <= 0){
             return { error: 'Invalid wholesale price' };
+        }
+        if(body.wholesalePrice > body.retailPrice){
+            return { error: 'Wholesale price is greater than retail price' };
         }
         return { message: 'Valid' };
     }
     
     validateUpdateInventory(field, data) {
         if(field === 'item_id'){
-            return this.validateItemID(data);
+            const result = this.validateItemID(data);
+            const field = 'Item id';
+            return {result, field};
         }
         if (field === 'item_name') {
-            return this.validateProdctName(data);
+            const result = this.validateProdctName(data);
+            const field = 'Product name';
+            return {result, field};
         }
         if (field === 'earliest_expiry') {
-            return ((new Date(data) > this.getDate()));
+            const result = Date.parse(data) > Date.parse(this.getDate());
+            const field = 'Expiration date';
+            return {result, field};
         }
         if (field === 'quantity') {
-            return data > 0;
+            const result = data > 0;
+            const field = 'Quantity';
+            return {result, field};
         }
         if (field === 'wholesale_price') {
-            return data > 0;
+            const result = data > 0;
+            const field = 'Wholesale price';
+            return {result, field};
         }
         if (field === 'retail_price') {
-            return data > 0;
+            const result = data > 0;
+            const field = 'Retail price';
+            return {result, field};
         }
+    }
+
+    validatePrice(wholesale, retail){
+        if(wholesale > retail){
+            return true;
+        }
+        return false;
     }
 }
 

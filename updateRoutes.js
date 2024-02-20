@@ -21,15 +21,15 @@ router.post('/updateinventory', ensureAuthenticated ,async (req, res) => {
         if(!Formvalidation.validateItemID(req.body.item_id)){
             return res.status(400).json({ error: 'Invalid item ID' });
         }
-        for (let field in req.body) {
-            const isValid = Formvalidation.validateUpdateInventory(field, req.body[field]);
-            if (!isValid) {
-                return res.status(400).json({ error: `Invalid ${field}` });
+        if(req.body.retail_price | req.body.wholesale_price){
+            if(Formvalidation.validatePrice(req.body.wholesale_price, req.body.retail_price)){
+                return res.status(400).json({ error: 'Wholesale price cannot be greater than Retail Price' });
             }
         }
-        if(req.body.retail_price | req.body.wholesale_price){
-            if(req.body.wholesale_price > req.body.retail_price){
-                return res.status(400).json({ error: 'Wholesale price is greater than retail price' });
+        for (let field in req.body) {
+            const isValid = Formvalidation.validateUpdateInventory(field, req.body[field]);
+            if (!isValid.result) {
+                return res.status(400).json({ error: `Invalid ${isValid.field}` });
             }
         }
         const userid = await(Query.getID())
@@ -46,7 +46,7 @@ router.post('/updateinventory', ensureAuthenticated ,async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({ message_error: error });
+        res.status(500).json({ error: error });
     }
 });
 
@@ -61,8 +61,6 @@ router.post('/archive', ensureAuthenticated ,async (req, res) => {
         req.body.archived = true;
         const item_id = req.body.item_id;
         delete req.body.item_id;
-
-        console.log(req.body, item_id)
 
         const { data, error } = await Update.updateInventory(req.body, item_id)
         if (error) {
