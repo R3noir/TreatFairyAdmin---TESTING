@@ -3,6 +3,7 @@ $(document).ready(function() {
     const table = $('#SalesInvoiceTable').DataTable({
         dom: 'lrti',
         columnDefs: [{ targets: 5, orderable: false }],
+        serverSide: true,
         ajax: {
             url: '/query/fetchinvoices',
             type: 'POST',
@@ -10,7 +11,9 @@ $(document).ready(function() {
                 return {
                     start: parseInt(d.start),
                     length: parseInt(d.length),
-                    search: $('#customSearch').val()
+                    search: $('#customSearch').val(),
+                    sortColumn: d.order[0].column,
+                    sortDirection: d.order[0].dir 
                 };
             },
             error: function(jqXHR, textStatus, errorThrown) {

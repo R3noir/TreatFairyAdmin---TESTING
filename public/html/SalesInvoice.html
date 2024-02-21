@@ -92,7 +92,7 @@
                         </i>
                         <input id="customSearch" type="text" placeholder="Search Client Name...">
                     </div>
-                    <button type="button" class="add-btn icon" data-bs-toggle="modal" data-bs-target="#" >
+                    <button type="button" class="add-btn icon" data-bs-toggle="modal" data-bs-target="#invoiceModal" >
                         <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
                             add_circle
                         </span> 
@@ -125,11 +125,108 @@
             </main>
         </div>
     </div>
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="invoiceModalLabel">New Invoice</h5>
+            </div>
+            <div class="modal-body">
+              <form id="invoiceForm">
+                <div class="form-group mb-3">
+                    <label for="soldTo">Sold To</label>
+                    <input type="text" class="form-control" id="soldTo">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="soldDate">Sold Date</label>
+                    <input type="date" class="form-control" id="soldDate">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="clientTIN">Client TIN</label>
+                    <input type="text" class="form-control" id="clientTIN">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="issuedBy">Issued By</label>
+                    <input type="text" class="form-control" id="issuedBy">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="businessStyle">Business Style</label>
+                    <input type="text" class="form-control" id="businessStyle">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="amountPaid">Amount Paid</label>
+                    <input type="number" class="form-control" id="amountPaid">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="clientAddress">Client Address</label>
+                    <input type="text" class="form-control" id="clientAddress">
+                  </div>
+                <button type="button" class="btn icon confirm float-end" id="addItem">
+                    <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                        add
+                    </span> 
+                        Add Item
+                    </button>
+                    <div class="clearfix"></div>
+                <div id="itemsContainer">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn icon cancel" data-bs-dismiss="modal">
+                    <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                        Close
+                    </span> 
+                        Cancel
+                </button>
+                <button type="submit" class="btn icon confirm"form = "invoiceForm">
+                    <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                        check
+                    </span> 
+                        Save
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">            
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Invoice</h5>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to Delete this Invoice Record?
+                </div>
+                <form id="deleteInvoiceForm">
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn icon cancel" data-bs-dismiss="modal">
+                            <span class="material-symbols-outlined" style="font-size: 24px;">
+                                Close
+                            </span> 
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn icon confirm"form = "archiveItemForm">
+                                <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                                    check
+                                </span> 
+                                    Delete
+                            </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>  
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="../js/Snackbar.js"></script>
     <script src="../js/CharCountListener.js"></script>
     <script src="../js/SalesInvoice/SalesInvoiceTable.js"></script>
+    <script src="../js/SalesInvoice/SalesInvoiceModals.js"></script>
 </body>
 </html>

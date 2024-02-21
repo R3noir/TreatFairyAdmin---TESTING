@@ -9,9 +9,9 @@ class Queries {
         return Queries.instance;
     }
 
-    async getInventory(offset, limit, archived, search) {
+    async getInventory(offset, limit, archived, search, Sort) {
         try{
-            const { data, error } = await this.database.client.rpc('getinventory', { offsets: offset, limits: limit, archiveds: archived, search: search })
+            const { data, error } = await this.database.client.rpc('getinventory', { offsets: offset, limits: limit, archiveds: archived, search: search, order_by: Sort})
             if (error) {
                 return { error: error.message  };
             }
@@ -35,9 +35,9 @@ class Queries {
         }
     }
 
-    async getInvoice(offset, limit, search) {
+    async getInvoice(offset, limit, search, Sort) {
         try{
-            const { data, error } = await this.database.client.rpc('getinvoices', { offsets: offset, limits: limit, search: search })
+            const { data, error } = await this.database.client.rpc('getinvoices', { offsets: offset, limits: limit, search: search, order_by: Sort })
             if (error) {
                 return { error: error.message  };
             }

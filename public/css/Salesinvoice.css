@@ -22,3 +22,8 @@
 #customPagination .paginate_button.current {
   font-weight: bold;
 }
+
+#addItem{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

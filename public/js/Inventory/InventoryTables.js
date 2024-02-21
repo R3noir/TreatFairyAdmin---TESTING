@@ -3,6 +3,7 @@ $(document).ready(function() {
     const table = $('#InventoryTable').DataTable({
         dom: 'lrti',
         columnDefs: [{ targets: 7, orderable: false }],
+        serverSide: true,
         ajax: {
             url: '/query/fetchinventory',
             type: 'POST',
@@ -11,7 +12,9 @@ $(document).ready(function() {
                     start: parseInt(d.start),
                     length: parseInt(d.length),
                     archived: $('#archived-checkbox').is(':checked'),
-                    search: $('#customSearch').val()
+                    search: $('#customSearch').val(),
+                    sortColumn: d.order[0].column,
+                    sortDirection: d.order[0].dir 
                 };
             },
             dataSrc: function (data) {

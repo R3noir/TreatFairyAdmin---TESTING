@@ -19,11 +19,6 @@
     padding: 5px;
   }
   
-  .modal .fade{
-    --data-bs-backdrop: 'static';
-    --data-bs-keyboard: 'false';
-  }
-  
   .confirm, .cancel {
     --bs-btn-hover-color: #181818;
   }

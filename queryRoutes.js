@@ -22,10 +22,16 @@ router.post('/fetchinventory', ensureAuthenticated , async (req, res) => {
     const length = parseInt(req.body.length);
     const archived = req.body.archived; 
     const search = req.body.search;
+    const columns = ['item_id', 'item_name', 'earliest_expiry', 'quantity', 'wholesale_price', 'retail_price','last_update_at']; 
+    const sortColumn = columns[req.body.sortColumn];
+    const sortDirection = req.body.sortDirection;
+    const Sort = sortColumn + '_' + sortDirection;
+
     if(search.length  > 75){
         return res.status(400).json({ error : 'Search is too long' });
     }
-    await Queries.getInventory(start, length, archived, search)
+
+    await Queries.getInventory(start, length, archived, search, Sort)
     .then(async response => {
         if(response.error) {
             console.log(response.error)
@@ -52,10 +58,14 @@ router.post('/fetchinvoices', ensureAuthenticated , async (req, res) => {
     const start = parseInt(req.body.start);
     const length = parseInt(req.body.length);
     const search = req.body.search;
+    const columns = ['invoice_id', 'sold_to', 'sold_date' ,'total', 'amount_paid']; 
+    const sortColumn = columns[req.body.sortColumn];
+    const sortDirection = req.body.sortDirection;
+    const Sort = sortColumn + '_' + sortDirection;
     if(search.length  > 75){
         return res.status(400).json({ error : 'Search is too long' });
     }
-    await Queries.getInvoice(start, length, search)
+    await Queries.getInvoice(start, length, search, Sort)
     .then(async response => {
         if(response.error) {
             return res.status(500).json({ error : response.error  });
