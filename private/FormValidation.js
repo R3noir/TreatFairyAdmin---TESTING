@@ -23,6 +23,11 @@ class Validation {
         return nameRegex.test(name);
     }
 
+    validateInvoiceName(name) {
+        const nameRegex = /^[^\s].{0,70}$/;
+        return nameRegex.test(name);
+    }
+
     validateProdctName(name) {
         const nameRegex = /^[a-zA-Z][a-zA-Z0-9\s()\-'"!]{0,74}$/
         return nameRegex.test(name);
@@ -30,6 +35,15 @@ class Validation {
 
     validateItemID(id) {
         return (id > 0 & id <= 32767);
+    }
+
+    validateInvoiceID(id) {
+        return (id > 0 & id <= 2147483647);
+    }
+
+    validateClientTIN(tin) {
+        const tinRegex = /^\d{9,12}$/;
+        return tinRegex.test(tin);
     }
 
     validateNewProduct(body){
@@ -92,6 +106,50 @@ class Validation {
             return true;
         }
         return false;
+    }
+
+    validateInvoice(body){
+        if(!this.validateInvoiceID(body.invoiceID)){
+            return { error: 'Invalid invoice ID' };
+        }
+
+        if(!this.validateName(body.soldTo)){
+            return { error: 'Invalid name' };
+        }
+        if(!this.validateClientTIN(body.clientTIN)){
+            return { error: 'Invalid TIN' };
+        }
+        if(!this.validateInvoiceName(body.issuedBy)){
+            return { error: 'Invalid name' };
+        }
+        if(!this.validateInvoiceName(body.businessStyle)){
+            return { error: 'Invalid business style' };
+        }
+        if(body.items.length === 0){
+            return { error: 'No items' };
+        }
+        if(body.clientAddress.length < 1 | body.clientAddress.length > 140){
+            return { error: 'Invalid address' };
+        }
+
+        let totalCost = 0;
+        for (let i = 0; i < body.items.length; i++) {
+            if(!this.validateProdctName(body.items[i].item)){
+                return { error: 'Invalid item name' };
+            }
+            if(body.items[i].quantity <= 0){
+                return { error: 'Invalid quantity' };
+            }
+            if(body.items[i].price <= 0){
+                return { error: 'Invalid price' };
+            }
+            totalCost += body.items[i].quantity * body.items[i].price;
+        }
+        
+        if(body.amountPaid > totalCost || body.amountPaid <= 0){
+            return { error: 'Invalid Amount Paid' };
+        }
+        return { message: 'Valid' };
     }
 }
 

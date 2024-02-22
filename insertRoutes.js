@@ -50,4 +50,46 @@ router.post('/inventory', ensureAuthenticated ,async (req, res) => {
     }
 });
 
+router.post('/salesinvoice', ensureAuthenticated ,async (req, res) => {
+    try {
+        const validateform = Formvalidation.validateInvoice(req.body);
+        if(validateform.error){
+            return res.status(400).json({ message_error: validateform.error });
+        }
+        const userid = await(Query.getID())
+        const invoice = {
+            invoice_id: req.body.invoiceID,
+            sold_to: req.body.soldTo,
+            address: req.body.clientAddress,
+            tin: req.body.clientTIN,
+            date_sold: req.body.soldDate,
+            amount_paid: req.body.amount_paid,
+            issued_by: req.body.issuedBy,
+            created_by: userid,
+            date_created: new Date().toLocaleString("en-US", {timeZone: "Asia/Manila"}),
+            last_update_by: userid,
+            last_update_at: new Date().toLocaleString("en-US", {timeZone: "Asia/Manila"}),
+            business_style: req.body.businessStyle,
+        };
+        const result = await Insert.insertSalesInvoice(invoice);
+        if (result.error) {
+            return res.status(500).json({ message_error: result.error });
+        } else {
+            req.body.items.forEach(item => {
+                item.invoice_id = req.body.invoiceID; // Replace invoice_id with the actual value
+            });
+            const itemResults = await Promise.all(req.body.items.map(item => Insert.insertSalesInvoiceItems(item)));
+            for (let itemResult of itemResults) {
+                if (itemResult.error) {
+                    return res.status(500).json({ message_error: itemResult.error });
+                }
+            }
+            res.status(200).json({ message: 'Invoice added successfully' });
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports = router;

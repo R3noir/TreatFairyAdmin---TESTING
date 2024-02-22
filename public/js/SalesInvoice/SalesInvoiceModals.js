@@ -36,11 +36,11 @@ $(document).ready(function() {
         </div>
         <div class="form-group col-2">
           <label for="quantity${itemIndex}">Quantity</label>
-          <input type="number" class="form-control" id="quantity${itemIndex} required">
+          <input type="number" class="form-control" id="quantity${itemIndex}" required">
         </div>
         <div class="form-group col-3">
           <label for="unitPrice${itemIndex}">Unit Price</label>
-          <input type="number" class="form-control" id="unitPrice${itemIndex} required">
+          <input type="number" class="form-control" id="unitPrice${itemIndex}" required">
         </div>
         ${itemIndex > 0 ? '<div class="col-1 d-flex align-items-center"><button class="btn btn-sm btn-danger" id="deleteItem' + itemIndex + '"><span class="material-symbols-outlined" style="font-size:24px">delete</span></button></div>' : ''}
       </div>
@@ -56,7 +56,6 @@ $(document).ready(function() {
     itemIndex++;
   });
 });
-
 
 $(document).ready(function() {
   $('#invoiceModal').on('hidden.bs.modal', function () {
@@ -142,4 +141,86 @@ $(document).on('click', '.delete-button', function() {
     const data = table.row($(this).parents('tr')).data();
     $('#deleteInvoiceForm').data('item-data', data);
     $('#deleteModal').modal('show');
+});
+
+$('#invoiceForm').on('submit', async function(event) {
+  event.preventDefault(); // Prevent the form from submitting via the browser
+  const formData = {
+    invoiceID: $('#invoiceID').val(),
+    soldTo: $('#soldTo').val(),
+    soldDate: $('#soldDate').val(),
+    clientTIN: $('#clientTIN').val().replace(/-/g, ''),
+    issuedBy: $('#issuedBy').val(),
+    businessStyle: $('#businessStyle').val(),
+    clientAddress: $('#clientAddress').val(),
+    amount_paid: $('#amountPaid').val(),
+    items: []
+  };
+  for (let i = 0; i < itemIndex; i++) {
+    formData.items.push({
+      invoice_item_name: $('#itemName' + i).val(),
+      invoice_item_quantity: $('#quantity' + i).val(),
+      invoice_item_price: $('#unitPrice' + i).val()
+    });
+  }
+  console.log(formData);
+
+  await fetch('insert/salesinvoice', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(response => {
+    if(response.status === 401) {
+        window.location.href = '/Forbidden';
+        return;
+    }
+    return response.json();
+})
+.then(data => {
+    if (data.message_error) {
+        ShowSnackbar({ message: data.message_error, color: data.message_error ? errorcolor : successcolor, icon: data.message_error ? erroricon : successfuicon });
+        $('#SalesInvoiceTable').DataTable().ajax.reload();
+    }
+    else{
+        ShowSnackbar({ message: data.message, color: data.message_error ? errorcolor : successcolor, icon: data.message_error ? erroricon : successfuicon });
+        $('#invoiceModal').modal('hide');
+        $('#invoiceForm').trigger('reset');
+        $('#itemsContainer').empty();
+        itemIndex = 0;
+    }
+  })
+});
+
+$('#deleteInvoiceForm').on('submit', async function(event) {
+  event.preventDefault(); 
+  const data = $('#deleteInvoiceForm').data('item-data');
+  console.log(data)
+
+  await fetch('delete/deleteinvoice', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ invoice_id: data.invoice_id })
+  })
+  .then(response => {
+    if(response.status === 401) {
+        window.location.href = '/Forbidden';
+        return;
+    }
+    return response.json();
+})
+.then(data => {
+    if (data.message_error) {
+        ShowSnackbar({ message: data.message_error, color: data.message_error ? errorcolor : successcolor, icon: data.message_error ? erroricon : successfuicon });
+    }
+    else{
+        ShowSnackbar({ message: data.message, color: data.message_error ? errorcolor : successcolor, icon: data.message_error ? erroricon : successfuicon });
+        $('#SalesInvoiceTable').DataTable().ajax.reload();
+        $('#deleteModal').modal('hide');
+    }
+  })
 });

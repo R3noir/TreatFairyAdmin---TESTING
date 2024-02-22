@@ -8,6 +8,7 @@ const queryRoutes = require('./queryRoutes.js'); // Import your query routes
 const authRoutes = require('./authRoutes.js'); // Import your authentication routes
 const insertRoutes = require('./insertRoutes.js');
 const updateRoutes = require('./updateRoutes.js');
+const deleteRoutes = require('./deleteRoutes.js');
 
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000,
@@ -31,6 +32,7 @@ app.use('/insert', insertRoutes);
 
 app.use('/update', updateRoutes);
 
+app.use('/delete', deleteRoutes);
 
 // Start the server
 const port = process.env.PORT || 3000;

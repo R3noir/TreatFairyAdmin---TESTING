@@ -1,33 +1,19 @@
 const database = require('./Database.js');
 
-class Insert {
+class Delete {
     constructor(database) {
         this.database = database;
-        if (!Insert.instance) {
-            Insert.instance = this;
+        if (!Delete.instance) {
+            Delete.instance = this;
         }
-        return Insert.instance;
+        return Delete.instance;
     }
-    async insertInventory(item) {
-        try{
-        const { data, error } = await database.client
-            .from('inventory')
-            .insert([item]);
-        if (error) {
-            return { error: error.message }
-        }
-
-        return {data : data};
-        }
-        catch(e){
-            return { error: e }
-        }
-    }
-    async insertSalesInvoice(invoice) {
+    async deleteInvoice(id) {
         try{
         const { data, error } = await database.client
             .from('invoice')
-            .insert([invoice]);
+            .delete()
+            .eq('invoice_id', id);
         if (error) {
             return { error: error.message }
         }
@@ -38,11 +24,12 @@ class Insert {
             return { error: e }
         }
     }
-    async insertSalesInvoiceItems(items) {
+    async deleteInvoiceItems(invoice_id, item_id) {
         try{
         const { data, error } = await database.client
             .from('invoice_items')
-            .insert([items]);
+            .delete()
+            .eq('invoice_id', invoice_id, 'invoice_item_id', item_id);
         if (error) {
             return { error: error.message }
         }
@@ -55,5 +42,4 @@ class Insert {
     }
 }
 
-
-module.exports = new Insert(database);
+module.exports = new Delete(database);
