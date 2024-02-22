@@ -92,7 +92,7 @@
                         </i>
                         <input id="customSearch" type="text" placeholder="Search Client Name...">
                     </div>
-                    <button type="button" class="add-btn icon" data-bs-toggle="modal" data-bs-target="#invoiceModal" >
+                    <button type="button" class="add-btn icon">
                         <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
                             add_circle
                         </span> 
@@ -136,32 +136,40 @@
             <div class="modal-body">
               <form id="invoiceForm">
                 <div class="form-group mb-3">
+                    <label for="invoiceID">Invoice Number:</label>
+                    <input type="number" class="form-control" id="invoiceID" required>
+                  </div>
+                <div class="form-group mb-3">
                     <label for="soldTo">Sold To</label>
-                    <input type="text" class="form-control" id="soldTo">
+                    <input type="text" class="form-control" id="soldTo" maxlength="70" required>
+                    <small id="soldToCount" class="form-text text-muted">0 / 70</small>
                   </div>
                   <div class="form-group mb-3">
                     <label for="soldDate">Sold Date</label>
-                    <input type="date" class="form-control" id="soldDate">
+                    <input type="date" class="form-control" id="soldDate" required>
                   </div>
                   <div class="form-group mb-3">
                     <label for="clientTIN">Client TIN</label>
-                    <input type="text" class="form-control" id="clientTIN">
+                    <input type="text" class="form-control" id="clientTIN" required>
                   </div>
                   <div class="form-group mb-3">
                     <label for="issuedBy">Issued By</label>
-                    <input type="text" class="form-control" id="issuedBy">
+                    <input type="text" class="form-control" id="issuedBy" maxlength="70" required>
+                    <small id="issuedByCount" class="form-text text-muted">0 / 70</small>
                   </div>
                   <div class="form-group mb-3">
                     <label for="businessStyle">Business Style</label>
-                    <input type="text" class="form-control" id="businessStyle">
+                    <input type="text" class="form-control" id="businessStyle" maxlength="70" required>
+                    <small id="businessStyleCount" class="form-text text-muted">0 / 70</small>
                   </div>
                   <div class="form-group mb-3">
                     <label for="amountPaid">Amount Paid</label>
-                    <input type="number" class="form-control" id="amountPaid">
+                    <input type="number" class="form-control" id="amountPaid" required>
                   </div>
                   <div class="form-group mb-3">
                     <label for="clientAddress">Client Address</label>
-                    <input type="text" class="form-control" id="clientAddress">
+                    <input type="text" class="form-control" id="clientAddress" maxlength="140" required>
+                    <small id="clientAddressCount" class="form-text text-muted">0 / 140</small>
                   </div>
                 <button type="button" class="btn icon confirm float-end" id="addItem">
                     <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
@@ -192,6 +200,80 @@
         </div>
       </div>
 
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="editInvoiceModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editInvoiceModalLabel">Edit Invoice</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="editInvoiceForm">
+                        <div class="form-group">
+                            <label for="editInvoiceID">Invoice Number:</label>
+                            <input type="number" class="form-control" id="editInvoiceID" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editSoldTo">Sold To</label>
+                            <input type="text" class="form-control" id="editSoldTo" maxlength="70" required>
+                            <small id="editSoldToCount" class="form-text text-muted">0 / 70</small>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editSoldDate">Sold Date</label>
+                            <input type="date" class="form-control" id="editSoldDate" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editClientTIN">Client TIN</label>
+                            <input type="text" class="form-control" id="editClientTIN" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editIssuedBy">Issued By</label>
+                            <input type="text" class="form-control" id="editIssuedBy" maxlength="70" required>
+                            <small id="editIssuedByCount" class="form-text text-muted">0 / 70</small>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editBusinessStyle">Business Style</label>
+                            <input type="text" class="form-control" id="editBusinessStyle" maxlength="70" required>
+                            <small id="editBusinessStyleCount" class="form-text text-muted">0 / 70</small>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editAmountPaid">Amount Paid</label>
+                            <input type="number" class="form-control" id="editAmountPaid" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="editClientAddress">Client Address</label>
+                            <input type="text" class="form-control" id="editClientAddress" maxlength="140" required>
+                            <small id="editClientAddressCount" class="form-text text-muted">0 / 140</small>
+                        </div>
+                        <button type="button" class="btn icon confirm float-end mb-3" id="editItem">
+                            <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                                add
+                            </span> 
+                            Add Item
+                        </button>
+                        <div class="clearfix"></div>
+                        <div id="editItemsContainer">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn icon cancel" data-bs-dismiss="modal">
+                        <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            Close
+                        </span> 
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn icon confirm" form="editInvoiceForm">
+                        <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            check
+                        </span> 
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
      <!-- Delete Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">            
         <div class="modal-dialog" role="document">
@@ -210,7 +292,7 @@
                             </span> 
                                 Cancel
                             </button>
-                            <button type="submit" class="btn icon confirm"form = "archiveItemForm">
+                            <button type="submit" class="btn icon danger"form = "archiveItemForm">
                                 <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
                                     check
                                 </span> 
@@ -221,6 +303,36 @@
             </div>
         </div>
     </div>  
+    <!--Confirm Delete Item Modal-->
+
+    <div class="modal fade" id="deleteItemModal" tabindex="-1" role="dialog" aria-labelledby="deleteItemModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteItemModalLabel">Delete Item</h5>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this item?
+                </div>
+                <form id="deleteItemForm">
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn icon cancel" data-bs-dismiss="modal">
+                            <span class="material-symbols-outlined" style="font-size: 24px;">
+                                Close
+                            </span> 
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn icon danger">
+                            <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                                check
+                            </span> 
+                            Delete
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>

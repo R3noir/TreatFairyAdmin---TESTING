@@ -32,6 +32,12 @@
     --bs-btn-bg: #fed7d7; 
     --bs-btn-hover-bg: #e6bdbd; 
   }
+
+  .danger {
+    color: #FFFFFF;
+    --bs-btn-bg: #cf6161; 
+    --bs-btn-hover-bg: #a54f4f; 
+  }
   
   .logo-img {
     max-width: 180px;
@@ -276,4 +282,10 @@
     background-color: rgba(155, 155, 155, 0.5);
     border-radius: 20px;
     border: transparent;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
