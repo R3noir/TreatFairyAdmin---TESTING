@@ -46,6 +46,10 @@ class Validation {
         return tinRegex.test(tin);
     }
 
+    validateInvoiceItemID(invoice_id, item_id) {
+        return (invoice_id > 0 & invoice_id <= 2147483647 & item_id > 0 & item_id <= 32767);
+    }
+
     validateNewProduct(body){
         if(!this.validateProdctName(body.productName)){
             return { error: 'Invalid product name' };
@@ -113,6 +117,10 @@ class Validation {
             return { error: 'Invalid invoice ID' };
         }
 
+        if(Date.parse(body.soldDate) > Date.parse(this.getDate())){
+            return { error: 'Invalid date' };
+        }
+
         if(!this.validateName(body.soldTo)){
             return { error: 'Invalid name' };
         }
@@ -134,19 +142,18 @@ class Validation {
 
         let totalCost = 0;
         for (let i = 0; i < body.items.length; i++) {
-            if(!this.validateProdctName(body.items[i].item)){
+            if(!this.validateProdctName(body.items[i].invoice_item_name)){
                 return { error: 'Invalid item name' };
             }
-            if(body.items[i].quantity <= 0){
+            if(body.items[i].invoice_item_quantity <= 0){
                 return { error: 'Invalid quantity' };
             }
-            if(body.items[i].price <= 0){
+            if(body.items[i].invoice_item_price <= 0){
                 return { error: 'Invalid price' };
             }
-            totalCost += body.items[i].quantity * body.items[i].price;
+            totalCost += body.items[i].invoice_item_quantity * body.items[i].invoice_item_price;
         }
-        
-        if(body.amountPaid > totalCost || body.amountPaid <= 0){
+        if(body.amount_paid > totalCost || body.amount_paid <= 0){
             return { error: 'Invalid Amount Paid' };
         }
         return { message: 'Valid' };

@@ -8,6 +8,30 @@ class Insert {
         }
         return Insert.instance;
     }
+
+    async insertUser(user) {
+        try{
+            const {data, error } = await database.client.auth.signUp({
+                email: 'testmail@gmail.com',
+                password: 'Clarence01!!',
+                options: {
+                    data:{
+                        fname: 'Farrah1',
+                        lname: 'Montalban1',
+                    }
+                }
+            })
+            console.log(data, error)
+            if (error) {
+                return { error: error.message }
+            }
+            return {data : data};
+        }
+        catch(e){
+            return { error: e }
+        }
+    }
+
     async insertInventory(item) {
         try{
         const { data, error } = await database.client

@@ -92,4 +92,18 @@ router.post('/salesinvoice', ensureAuthenticated ,async (req, res) => {
     }
 });
 
+router.post('/newuser', ensureAuthenticated ,async (req, res) => {
+    try {
+        const result = await Insert.insertUser();
+        if (result.error) {
+            return res.status(500).json({ message_error: result.error });
+        } else {
+            res.status(200).json({ message: 'User added successfully' });
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports = router;
