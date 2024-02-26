@@ -119,6 +119,31 @@ class Queries {
             return { error: e.message }
         }
     }
+
+    async getlistofAdmins(offset, limit, search){
+        try{
+            const { data, error } = await this.database.client.rpc('get_admin_users', { offset_val: offset, limit_val: limit, search_val: search})
+            if (error) {
+                return { error: error.message  };
+            }
+            return { data };
+        }
+        catch(e){
+            return { error: e.message }
+        }
+    }
+    async getTotalAdminRecords(search) {
+        try{
+            const { data, error } = await this.database.client.rpc('get_admin_users_count', { search_val: search })
+            if (error) {
+                return { error: error.message  };
+            }
+            return { data: parseInt(data) };
+        }
+        catch(e){
+            return { error: e.message }
+        }
+    }
 }
 
 

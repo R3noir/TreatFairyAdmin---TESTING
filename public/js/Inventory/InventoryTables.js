@@ -2,7 +2,8 @@ $(document).ready(function() {
     $.fn.dataTable.ext.errMode = 'none';
     const table = $('#InventoryTable').DataTable({
         dom: 'lrti',
-        columnDefs: [{ targets: 7, orderable: false }],
+        columnDefs: [{ targets: 7, orderable: false },
+            { className: "dt-center", targets: "_all" }],
         serverSide: true,
         ajax: {
             url: '/query/fetchinventory',

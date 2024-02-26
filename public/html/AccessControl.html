@@ -16,6 +16,7 @@
     <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="../css/Layout.css">
+    <link rel="stylesheet" type="text/css" href="../css/AccessControl.css">
     <link rel="icon" href="../Images/Logo.png">
 </head>
 <body>
@@ -89,14 +90,20 @@
                         <i class="material-symbols-outlined input-icon">
                             search
                         </i>
-                        <input id="customSearch" type="text" placeholder="Search...">
+                        <input id="customSearch" type="text" placeholder="Search Admin Name...">
                     </div>
+                    <button type="button" class="add-btn icon">
+                        <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            add_circle
+                        </span> 
+                        Add New Admin
+                    </button>
                         <table id="AdminTable" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Email Address</th>
                                     <th>Name</th>
+                                    <th>Email Address</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -118,6 +125,9 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    <script src="../js/Accesscontrol.js"></script>
+    <script src="../js/Snackbar.js"></script>
+    <script src="../js/CharCountListener.js"></script>
+    <script src="../js/AccessControl/AccessControlTable.js"></script>
+    <script src="../js/AccessControl/AccessControlModals.js"></script>
 </body>
 </html>
