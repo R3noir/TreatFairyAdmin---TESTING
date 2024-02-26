@@ -77,6 +77,48 @@ class Queries {
             return { error: e.message }
         }
     }
+
+    async getInvoiceItemsTotalBeforeDeletion(invoice_id, array_of_item_ids){
+        try{
+            const { data, error } = await this.database.client.rpc('getinvoicetotal', { invoiceid: invoice_id, invoiceitemids: array_of_item_ids })
+            if (error) {
+                return { error: error.message };
+            }
+            return { data: data };
+        }
+        catch(e){
+            return { error: e.message }
+        }
+    }
+
+    async getInvoiceItemTotal(invoice_id, item_id){
+        try{
+            const { data, error } = await this.database.client.rpc('getproducttotal', { invoiceid: invoice_id, invoiceitemid: item_id })
+            if (error) {
+                return { error: error.message };
+            }
+            return { data: data[0].total };
+        }
+        catch(e){
+            return { error: e.message }
+        }
+    }
+
+    async InvoiceIDExists(invoice_id){
+        try{
+            const { data, error } = await this.database.client
+            .from('invoice')
+            .select('*', { count: 'exact' })
+            .eq('invoice_id', invoice_id)
+            if (error) {
+                return { error: error.message };
+            }
+            return { data: data.length > 0 };
+        }
+        catch(e){
+            return { error: e.message }
+        }
+    }
 }
 
 

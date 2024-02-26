@@ -53,6 +53,9 @@ class Insert {
             .from('invoice')
             .insert([invoice]);
         if (error) {
+            if(error.code == 23505){
+                return { error: 'Invoice number already exists' };
+            }
             return { error: error.message }
         }
 

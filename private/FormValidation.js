@@ -42,12 +42,17 @@ class Validation {
     }
 
     validateClientTIN(tin) {
-        const tinRegex = /^\d{9,12}$/;
+        const tinRegex = /^(\d{9}|\d{12})$/;
         return tinRegex.test(tin);
     }
 
     validateInvoiceItemID(invoice_id, item_id) {
         return (invoice_id > 0 & invoice_id <= 2147483647 & item_id > 0 & item_id <= 32767);
+    }
+
+    validateAddress(address) {
+        const addressRegex = /^.{1,140}$/;
+        return addressRegex.test(address);
     }
 
     validateNewProduct(body){
@@ -117,17 +122,17 @@ class Validation {
             return { error: 'Invalid invoice ID' };
         }
 
-        if(Date.parse(body.soldDate) > Date.parse(this.getDate())){
+        if(Date.parse(body.soldDate) > Date.parse(this.getDate()) || Date.parse(body.soldDate) < Date.parse('2019-12-01')){
             return { error: 'Invalid date' };
         }
 
-        if(!this.validateName(body.soldTo)){
+        if(!this.validateInvoiceName(body.soldTo)){
             return { error: 'Invalid name' };
         }
         if(!this.validateClientTIN(body.clientTIN)){
             return { error: 'Invalid TIN' };
         }
-        if(!this.validateInvoiceName(body.issuedBy)){
+        if(!this.validateName(body.issuedBy)){
             return { error: 'Invalid name' };
         }
         if(!this.validateInvoiceName(body.businessStyle)){
@@ -157,6 +162,54 @@ class Validation {
             return { error: 'Invalid Amount Paid' };
         }
         return { message: 'Valid' };
+    }
+
+    validateUpdateInvoice(field, data) {
+        if(field === 'invoice_id'){
+            const result = this.validateInvoiceID(data);
+            const field = 'invoice id';
+            return {result, field};
+        }
+        if(field === 'old_invoice_id'){
+            const result = this.validateInvoiceID(data);
+            const field = 'old invoice id';
+            return {result, field};
+        }
+        if(field === 'name'){
+            const result = this.validateInvoiceName(data);
+            const field = 'Name';
+            return {result, field};
+        }
+        if(field === 'sold_date'){
+            const result = Date.parse(data) < Date.parse(this.getDate()) || Date.parse(data) > Date.parse('2019-12-01');
+            const field = 'Sold date';
+            return {result, field};
+        }
+        if(field === 'business_style'){
+            const result = this.validateInvoiceName(data);
+            const field = 'Business Style';
+            return {result, field};
+        }
+        if(field === 'amount_paid'){
+            const result = data > 0;
+            const field = 'Amount Paid';
+            return {result, field};
+        }
+        if(field === 'tin'){
+            const result = this.validateClientTIN(data);
+            const field = 'TIN ID';
+            return {result, field};
+        }
+        if(field === 'issued_by'){
+            const result = this.validateName(data);
+            const field = 'Issued By';
+            return {result, field};
+        }
+        if(field === 'address'){
+            const result = this.validateAddress(data);
+            const field = 'Address';
+            return {result, field};
+        }
     }
 }
 

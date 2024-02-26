@@ -27,9 +27,7 @@ class Delete {
     async deleteInvoiceItems(invoice_id, item_id) {
         try{
         const { data, error } = await database.client
-            .from('invoice_items')
-            .delete()
-            .eq('invoice_id', invoice_id, 'invoice_item_id', item_id);
+            .rpc('deleteinvoiceitem', { invoiceid: invoice_id, invoiceitemid: item_id });
         if (error) {
             return { error: error.message }
         }

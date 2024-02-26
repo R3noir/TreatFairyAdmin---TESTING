@@ -25,6 +25,39 @@ class Update {
             return { error: e }
         }
     }
+    async updateSalesInvoice(data1, id) {
+        try{
+        const { data, error } = await this.database._client
+            .from('invoice')
+            .update(data1)
+            .eq('invoice_id', id);
+        if (error) {
+            console.log(error)
+            return { error: error.message }
+        }
+        return {data : data};
+        }
+        catch(e){
+            return { error: e }
+        }
+    }
+    async updateSalesInvoiceItems(data1, invoice_id, item_id) {
+        try{
+        const { data, error } = await this.database._client
+            .from('invoice_items')
+            .update(data1)
+            .eq('invoice_id', invoice_id)
+            .eq('invoice_item_id', item_id)
+        if (error) {
+            console.log(error)
+            return { error: error.message }
+        }
+        return {data : data};
+        }
+        catch(e){
+            return { error: e }
+        }
+    }
 }
 
 module.exports = new Update(database);
