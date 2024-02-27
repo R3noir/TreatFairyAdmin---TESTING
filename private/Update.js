@@ -60,7 +60,7 @@ class Update {
     }
 
     async updateuseremail(email){
-        const { user, error } = await this.database._client.auth.updateUser({email: email})
+        const { user, error } = await this.database._client.auth.updateUser({email: email, })
         if (error) {
             return { error: error.message }
         }
