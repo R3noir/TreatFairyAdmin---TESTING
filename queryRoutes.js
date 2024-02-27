@@ -113,4 +113,17 @@ router.post('/fetchusers', ensureAuthenticated , async (req, res) => {
         }
     });
 })
+
+router.post('/userinfo', ensureAuthenticated , async (req, res) => {
+    await Queries.getuserinfo()
+    .then(response => {
+        if(response.error) {
+            return res.status(500).json({ error : response.error  });
+        }
+        else{
+            return res.status(200).json({ data: response.data });
+        }
+    });
+});
+
 module.exports = router;

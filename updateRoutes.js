@@ -259,5 +259,24 @@ router.post('/updateinvoice', ensureAuthenticated ,async (req, res) => {
     }
 });
 
+router.post('/changeemail', ensureAuthenticated ,async (req, res) => {
+    try {
+        if(!Formvalidation.validateEmail(req.body.newEmail)){
+            return res.status(400).json({ error: 'Invalid email' });
+        }
+        if(req.body.newEmail !== req.body.confirmNewEmail){
+            return res.status(400).json({ error: 'Emails do not match' });
+        }
+        const { data, error } = await Update.updateuseremail(req.body.newEmail);
+        console.log(data, error)
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+        return res.status(200).json({ message: 'Email change request has been sent to your email' });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error });
+    }
+});
 
 module.exports = router;

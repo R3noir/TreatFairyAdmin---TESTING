@@ -27,3 +27,23 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+#passwordStatus {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.criteria {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.indicator {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+}

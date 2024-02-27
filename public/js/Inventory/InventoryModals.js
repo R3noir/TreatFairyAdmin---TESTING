@@ -26,7 +26,11 @@ $(document).on('click', '.edit-button', function() {
     attachCharCountListener(`#editModal #productName`, `#editModal #charCount`);
     $('#editModal').modal('show');
 
-    $(document).on('click', '#editModal .confirm', function() {
+    $('#editProductForm').off('submit').on('submit', async function(event) {
+        event.preventDefault();
+        console.log('submit')
+    
+        const form = $('#editModal');
         const fields = {
             item_name: '#productName',
             earliest_expiry: '#expirationDate',
@@ -34,9 +38,9 @@ $(document).on('click', '.edit-button', function() {
             wholesale_price: '#wholesalePrice',
             retail_price: '#retailPrice'
         };
-
+    
         let updatedData = {};
-
+    
         for (let field in fields) {
             let newValue = form.find(fields[field]).val();
             if (typeof data[field] === 'number') {
@@ -46,7 +50,7 @@ $(document).on('click', '.edit-button', function() {
                 updatedData[field] = newValue;
             }
         }
-
+    
         if (Object.keys(updatedData).length > 0) {
             if (updatedData.hasOwnProperty('retail_price') && !updatedData.hasOwnProperty('wholesale_price')) {
                 updatedData.wholesale_price = parseFloat(form.find('#wholesalePrice').val());
@@ -55,7 +59,8 @@ $(document).on('click', '.edit-button', function() {
                 updatedData.retail_price = parseFloat(form.find('#retailPrice').val());
             }
             updatedData.item_id = data.item_id;
-            fetch('/update/updateinventory', {
+    
+            await fetch('/update/updateinventory', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -144,64 +149,7 @@ $('#addProductForm').on('submit', async function(event) {
         })
 });
 
-$('#editProductForm').on('submit', async function(event) {
-    event.preventDefault();
 
-    const form = $('#editModal');
-    const fields = {
-        item_name: '#productName',
-        earliest_expiry: '#expirationDate',
-        quantity: '#quantity',
-        wholesale_price: '#wholesalePrice',
-        retail_price: '#retailPrice'
-    };
-
-    let updatedData = {};
-
-    for (let field in fields) {
-        let newValue = form.find(fields[field]).val();
-        if (typeof data[field] === 'number') {
-            newValue = parseFloat(newValue);
-        }
-        if (data[field] !== newValue) {
-            updatedData[field] = newValue;
-        }
-    }
-
-    if (Object.keys(updatedData).length > 0) {
-        if (updatedData.hasOwnProperty('retail_price') && !updatedData.hasOwnProperty('wholesale_price')) {
-            updatedData.wholesale_price = parseFloat(form.find('#wholesalePrice').val());
-            
-        } else if (updatedData.hasOwnProperty('wholesale_price') && !updatedData.hasOwnProperty('retail_price')) {
-            updatedData.retail_price = parseFloat(form.find('#retailPrice').val());
-        }
-        updatedData.item_id = data.item_id;
-
-        await fetch('/update/updateinventory', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedData),
-        })
-        .then(response => {
-            if(response.status === 401) {
-                window.location.href = '/Forbidden';
-                return;
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.error) {
-                ShowSnackbar({ message: data.error, color: errorcolor, icon: erroricon });
-            } else {
-                ShowSnackbar({ message: data.message, color: successcolor, icon: successfuicon });
-                $('#editModal').modal('hide');
-                $('#InventoryTable').DataTable().ajax.reload();
-            }
-        });
-    }
-});
 
 $('#archiveItemForm').on('submit', async function(event) {
     event.preventDefault();

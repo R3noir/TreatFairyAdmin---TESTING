@@ -65,6 +65,18 @@ class Authentication {
         }
     }
 
+    async getUserByCookie(sessionId) {
+        try {
+            const { data: user, error } = await this.database._client.auth.api.getUser(sessionId);
+            if (error) {
+                return { error: error.message };
+            }
+            return { user };
+        } catch (e) {
+            return { error: e.message };
+        }
+    }
+
     async logOut() {
         const { error } = await this.database._client.auth.signOut()
         if (error) {

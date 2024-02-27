@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TreatFairy Sales Invoice</title>
+    <title>TreatFairy Access Control</title>
     <!--For responsiveness-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Material Icons -->
@@ -84,7 +84,7 @@
                     </div>
                   </header>
                     <div class="page-header">
-                        <h1>SALES INVOICE</h1>
+                        <h1>ACCESS CONTROL</h1>
                     </div>
                     <div class="search-div">
                         <i class="material-symbols-outlined input-icon">
@@ -122,6 +122,91 @@
             </main>
         </div>
     </div>
+
+<!-- Modal for adding new admin -->
+<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="adminModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="adminModalLabel">Add New Admin</h5>
+            </div>
+            <div class="modal-body">
+                <form id="adminForm">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" maxlength="35" required autocomplete="off">
+                        <span id="firstNameCount"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" maxlength="35" required autocomplete="off">
+                        <span id="lastNameCount"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" maxlength="255" required autocomplete="off">
+                        <span id="emailCount"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmEmail">Confirm Email</label>
+                        <input type="email" class="form-control" id="confirmEmail" name="confirmEmail" maxlength="255" required autocomplete="off">
+                        <span id="confirmEmailCount"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" minlength="8" maxlength="72" autocomplete="off">
+                        <span id="passwordCount"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="retypePassword">Retype Password</label>
+                        <input type="password" class="form-control" id="retypePassword" name="retypePassword" minlength="8" maxlength="72" autocomplete="off">
+                        <span id="retypePasswordCount"></span>
+                    </div>
+                    <div id="passwordStatus">
+                        <div class="criteria">
+                            <div id="length" class="indicator"></div>
+                            <div class="text">Password Length must be 8 to 72 characters</div>
+                        </div>
+                        <div class="criteria">
+                            <div id="upper" class="indicator"></div>
+                            <div class="text">Password must contain atleast 1 Uppercase Character</div>
+                        </div>
+                        <div class="criteria">
+                            <div id="lower" class="indicator"></div>
+                            <div class="text">Password must contain atleast 1 Lowercase Character</div>
+                        </div>
+                        <div class="criteria">
+                            <div id="number" class="indicator"></div>
+                            <div class="text">Password must contain atleast 1 digit</div>
+                        </div>
+                        <div class="criteria">
+                            <div id="symbol" class="indicator"></div>
+                            <div class="text">Password must contain atleast 1 symbol</div>
+                        </div>
+                        <div class="criteria">
+                            <div id="match" class="indicator"></div>
+                            <div class="text">Passwords must match</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn icon cancel" data-bs-dismiss="modal">
+                    <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                        Close
+                    </span> 
+                        Cancel
+                </button>
+                <button type="submit" class="btn icon confirm" form="adminForm">
+                    <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                        check
+                    </span> 
+                        Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>

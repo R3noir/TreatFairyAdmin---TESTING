@@ -11,20 +11,21 @@ class Insert {
 
     async insertUser(user) {
         try{
-            const {data, error } = await database.client.auth.signUp({
-                email: 'testmail@gmail.com',
-                password: 'Clarence01!!',
+            const SanboxDatabase = require('./SandBoxedDatabase.js');
+            const {data, error } = await SanboxDatabase.client.auth.signUp({
+                email: user.email,
+                password: user.password,
                 options: {
                     data:{
-                        fname: 'Farrah1',
-                        lname: 'Montalban1',
+                        fname: user.options.data.fname,
+                        lname: user.options.data.lname
                     }
                 }
             })
-            console.log(data, error)
             if (error) {
                 return { error: error.message }
             }
+            SanboxDatabase.client.auth.signOut()
             return {data : data};
         }
         catch(e){

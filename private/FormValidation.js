@@ -19,12 +19,17 @@ class Validation {
         return passwordRegex.test(password);
     }
     validateName(name) {
-        const nameRegex = /^[a-zA-Z\s].{0,70}$/;
+        const nameRegex = /^[a-zA-Z\s].{1,70}$/;
+        return nameRegex.test(name);
+    }
+
+    validateFieldname(name) {
+        const nameRegex = /^[a-zA-Z\s].{1,35}$/;
         return nameRegex.test(name);
     }
 
     validateInvoiceName(name) {
-        const nameRegex = /^[^\s].{0,70}$/;
+        const nameRegex = /^[^\s].{1,70}$/;
         return nameRegex.test(name);
     }
 
@@ -210,6 +215,22 @@ class Validation {
             const field = 'Address';
             return {result, field};
         }
+    }
+
+    validateNewUser(user){
+        if(!this.validateEmail(user.email)){
+            return { error: 'Invalid email' };
+        }
+        if(!this.validatePassword(user.password)){
+            return { error: 'Invalid password' };
+        }
+        if(!this.validateName(user.options.data.firstName)){
+            return { error: 'Invalid first name' };
+        }
+        if(!this.validateName(user.options.data.lastName)){
+            return { error: 'Invalid last name' };
+        }
+        return { message: 'Valid' };
     }
 }
 

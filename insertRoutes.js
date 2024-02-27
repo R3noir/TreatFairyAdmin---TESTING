@@ -94,7 +94,25 @@ router.post('/salesinvoice', ensureAuthenticated ,async (req, res) => {
 
 router.post('/newuser', ensureAuthenticated ,async (req, res) => {
     try {
-        const result = await Insert.insertUser();
+        if(!req.body.email){
+            return res.status(400).json({ message_error: 'Invalid email' });
+        }
+        if(!req.body.password){
+            return res.status(400).json({ message_error: 'Invalid password' });
+        }
+        if(!req.body.options.data.fname){
+            return res.status(400).json({ message_error: 'Invalid first name' });
+        }
+        if(!req.body.options.data.lname){
+            return res.status(400).json({ message_error: 'Invalid last name' });
+        }
+        const validateform = Formvalidation.validateNewUser(req.body);
+
+        if(validateform.error){
+            return res.status(400).json({ message_error: validateform.error });
+        }
+
+        const result = await Insert.insertUser(req.body);
         if (result.error) {
             return res.status(500).json({ message_error: result.error });
         } else {

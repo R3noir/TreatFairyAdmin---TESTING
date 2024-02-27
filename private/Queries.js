@@ -144,7 +144,19 @@ class Queries {
             return { error: e.message }
         }
     }
-}
 
+    async getuserinfo(){
+        try{
+            const { data, error } = await this.database.client.rpc('getadmindetails', {p_auth_uuid: (await database._client.auth.getUser()).data.user.id})
+            if (error) {
+                return { error: error.message  };
+            }
+            return { data: data };
+        }
+        catch(e){
+            return { error: e.message }
+        }
+    }
+}
 
 module.exports = new Queries(database);

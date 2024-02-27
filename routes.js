@@ -16,9 +16,28 @@ async function ensureAuthenticated(req, res, next) {
 
 
 router.get('/', async (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/html/Login.html'));
-});
+    // Get the URL parameters
+    const urlParams = new URLSearchParams(req.query);
 
+    // Check if the type parameter is 'email_change'
+    if (urlParams.get('type') === 'email_change') {
+        // Get the session ID
+        const sessionId = urlParams.get('session_id');
+
+        // Get the session information
+        const { data: session, error } = await Auth.getUserByCookie(sessionId);
+
+        if (error) {
+            console.log('Error getting session information:', error.message);
+            res.sendFile(path.join(__dirname, 'public/html/Invalidlink.html'));
+
+        } else if (session) {
+            console.log('Email change confirmed');
+        }
+    } else {
+        res.sendFile(path.join(__dirname, 'public/html/Login.html'));
+    }
+});
 router.get('/forbidden', async (req, res) => {
     res.sendFile(path.join(__dirname, 'public/html/Forbidden.html'));
 });
