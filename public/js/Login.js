@@ -134,7 +134,7 @@ window.onload = async function() {
                     if (data.error) {
                         window.location.href = `/invalid?error=${data.error}`;
                     } else {
-                        window.location.href = '/inventory';
+                        window.location.href = `/confirmed?message=Email+succesfully+confirmed!`;
                     }
                 });
                 break;
@@ -180,7 +180,7 @@ window.onload = async function() {
                         window.location.href = `/invalid?error=${data.error}`;
                     }
                     else {
-                        window.location.href = '/account';
+                        window.location.href = `/confirmed?message=Email+succesfully+changed!`;
                     }
                 });
                 break;

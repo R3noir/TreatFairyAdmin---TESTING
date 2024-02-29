@@ -31,9 +31,14 @@ router.get('/invalid', (req, res) => {
     res.render('Invalidlink', { error, errorCode, errorDescription });
 });
 
-router.get('/message', ensureAuthenticated, (req, res) => {
+router.get('/message', (req, res) => {
     const message = req.query.message;
     res.render('message', { message });
+});
+
+router.get('/confirmed', ensureAuthenticated, (req, res) => {
+    const message = req.query.message;
+    res.render('confirmed', { message });
 });
 
 router.get('/forgotpassword', (req, res) => {
