@@ -60,7 +60,65 @@ class Update {
     }
 
     async updateuseremail(email){
-        const { user, error } = await this.database._client.auth.updateUser({email: email, })
+        const { user, error } = await this.database.client.auth.updateUser({email: email})
+        if (error) {
+            return { error: error.message }
+        }
+        return {data : user};
+    }
+
+    async updateuserpassword(oldpassword, newpassword){
+        try{
+            console.log(typeof(newpassword))
+            const SanboxDatabase = require('./SandBoxedDatabase.js');
+            const { user, error } = await SanboxDatabase.client.auth.signInWithPassword({
+                email: (await this.database.client.auth.getUser()).data.user.email,
+                password: oldpassword
+            });
+            if(error){
+                return { error: 'Current Password is Wrong' }
+            }
+            else{
+                SanboxDatabase.client.auth.signOut();
+                const { user, error } = await this.database.client.auth.updateUser({password: newpassword})
+                if (error) {
+                    return { error: error.message }
+                }
+                return {data : user};
+            }
+        }
+        catch(e){
+            return { error: e }
+        }
+    }
+
+    async resetpassword(newpassword){
+        try{
+            const { user, error } = await this.database.client.auth.updateUser({password: newpassword})
+            if (error) {
+                return { error: error.message }
+            }
+            return {data : user};
+        }
+        catch(e){
+            return { error: e }
+        }
+    }
+    async userfname(data){
+        const { user, error } = await this.database.client.auth.updateUser({
+            data: { fname: data }
+        })
+        console.log(user, error)
+        if (error) {
+            return { error: error.message }
+        }
+        return {data : user};
+    }
+    async userlname(data){
+        const { user, error } = await this.database.client.auth.updateUser({
+            data: { lname: data }
+        })
+        console.log(user, error)
         if (error) {
             return { error: error.message }
         }

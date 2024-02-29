@@ -154,12 +154,18 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" minlength="8" maxlength="72" autocomplete="off">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" minlength="8" maxlength="72" autocomplete="off">
+                            <button type="button" class="btn toggle-password">SHOW</button>
+                        </div>
                         <span id="passwordCount"></span>
                     </div>
                     <div class="form-group">
                         <label for="retypePassword">Retype Password</label>
-                        <input type="password" class="form-control" id="retypePassword" name="retypePassword" minlength="8" maxlength="72" autocomplete="off">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="retypePassword" name="retypePassword" minlength="8" maxlength="72" autocomplete="off">
+                            <button type="button" class="btn toggle-password">SHOW</button>
+                        </div>
                         <span id="retypePasswordCount"></span>
                     </div>
                     <div id="passwordStatus">
@@ -197,7 +203,7 @@
                     </span> 
                         Cancel
                 </button>
-                <button type="submit" class="btn icon confirm" form="adminForm">
+                <button type="submit" class="btn icon confirm" id="submit-form" form="adminForm">
                     <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
                         check
                     </span> 

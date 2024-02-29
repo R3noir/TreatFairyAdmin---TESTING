@@ -157,6 +157,19 @@ class Queries {
             return { error: e.message }
         }
     }
+
+    async checkIfAdminExists(email){
+        try{
+            const { data, error } = await this.database.client.rpc('email_exists', {email_to_check: email})
+            if (error) {
+                return { error: error.message  };
+            }
+            return { data: data };
+        }
+        catch(e){
+            return { error: e.message }
+        }
+    }
 }
 
 module.exports = new Queries(database);

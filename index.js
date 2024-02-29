@@ -17,6 +17,8 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
+app.set('view engine', 'ejs');
+
 app.use(express.json());
 
 // Serve static files from the "public" directory

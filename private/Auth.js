@@ -42,7 +42,7 @@ class Authentication {
             }
             const decodedToken = jwt.decode(this.session);
             const currentTime = Date.now() / 1000;
-            const bufferTime = 30;  // 1 minute
+            const bufferTime = 5 * 60;  // 5 minute
             
             if (decodedToken.exp < currentTime) {
                 this.database._client.auth.signOut();
@@ -83,6 +83,32 @@ class Authentication {
             return { error: error.message }
         }
         return { message: 'Logged out successfully' };
+    }
+
+    async resetPassword(email) {
+        try {
+            const { data, error } = await this.database._client.auth.resetPasswordForEmail(email /*, {
+                redirectTo: 'http://localhost:3000/'} */); // Replace with your own URL
+            if (error) {
+                return { error: error.message };
+            }
+            return { message: 'Password reset email sent' };
+        } catch (e) {
+            return { error: e.message };
+        }
+    }
+    
+    async setsession(accessToken, expiresIn, refreshToken, tokenType){
+        this.database._client.auth.signOut();
+        const { data, error } = this.database._client.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+        });
+        this.session = accessToken;
+        if(error){
+            return { error: error.message };
+        }
+        return { message: 'Session set successfully' };
     }
 }
 

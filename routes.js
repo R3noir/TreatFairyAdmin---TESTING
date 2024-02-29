@@ -23,6 +23,27 @@ router.get('/forbidden', async (req, res) => {
     res.sendFile(path.join(__dirname, 'public/html/Forbidden.html'));
 });
 
+router.get('/invalid', (req, res) => {
+    const error = req.query.error;
+    const errorCode = req.query.error_code;
+    const errorDescription = req.query.error_description;
+
+    res.render('Invalidlink', { error, errorCode, errorDescription });
+});
+
+router.get('/message', ensureAuthenticated, (req, res) => {
+    const message = req.query.message;
+    res.render('message', { message });
+});
+
+router.get('/forgotpassword', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/html/ForgotPassword.html'));
+});
+
+router.get('/changepassword', ensureAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/html/Changepassword.html'));
+});
+
 router.get('/inventory', ensureAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/html/Inventory.html'));
 });

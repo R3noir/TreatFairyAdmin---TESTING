@@ -1,9 +1,10 @@
+<!-- EJS: message.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invalid Link</title>
+    <title>Message</title>
     <style>
         body {
             display: flex;
@@ -22,7 +23,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>Link is invalid or expired</h1>
+        <h1><%= message %></h1>
+        <p>You may close this window</p>
     </div>
 </body>
 </html>

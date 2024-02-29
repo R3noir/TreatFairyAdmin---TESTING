@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn edit-button">Edit</button>
+                        <button class="btn edit-button" id="change-name">Edit</button>
                     </div>
 
                     <div class="section">
@@ -136,6 +136,82 @@
             </main>
         </div>
     </div>
+
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="changePasswordForm">
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="currentPassword" name="currentPassword" minlength="8" maxlength="72" required autocomplete="off">
+                                <button type="button" class="btn toggle-password">SHOW</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">New Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="newPassword" name="newPassword" minlength="8" maxlength="72" required autocomplete="off">
+                                <button type="button" class="btn toggle-password">SHOW</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmNewPassword">Confirm New Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" minlength="8" maxlength="72" required autocomplete="off">
+                                <button type="button" class="btn toggle-password">SHOW</button>
+                            </div>
+                        </div>
+                        <div id="passwordStatus">
+                            <div class="criteria">
+                                <div id="length" class="indicator"></div>
+                                <div class="text">Password Length must be 8 to 72 characters</div>
+                            </div>
+                            <div class="criteria">
+                                <div id="upper" class="indicator"></div>
+                                <div class="text">Password must contain atleast 1 Uppercase Character</div>
+                            </div>
+                            <div class="criteria">
+                                <div id="lower" class="indicator"></div>
+                                <div class="text">Password must contain atleast 1 Lowercase Character</div>
+                            </div>
+                            <div class="criteria">
+                                <div id="number" class="indicator"></div>
+                                <div class="text">Password must contain atleast 1 digit</div>
+                            </div>
+                            <div class="criteria">
+                                <div id="symbol" class="indicator"></div>
+                                <div class="text">Password must contain atleast 1 symbol</div>
+                            </div>
+                            <div class="criteria">
+                                <div id="match" class="indicator"></div>
+                                <div class="text">Passwords must match</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn icon cancel" data-bs-dismiss="modal">
+                        <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            Close
+                        </span> 
+                            Cancel
+                    </button>
+                    <button type="submit" class="btn icon confirm" form="changePasswordForm" id="change-password-btn">
+                        <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            check
+                        </span> 
+                            Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="modal fade" id="emailChangeModal" tabindex="-1" role="dialog" aria-labelledby="emailChangeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -168,7 +244,7 @@
                         </span> 
                             Cancel
                     </button>
-                    <button type="submit" class="btn icon confirm" form="emailChangeForm">
+                    <button type="submit" class="btn icon confirm" form="emailChangeForm" id="change-email-btn">
                         <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
                             check
                         </span> 
@@ -178,6 +254,45 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="nameChangeModal" tabindex="-1" role="dialog" aria-labelledby="nameChangeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nameChangeModalLabel">Change Name</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="nameChangeForm">
+                        <div class="form-group">
+                            <label for="currentFName">First Name</label>
+                            <input type="text" class="form-control" id="currentFName" name="currentFName" maxlength="35" required autocomplete="off">
+                            <span id="FNameCount"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="currentLName">Last Name</label>
+                            <input type="text" class="form-control" id="currentLName" name="currentLName" maxlength="35" required autocomplete="off">
+                            <span id="LNameCount"></span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn icon cancel" data-bs-dismiss="modal">
+                        <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            Close
+                        </span> 
+                            Cancel
+                    </button>
+                    <button type="submit" class="btn icon confirm" form="nameChangeForm" id="change-name-btn">
+                        <span class="material-symbols-outlined" style="font-size: 24px; margin-right: 10px;">
+                            check
+                        </span> 
+                            Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>

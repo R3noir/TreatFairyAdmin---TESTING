@@ -67,7 +67,7 @@ class Validation {
         if(Date.parse(body.expirationDate) < Date.parse(this.getDate())){
             return { error: 'Invalid expiration date' };
         }
-        if(body.quantity <= 0){
+        if(body.quantity < 0){
             return { error: 'Invalid quantity' };
         }
         if(body.retailPrice <= 0){
@@ -99,7 +99,7 @@ class Validation {
             return {result, field};
         }
         if (field === 'quantity') {
-            const result = data > 0;
+            const result = data >= 0;
             const field = 'Quantity';
             return {result, field};
         }

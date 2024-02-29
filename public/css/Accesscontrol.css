@@ -47,3 +47,7 @@
   height: 10px;
   background-color: red;
 }
+
+.form-group .btn {
+  width: 60px;
+}

@@ -109,8 +109,10 @@ router.post('/updateinvoice', ensureAuthenticated ,async (req, res) => {
             req.body.newItems.length === 0) {
             return res.status(200).json({ message: 'No changes detected' });
         }
-        if(await Query.InvoiceIDExists(req.body.old_invoice_id)){
-            return res.status(400).json({ message_error: 'Invoice ID already exists' });
+        if(req.body.updatedData.old_invoice_id){
+            if((await Query.InvoiceIDExists(req.body.updatedData.invoice_id)).data){
+                return res.status(400).json({ message_error: 'Invoice ID already exists' });
+            }
         }
         if(req.body.Delete.length > 0){
             let id = [];
@@ -216,7 +218,6 @@ router.post('/updateinvoice', ensureAuthenticated ,async (req, res) => {
                 if(req.body.updatedItems[i].quantity) updatedItems.invoice_item_quantity = req.body.updatedItems[i].quantity;
                 if(req.body.updatedItems[i].price) updatedItems.invoice_item_price = req.body.updatedItems[i].price;
 
-                console.log(updatedItems)
                 const {data, error} = await Update.updateSalesInvoiceItems(updatedItems, req.body.updatedItems[i].invoice_id, req.body.updatedItems[i].id);
                 if (error) {
                     return res.status(500).json({ message_error: error });
@@ -267,12 +268,84 @@ router.post('/changeemail', ensureAuthenticated ,async (req, res) => {
         if(req.body.newEmail !== req.body.confirmNewEmail){
             return res.status(400).json({ error: 'Emails do not match' });
         }
+        if((await Query.checkIfAdminExists(req.body.newEmail)).data){
+            return res.status(400).json({ error: 'Email already exists' });
+        }
         const { data, error } = await Update.updateuseremail(req.body.newEmail);
-        console.log(data, error)
         if (error) {
             return res.status(500).json({ error: error.message });
         }
         return res.status(200).json({ message: 'Email change request has been sent to your email' });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error });
+    }
+});
+
+router.post('/changepassword', ensureAuthenticated ,async (req, res) => {
+    try {
+        if(!Formvalidation.validatePassword(req.body.newPassword)){
+            return res.status(400).json({ error: 'Invalid password' });
+        }
+        if(req.body.newPassword !== req.body.confirmNewPassword){
+            return res.status(400).json({ error: 'Passwords do not match' });
+        }
+        const { data, error } = await Update.updateuserpassword(req.body.currentPassword, req.body.newPassword);
+        if (error) {
+            console.log(error)
+            return res.status(500).json({ error: error });
+        }
+        return res.status(200).json({ message: 'Password successfully updated' });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error });
+    }
+});
+
+router.post('/resetpassword', ensureAuthenticated ,async (req, res) => {
+    try {
+        if(!Formvalidation.validatePassword(req.body.newPassword)){
+            return res.status(400).json({ error: 'Invalid password' });
+        }
+        if(req.body.newPassword !== req.body.confirmNewPassword){
+            return res.status(400).json({ error: 'Passwords do not match' });
+        }
+        const { data, error } = await Update.resetpassword(req.body.newPassword);
+        if (error) {
+            console.log(error)
+            return res.status(500).json({ error: error });
+        }
+        return res.status(200).json({ message: 'Password successfully updated' });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error });
+    }
+});
+
+router.post('/changename', ensureAuthenticated ,async (req, res) => {
+    try {
+        console.log(req.body)
+        if(req.body.newFName){
+            if(!Formvalidation.validateFieldname(req.body.newFName)){
+                return res.status(400).json({ error: 'Invalid name' });
+            }
+            const { data, error } = await Update.userfname(req.body.newFName);
+            if (error) {
+                console.log(error)
+                return res.status(500).json({ error: error });
+            }
+        }
+        if(req.body.newLName){
+            if(!Formvalidation.validateFieldname(req.body.newLName)){
+                return res.status(400).json({ error: 'Invalid name' });
+            }
+            const { data, error } = await Update.userlname(req.body.newLName);
+            if (error) {
+                console.log(error)
+                return res.status(500).json({ error: error });
+            }
+        }
+        return res.status(200).json({ message: 'Name successfully updated' });
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: error });

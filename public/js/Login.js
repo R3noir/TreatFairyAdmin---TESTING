@@ -87,3 +87,105 @@ togglePassword.addEventListener('click', function () {
         return;
     }
 });
+
+
+window.onload = async function() {
+    // Parse the URL fragment
+    const fragment = new URL(window.location.href).hash.substring(1);
+    const params = new URLSearchParams(fragment);
+
+    // Check if the error parameters are present
+    if (params.get('error')) {
+        const error = params.get('error');
+        const errorCode = params.get('error_code');
+        const errorDescription = params.get('error_description');
+
+        // Handle the error here
+        window.location.href = `/invalid?error=${error}&error_code=${errorCode}&error_description=${errorDescription}`;
+    }
+    if (params.get('message')) {
+        const message = params.get('message');
+    
+        window.location.href = `/message?message=${message}`;
+    }
+    if (params.get('access_token')) {
+        const accessToken = params.get('access_token');
+        const expiresIn = params.get('expires_in');
+        const refreshToken = params.get('refresh_token');
+        const tokenType = params.get('token_type');
+        const type = params.get('type');
+
+        switch (type) {
+            case 'signup':
+                await fetch('/auth/setsession', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        accessToken: accessToken,
+                        expiresIn: expiresIn,
+                        refreshToken: refreshToken,
+                        tokenType: tokenType
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        window.location.href = `/invalid?error=${data.error}`;
+                    } else {
+                        window.location.href = '/inventory';
+                    }
+                });
+                break;
+            case 'recovery':
+                await fetch('/auth/setsession', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        accessToken: accessToken,
+                        expiresIn: expiresIn,
+                        refreshToken: refreshToken,
+                        tokenType: tokenType
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        window.location.href = `/invalid?error=${data.error}`;
+                    }
+                    else {
+                        window.location.href = '/changepassword';
+                    }
+                });
+                break;
+            case 'email_change':
+                await fetch('/auth/setsession', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        accessToken: accessToken,
+                        expiresIn: expiresIn,
+                        refreshToken: refreshToken,
+                        tokenType: tokenType
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        window.location.href = `/invalid?error=${data.error}`;
+                    }
+                    else {
+                        window.location.href = '/account';
+                    }
+                });
+                break;
+            default:
+                console.log('Unknown type: ' + type);
+
+    }
+}};

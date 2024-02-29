@@ -23,6 +23,7 @@ $(document).ready(function() {
 
     $('#adminForm').on('submit', async function(e) {
         e.preventDefault();
+        $('#submit-form').prop('disabled', true);
         let firstName = $('#firstName').val();
         let lastName = $('#lastName').val();
         let email = $('#email').val();
@@ -36,6 +37,7 @@ $(document).ready(function() {
                 color: errorcolor,
                 icon: erroricon
             });
+            $('#submit-form').prop('disabled', false);
             return;
         }
 
@@ -45,6 +47,7 @@ $(document).ready(function() {
                 color: errorcolor,
                 icon: erroricon
             });
+            $('#submit-form').prop('disabled', false);
             return;
         }
 
@@ -71,17 +74,20 @@ $(document).ready(function() {
             return response.json();
         }).then(data => {
             if (data.message_error) {
+                console.log(data)
                 ShowSnackbar({
                     message: data.message_error,
                     color: errorcolor,
                     icon: erroricon
                 });
+                $('#submit-form').prop('disabled', false);
             } else {
                 ShowSnackbar({
                     message: 'User added successfully',
                     color: successcolor,
                     icon: successfuicon
                 });
+                $('#submit-form').prop('disabled', false);
                 $('#adminModal').modal('hide');
                 $('#adminForm')[0].reset();
                 $('#AdminTable').DataTable().ajax.reload();
@@ -92,10 +98,18 @@ $(document).ready(function() {
                 color: errorcolor,
                 icon: erroricon
             });
+            $('#submit-form').prop('disabled', false);
         });
     });
 
     $('#adminModal').on('hidden.bs.modal', function() {
         $('#adminForm')[0].reset();
     });
+});
+
+$('.toggle-password').click(function() {
+    let input = $(this).prev();
+    let type = input.attr('type') === 'password' ? 'text' : 'password';
+    input.attr('type', type);
+    $(this).text(type === 'password' ? 'SHOW' : 'HIDE');
 });

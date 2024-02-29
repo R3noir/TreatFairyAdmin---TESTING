@@ -1,10 +1,13 @@
-const snackBarDelayMs = 3500;
-const buttonDelayMs = 1000;
+const snackBarDelayMs = 2500;
+const buttonDelayMs = 500;
 
 const successcolor = '#4CAF50';
 const errorcolor = '#F44336';
+const waitcolor = '#ff9800';
+
 const successfuicon = 'check_circle';
 const erroricon = 'error';
+const waiticon = 'pending';
 
 let snackbarQueue = [];
 

@@ -112,6 +112,12 @@ router.post('/newuser', ensureAuthenticated ,async (req, res) => {
             return res.status(400).json({ message_error: validateform.error });
         }
 
+        const checkemail = (await (Query.checkIfAdminExists(req.body.email))).data
+
+        if(checkemail){
+            return res.status(400).json({ message_error: 'Email already exists' });
+        }
+
         const result = await Insert.insertUser(req.body);
         if (result.error) {
             return res.status(500).json({ message_error: result.error });
