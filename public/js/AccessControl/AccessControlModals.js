@@ -104,6 +104,13 @@ $(document).ready(function() {
 
     $('#adminModal').on('hidden.bs.modal', function() {
         $('#adminForm')[0].reset();
+        $('.toggle-password').each(function() {
+            let input = $(this).prev();
+            if (input.attr('type') === 'text') {
+                input.attr('type', 'password');
+                $(this).text('SHOW');
+            }
+        });
     });
 });
 
