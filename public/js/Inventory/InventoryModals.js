@@ -84,6 +84,10 @@ $(document).on('click', '.edit-button', function() {
                 }
             });
         }
+        else{
+            ShowSnackbar({ message: 'No changes detected', color: successcolor, icon: successfuicon });
+            $('#editModal').modal('hide');
+        }
     });
 });
 

@@ -1,6 +1,6 @@
 const database = require('./Database.js');
 const jwt = require('jsonwebtoken');
-
+const Formvalidation = require('./FormValidation.js');
 
 class Authentication {
     constructor(database) {
@@ -87,6 +87,10 @@ class Authentication {
 
     async resetPassword(email) {
         try {
+            console.log(Formvalidation.validateEmail(email))
+            if(!Formvalidation.validateEmail(email)){
+                return { error: 'Invalid email' };
+            }
             const { data, error } = await this.database._client.auth.resetPasswordForEmail(email /*, {
                 redirectTo: 'http://localhost:3000/'} */); // Replace with your own URL
             if (error) {

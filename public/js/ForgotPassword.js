@@ -47,17 +47,7 @@ form.addEventListener('submit', async function(event) {
         },
         body: JSON.stringify({email: emailinput.value})
     })
-    .then(response => {
-        if(response.status === 400) {
-            ShowSnackbar({
-                message: 'Error 400',
-                color: errorcolor,
-                icon: erroricon
-            });
-            return;
-        }
-        return response.json();
-    })
+    .then(response =>  response.json())
     .then(data => {
         if (data.error) {
             ShowSnackbar({

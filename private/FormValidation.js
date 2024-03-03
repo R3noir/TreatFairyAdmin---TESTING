@@ -33,8 +33,8 @@ class Validation {
         return nameRegex.test(name);
     }
 
-    validateProdctName(name) {
-        const nameRegex = /^[a-zA-Z][a-zA-Z0-9\s()\-'"!]{0,74}$/
+    validateProductName(name) {
+        const nameRegex = /^.{1,75}$/;
         return nameRegex.test(name);
     }
 
@@ -61,13 +61,13 @@ class Validation {
     }
 
     validateNewProduct(body){
-        if(!this.validateProdctName(body.productName)){
+        if(!this.validateProductName(body.productName)){
             return { error: 'Invalid product name' };
         }
         if(Date.parse(body.expirationDate) < Date.parse(this.getDate())){
             return { error: 'Invalid expiration date' };
         }
-        if(body.quantity < 0){
+        if(body.quantity < 0 || body.quantity > 32767){
             return { error: 'Invalid quantity' };
         }
         if(body.retailPrice <= 0){
@@ -89,7 +89,7 @@ class Validation {
             return {result, field};
         }
         if (field === 'item_name') {
-            const result = this.validateProdctName(data);
+            const result = this.validateProductName(data);
             const field = 'Product name';
             return {result, field};
         }
@@ -99,7 +99,7 @@ class Validation {
             return {result, field};
         }
         if (field === 'quantity') {
-            const result = data >= 0;
+            const result = (data >= 0 && data <= 32767);
             const field = 'Quantity';
             return {result, field};
         }
@@ -123,11 +123,19 @@ class Validation {
     }
 
     validateInvoice(body){
+        let soldDate = new Date(Date.parse(body.soldDate));
+        soldDate.setHours(0, 0, 0, 0);
+
+        let currentDate = new Date(Date.parse(this.getDate()));
+        currentDate.setHours(0, 0, 0, 0);
+
+        let comparisonDate = new Date(Date.parse('2019-12-01'));
+        comparisonDate.setHours(0, 0, 0, 0);
         if(!this.validateInvoiceID(body.invoiceID)){
             return { error: 'Invalid invoice ID' };
         }
 
-        if(Date.parse(body.soldDate) > Date.parse(this.getDate()) || Date.parse(body.soldDate) < Date.parse('2019-12-01')){
+        if(soldDate.getTime() > currentDate.getTime() && soldDate.getTime() <= comparisonDate.getTime()){
             return { error: 'Invalid date' };
         }
 
@@ -152,10 +160,10 @@ class Validation {
 
         let totalCost = 0;
         for (let i = 0; i < body.items.length; i++) {
-            if(!this.validateProdctName(body.items[i].invoice_item_name)){
+            if(!this.validateProductName(body.items[i].invoice_item_name)){
                 return { error: 'Invalid item name' };
             }
-            if(body.items[i].invoice_item_quantity <= 0){
+            if(body.items[i].invoice_item_quantity <= 0 || body.items[i].invoice_item_quantity > 32767){
                 return { error: 'Invalid quantity' };
             }
             if(body.items[i].invoice_item_price <= 0){
@@ -186,7 +194,13 @@ class Validation {
             return {result, field};
         }
         if(field === 'sold_date'){
-            const result = Date.parse(data) < Date.parse(this.getDate()) || Date.parse(data) > Date.parse('2019-12-01');
+            let soldDate = new Date(Date.parse(data));
+            soldDate.setHours(0, 0, 0, 0);
+        
+            let currentDate = new Date(Date.parse(this.getDate()));
+            currentDate.setHours(0, 0, 0, 0);
+        
+            const result = soldDate.getTime() <= currentDate.getTime() && soldDate.getTime() > Date.parse('2019-12-01');
             const field = 'Sold date';
             return {result, field};
         }

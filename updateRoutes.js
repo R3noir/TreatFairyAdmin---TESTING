@@ -134,8 +134,13 @@ router.post('/updateinvoice', ensureAuthenticated ,async (req, res) => {
         }
         if(req.body.updatedItems.length > 0){
             for(let i = 0; i < req.body.updatedItems.length; i++){
+                if(req.body.updatedItems[i].item){
+                    if(!Formvalidation.validateProdctName(req.body.updatedItems[i].item)){
+                        return res.status(400).json({ message_error: 'Invalid item name' });
+                    }
+                }
                 if(parseInt(req.body.updatedItems[i].quantity)){
-                    if(parseInt(req.body.updatedItems[i].quantity) < 1)
+                    if(parseInt(req.body.updatedItems[i].quantity) < 1 || parseInt(req.body.updatedItems[i].quantity) > 32767)
                     {
                         return res.status(400).json({ message_error: 'Invalid quantity' });
                     }
@@ -155,7 +160,7 @@ router.post('/updateinvoice', ensureAuthenticated ,async (req, res) => {
                     if(!Formvalidation.validateProdctName(req.body.newItems[i].item)){
                         return res.status(400).json({ message_error: 'Invalid item name' });
                     }
-                    if(req.body.newItems[i].quantity < 1)
+                    if(req.body.newItems[i].quantity < 1 || req.body.newItems[i].quantity > 32767)
                     {
                         return res.status(400).json({ message_error: 'Invalid quantity' });
                     }

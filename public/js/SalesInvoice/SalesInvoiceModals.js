@@ -38,11 +38,11 @@ $(document).ready(function() {
         </div>
         <div class="form-group col-2">
           <label for="quantity${itemIndex}">Quantity</label>
-          <input type="number" class="form-control" id="quantity${itemIndex}" required">
+          <input type="number" class="form-control" id="quantity${itemIndex}" required" max="32767">
         </div>
         <div class="form-group col-3">
           <label for="unitPrice${itemIndex}">Unit Price</label>
-          <input type="number" class="form-control" id="unitPrice${itemIndex}" required">
+          <input type="number" class="form-control" id="unitPrice${itemIndex}" required" max="340000000000000000000000000000000000000">
         </div>
         ${itemIndex > 0 ? '<div class="col-1 d-flex align-items-center"><button class="btn btn-sm btn-danger" id="deleteItem' + itemIndex + '"><span class="material-symbols-outlined" style="font-size:24px">delete</span></button></div>' : ''}
       </div>
@@ -105,11 +105,11 @@ $(document).on('click', '.edit-button', function() {
           </div>
           <div class="form-group col-2">
             <label for="editQuantity${index}">Quantity</label>
-            <input type="number" class="form-control" id="editQuantity${index}" value="${item.quantity}" required>
+            <input type="number" class="form-control" id="editQuantity${index}" value="${item.quantity}" required max="32767">
           </div>
           <div class="form-group col-3">
             <label for="editUnitPrice${index}">Unit Price</label>
-            <input type="number" class="form-control" id="editUnitPrice${index}" value="${item.price}" required>
+            <input type="number" class="form-control" id="editUnitPrice${index}" value="${item.price}" required max="340000000000000000000000000000000000000">
           </div>
           ${index > 0 ? `
             <div class="col-1 d-flex align-items-center">
