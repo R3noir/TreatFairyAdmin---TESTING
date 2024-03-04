@@ -33,16 +33,18 @@ $(document).ready(function() {
       <div class="row" id="itemRow${itemIndex}">
         <div class="form-group col-6">
           <label for="itemName${itemIndex}">Item Name</label>
-          <input type="text" class="form-control" id="itemName${itemIndex}" maxlength="75" required">
+          <input type="text" class="form-control" id="itemName${itemIndex}" maxlength="75" required ">
           <small id="charCount${itemIndex}">0/75</small>
         </div>
         <div class="form-group col-2">
           <label for="quantity${itemIndex}">Quantity</label>
-          <input type="number" class="form-control" id="quantity${itemIndex}" required" max="32767">
+          <input type="number" class="form-control" id="quantity${itemIndex}" required max="32767" onkeydown="preventspecial(event)" ">
+          <small class="form-text text-muted">Max: 32767</small>
         </div>
         <div class="form-group col-3">
           <label for="unitPrice${itemIndex}">Unit Price</label>
-          <input type="number" class="form-control" id="unitPrice${itemIndex}" required" max="340000000000000000000000000000000000000">
+          <input type="number" class="form-control" id="unitPrice${itemIndex}" required max="100000" onkeydown="preventscientific(event)" ">
+          <small class="form-text text-muted">Max: 100,000</small>
         </div>
         ${itemIndex > 0 ? '<div class="col-1 d-flex align-items-center"><button class="btn btn-sm btn-danger" id="deleteItem' + itemIndex + '"><span class="material-symbols-outlined" style="font-size:24px">delete</span></button></div>' : ''}
       </div>
@@ -100,16 +102,18 @@ $(document).on('click', '.edit-button', function() {
         <input type="hidden" id="editItemId${index}" value="${item.id}">
           <div class="form-group col-6">
             <label for="editItemName${index}">Item Name</label>
-            <input type="text" class="form-control" id="editItemName${index}" value="${item.item}" maxlength="75" required>
+            <input type="text" class="form-control" id="editItemName${index}" value="${item.item}" maxlength="75" required">
             <small id="editCharCount${index}">${item.item.length}/75</small>
           </div>
           <div class="form-group col-2">
             <label for="editQuantity${index}">Quantity</label>
-            <input type="number" class="form-control" id="editQuantity${index}" value="${item.quantity}" required max="32767">
+            <input type="number" class="form-control" id="editQuantity${index}" value="${item.quantity}" required max="32767" onkeydown="preventspecial(event)" ">
+            <small class="form-text text-muted">Max: 32767</small>
           </div>
           <div class="form-group col-3">
             <label for="editUnitPrice${index}">Unit Price</label>
-            <input type="number" class="form-control" id="editUnitPrice${index}" value="${item.price}" required max="340000000000000000000000000000000000000">
+            <input type="number" class="form-control" id="editUnitPrice${index}" value="${item.price}" required max="100000" onkeydown="preventscientific(event)" ">
+            <small class="form-text text-muted">Max: 100,000</small>
           </div>
           ${index > 0 ? `
             <div class="col-1 d-flex align-items-center">

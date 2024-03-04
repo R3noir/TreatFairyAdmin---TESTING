@@ -70,10 +70,10 @@ class Validation {
         if(body.quantity < 0 || body.quantity > 32767){
             return { error: 'Invalid quantity' };
         }
-        if(body.retailPrice <= 0){
+        if(body.retailPrice <= 0 && body.retailPrice > 100000){
             return { error: 'Invalid retail price' };
         }
-        if(body.wholesalePrice <= 0){
+        if(body.wholesalePrice <= 0 && body.wholesalePrice > 100000){
             return { error: 'Invalid wholesale price' };
         }
         if(body.wholesalePrice > body.retailPrice){
@@ -104,12 +104,12 @@ class Validation {
             return {result, field};
         }
         if (field === 'wholesale_price') {
-            const result = data > 0;
+            const result = (data > 0 && data <= 100000);
             const field = 'Wholesale price';
             return {result, field};
         }
         if (field === 'retail_price') {
-            const result = data > 0;
+            const result = (data > 0 && data <= 100000);
             const field = 'Retail price';
             return {result, field};
         }
@@ -166,7 +166,7 @@ class Validation {
             if(body.items[i].invoice_item_quantity <= 0 || body.items[i].invoice_item_quantity > 32767){
                 return { error: 'Invalid quantity' };
             }
-            if(body.items[i].invoice_item_price <= 0){
+            if(body.items[i].invoice_item_price <= 0 || body.items[i].invoice_item_price > 100000){
                 return { error: 'Invalid price' };
             }
             totalCost += body.items[i].invoice_item_quantity * body.items[i].invoice_item_price;

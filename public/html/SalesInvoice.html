@@ -137,7 +137,7 @@
               <form id="invoiceForm">
                 <div class="form-group mb-3">
                     <label for="invoiceID">Invoice Number:</label>
-                    <input type="number" class="form-control" id="invoiceID" required>
+                    <input type="number" class="form-control" id="invoiceID" required onkeydown="preventspecial(event)">
                   </div>
                 <div class="form-group mb-3">
                     <label for="soldTo">Sold To</label>
@@ -164,7 +164,8 @@
                   </div>
                   <div class="form-group mb-3">
                     <label for="amountPaid">Amount Paid</label>
-                    <input type="number" class="form-control" id="amountPaid" required max="340000000000000000000000000000000000000">
+                    <input type="number" class="form-control" id="amountPaid" required max="34000000" onkeydown="preventscientific(event)">
+                    <small class="form-text text-muted">Max: 34 Million</small>
                   </div>
                   <div class="form-group mb-3">
                     <label for="clientAddress">Client Address</label>
@@ -237,7 +238,8 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="editAmountPaid">Amount Paid</label>
-                            <input type="number" class="form-control" id="editAmountPaid" required max="340000000000000000000000000000000000000">
+                            <input type="number" class="form-control" id="editAmountPaid" required max="34000000" onkeydown="preventscientific(event)">
+                            <small class="form-text text-muted">Max: 34 Million</small>
                         </div>
                         <div class="form-group mb-3">
                             <label for="editClientAddress">Client Address</label>
@@ -342,5 +344,19 @@
     <script src="../js/CharCountListener.js"></script>
     <script src="../js/SalesInvoice/SalesInvoiceTable.js"></script>
     <script src="../js/SalesInvoice/SalesInvoiceModals.js"></script>
+    <script>
+        function preventspecial(evt) {
+            if (["e", "E", "+", "-", "."].includes(evt.key)) {
+                evt.preventDefault();
+            }
+        }
+    </script>
+    <script>
+            function preventscientific(evt) {
+                if (["e", "E", "+", "-"].includes(evt.key)) {
+                    evt.preventDefault();
+                }
+            }
+    </script>
 </body>
 </html>

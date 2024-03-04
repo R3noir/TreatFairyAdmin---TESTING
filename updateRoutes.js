@@ -144,7 +144,7 @@ router.post('/updateinvoice', ensureAuthenticated ,async (req, res) => {
                     {
                         return res.status(400).json({ message_error: 'Invalid quantity' });
                     }
-                    if(parseFloat(req.body.updatedItems[i].price) < 1)
+                    if(parseFloat(req.body.updatedItems[i].price) < 1 || parseFloat(req.body.updatedItems[i].price) > 100000)
                     {
                         return res.status(400).json({ message_error: 'Invalid price' });
                     }
@@ -164,7 +164,7 @@ router.post('/updateinvoice', ensureAuthenticated ,async (req, res) => {
                     {
                         return res.status(400).json({ message_error: 'Invalid quantity' });
                     }
-                    if(req.body.newItems[i].price < 1)
+                    if(req.body.newItems[i].price < 1 || req.body.newItems[i].price > 100000)
                     {
                         return res.status(400).json({ message_error: 'Invalid price' });
                     }
