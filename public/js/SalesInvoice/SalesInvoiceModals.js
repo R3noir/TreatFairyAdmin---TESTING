@@ -38,12 +38,12 @@ $(document).ready(function() {
         </div>
         <div class="form-group col-2">
           <label for="quantity${itemIndex}">Quantity</label>
-          <input type="number" class="form-control" id="quantity${itemIndex}" required max="32767" onkeydown="preventspecial(event)" ">
+          <input type="number" class="form-control" id="quantity${itemIndex}" required max="32767" ">
           <small class="form-text text-muted">Max: 32767</small>
         </div>
         <div class="form-group col-3">
           <label for="unitPrice${itemIndex}">Unit Price</label>
-          <input type="number" class="form-control" id="unitPrice${itemIndex}" required max="100000" onkeydown="preventscientific(event)" ">
+          <input type="number" class="form-control" id="unitPrice${itemIndex}" required max="100000" ">
           <small class="form-text text-muted">Max: 100,000</small>
         </div>
         ${itemIndex > 0 ? '<div class="col-1 d-flex align-items-center"><button class="btn btn-sm btn-danger" id="deleteItem' + itemIndex + '"><span class="material-symbols-outlined" style="font-size:24px">delete</span></button></div>' : ''}
@@ -107,12 +107,12 @@ $(document).on('click', '.edit-button', function() {
           </div>
           <div class="form-group col-2">
             <label for="editQuantity${index}">Quantity</label>
-            <input type="number" class="form-control" id="editQuantity${index}" value="${item.quantity}" required max="32767" onkeydown="preventspecial(event)" ">
+            <input type="number" class="form-control" id="editQuantity${index}" value="${item.quantity}" required max="32767" ">
             <small class="form-text text-muted">Max: 32767</small>
           </div>
           <div class="form-group col-3">
             <label for="editUnitPrice${index}">Unit Price</label>
-            <input type="number" class="form-control" id="editUnitPrice${index}" value="${item.price}" required max="100000" onkeydown="preventscientific(event)" ">
+            <input type="number" class="form-control" id="editUnitPrice${index}" value="${item.price}" required max="100000" ">
             <small class="form-text text-muted">Max: 100,000</small>
           </div>
           ${index > 0 ? `
@@ -416,3 +416,80 @@ $('#deleteItemForm').on('submit', async function(event) {
   }
 });
 
+$(document).ready(function() {
+  $('#editItemsContainer').on('keydown paste', '[id^="editQuantity"]', function(e) {
+      if (e.type === 'paste') {
+          let pasteData = e.originalEvent.clipboardData.getData('text');
+          if (/[eE+\-.]/g.test(pasteData)) {
+              e.preventDefault();
+          }
+      } else if (["e", "E", "+", "-", "."].includes(e.key)) {
+          e.preventDefault();
+      }
+  });
+});
+
+$(document).ready(function() {
+  $('#editItemsContainer').on('keydown paste', '[id^="editUnitPrice"]', function(e) {
+      if (e.type === 'paste') {
+          let pasteData = e.originalEvent.clipboardData.getData('text');
+          if (/[eE+\-.]/g.test(pasteData)) {
+              e.preventDefault();
+          }
+      } else if (["e", "E", "+", "-"].includes(e.key)) {
+          e.preventDefault();
+      }
+  });
+});
+
+$(document).ready(function() {
+  $('#itemsContainer').on('keydown paste', '[id^="quantity"]', function(e) {
+      if (e.type === 'paste') {
+          let pasteData = e.originalEvent.clipboardData.getData('text');
+          if (/[eE+\-.]/g.test(pasteData)) {
+              e.preventDefault();
+          }
+      } else if (["e", "E", "+", "-", "."].includes(e.key)) {
+          e.preventDefault();
+      }
+  });
+});
+
+$(document).ready(function() {
+  $('#itemsContainer').on('keydown paste', '[id^="unitPrice"]', function(e) {
+      if (e.type === 'paste') {
+          let pasteData = e.originalEvent.clipboardData.getData('text');
+          if (/[eE+\-]/g.test(pasteData)) {
+              e.preventDefault();
+          }
+      } else if (["e", "E", "+", "-"].includes(e.key)) {
+          e.preventDefault();
+      }
+  });
+});
+
+$(document).ready(function() {
+  $('body').on('keydown paste', '#amountPaid, #editAmountPaid', function(e) {
+      if (e.type === 'paste') {
+          let pasteData = e.originalEvent.clipboardData.getData('text');
+          if (/[eE+\-.]/g.test(pasteData)) {
+              e.preventDefault();
+          }
+      } else if (["e", "E", "+", "-"].includes(e.key)) {
+          e.preventDefault();
+      }
+  });
+});
+
+$(document).ready(function() {
+  $('body').on('keydown paste', '#invoiceID, #editInvoiceID', function(e) {
+      if (e.type === 'paste') {
+          let pasteData = e.originalEvent.clipboardData.getData('text');
+          if (/[eE+\-.]/g.test(pasteData)) {
+              e.preventDefault();
+          }
+      } else if (["e", "E", "+", "-", "."].includes(e.key)) {
+          e.preventDefault();
+      }
+  });
+});

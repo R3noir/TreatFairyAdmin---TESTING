@@ -153,11 +153,11 @@
                         </div>
                         <div class="mb-3">
                           <label for="wholesalePrice" class="form-label">Whole Sale Price</label>
-                          <input type="number" class="form-control" id="wholesalePrice" step="0.01" required min="1" onkeydown="preventscientific(event)">
+                          <input type="number" class="form-control" id="wholesalePrice" step="0.01" required min="1">
                         </div>
                         <div class="mb-3">
                           <label for="retailPrice" class="form-label">Retail Price</label>
-                          <input type="number" class="form-control" id="retailPrice" step="0.01" required min="1" onkeydown="preventscientific(event)">
+                          <input type="number" class="form-control" id="retailPrice" step="0.01" required min="1">
                         </div>
                       </form>
                     </div>
@@ -203,12 +203,12 @@
                                 </div>
                                 <div class="mb-3">
                                   <label for="wholesalePrice" class="form-label">Whole Sale Price</label>
-                                  <input type="number" class="form-control" id="wholesalePrice" step="0.01" required min="1" max="100000" onkeydown="preventscientific(event)">
+                                  <input type="number" class="form-control" id="wholesalePrice" step="0.01" required min="1" max="100000">
                                   <small class="form-text text-muted">Max: 100,000</small>
                                 </div>
                                 <div class="mb-3">
                                   <label for="retailPrice" class="form-label">Retail Price</label>
-                                  <input type="number" class="form-control" id="retailPrice" step="0.01" required min="1" max="100000" onkeydown="preventscientific(event)">
+                                  <input type="number" class="form-control" id="retailPrice" step="0.01" required min="1" max="100000">
                                   <small class="form-text text-muted">Max: 100,000</small>
                                 </div>
                               </form>
@@ -333,11 +333,32 @@
     <script src="../js/Inventory/InventoryTables.js"></script>
     <script src="../js/Inventory/InventoryModals.js"></script>
     <script>
-        function preventscientific(evt) {
-            if (["e", "E", "+", "-"].includes(evt.key)) {
-                evt.preventDefault();
-            }
-        }
-</script>
+        $(document).ready(function() {
+            $("#quantity, #quantity").on('keydown paste', function(e) {
+                if (e.type === 'paste') {
+                    let pasteData = e.originalEvent.clipboardData.getData('text');
+                    if (/[eE+\-.]/g.test(pasteData)) {
+                        e.preventDefault();
+                    }
+                } else if (["e", "E", "+", "-", "."].includes(e.key)) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#retailPrice, #wholesalePrice, #retailPrice, #wholesalePrice").on('keydown paste', function(e) {
+                if (e.type === 'paste') {
+                    let pasteData = e.originalEvent.clipboardData.getData('text');
+                    if (/[eE+\-]/g.test(pasteData)) {
+                        e.preventDefault();
+                    }
+                } else if (["e", "E", "+", "-"].includes(e.key)) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
