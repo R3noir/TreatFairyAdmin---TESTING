@@ -34,7 +34,7 @@ class Validation {
     }
 
     validateProductName(name) {
-        const nameRegex = /^.{1,75}$/;
+        const nameRegex = /^\s*\S.{0,74}\s*$/;
         return nameRegex.test(name);
     }
 
