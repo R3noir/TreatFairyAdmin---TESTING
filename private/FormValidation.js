@@ -19,23 +19,23 @@ class Validation {
         return passwordRegex.test(password);
     }
     validateName(name) {
-        const nameRegex = /^[a-zA-Z\s].{1,70}$/;
-        return nameRegex.test(name);
+        const nameRegex = /^[a-zA-Z\s]*[a-zA-Z][a-zA-Z\s]{0,69}$/;
+        return nameRegex.test(name) && !/\s{2,}/.test(name);
     }
-
+    
     validateFieldname(name) {
-        const nameRegex = /^[a-zA-Z\s].{1,35}$/;
-        return nameRegex.test(name);
+        const nameRegex = /^[a-zA-Z\s]*[a-zA-Z][a-zA-Z\s]{0,34}$/;
+        return nameRegex.test(name) && !/\s{2,}/.test(name);
     }
-
+    
     validateInvoiceName(name) {
-        const nameRegex = /^[^\s].{1,70}$/;
-        return nameRegex.test(name);
+        const nameRegex = /^\s*[^\s].{0,69}\s*$/;
+        return nameRegex.test(name) && !/\s{2,}/.test(name);
     }
-
+    
     validateProductName(name) {
-        const nameRegex = /^\s*\S.{0,74}\s*$/;
-        return nameRegex.test(name);
+        const nameRegex = /^\s*[^\s].{0,74}\s*$/;
+        return nameRegex.test(name) && !/\s{2,}/.test(name);
     }
 
     validateItemID(id) {
@@ -238,10 +238,10 @@ class Validation {
         if(!this.validatePassword(user.password)){
             return { error: 'Invalid password' };
         }
-        if(!this.validateName(user.options.data.firstName)){
+        if(!this.validateFieldname(user.options.data.fname)){
             return { error: 'Invalid first name' };
         }
-        if(!this.validateName(user.options.data.lastName)){
+        if(!this.validateFieldname(user.options.data.lname)){
             return { error: 'Invalid last name' };
         }
         return { message: 'Valid' };

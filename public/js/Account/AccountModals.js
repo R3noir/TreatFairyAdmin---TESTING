@@ -133,6 +133,8 @@ $(document).ready( async function() {
     });
 
     $('#change-name').on('click', function() {
+        attachCharCountListener('#currentFName', '#FNameCount');
+        attachCharCountListener('#currentLName', '#LNameCount');
         $('#nameChangeModal').modal('show');
     });
 

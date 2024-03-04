@@ -135,7 +135,7 @@ router.post('/updateinvoice', ensureAuthenticated ,async (req, res) => {
         if(req.body.updatedItems.length > 0){
             for(let i = 0; i < req.body.updatedItems.length; i++){
                 if(req.body.updatedItems[i].item){
-                    if(!Formvalidation.validateProdctName(req.body.updatedItems[i].item)){
+                    if(!Formvalidation.validateProductName(req.body.updatedItems[i].item)){
                         return res.status(400).json({ message_error: 'Invalid item name' });
                     }
                 }
@@ -157,7 +157,7 @@ router.post('/updateinvoice', ensureAuthenticated ,async (req, res) => {
         if(req.body.newItems.length > 0){ 
             for(let i = 0; i < req.body.newItems.length; i++){
                 if(req.body.newItems[i].quantity){
-                    if(!Formvalidation.validateProdctName(req.body.newItems[i].item)){
+                    if(!Formvalidation.validateProductName(req.body.newItems[i].item)){
                         return res.status(400).json({ message_error: 'Invalid item name' });
                     }
                     if(req.body.newItems[i].quantity < 1 || req.body.newItems[i].quantity > 32767)
