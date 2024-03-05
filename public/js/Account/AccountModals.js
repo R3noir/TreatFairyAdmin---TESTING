@@ -79,13 +79,6 @@ $(document).ready( async function() {
         });
     });
 
-    $('#emailChangeModal').on('hidden.bs.modal', function () {
-        $('#newEmail').val('');
-        $('#confirmNewEmail').val('');
-        $('#newEmailCount').text('0 / 255');
-        $('#confirmNewEmailCount').text('0 / 255');
-    });
-
     $('#change-password').on('click', function() {
         $('#changePasswordModal').modal('show');
     });
@@ -99,7 +92,7 @@ $(document).ready( async function() {
         $('#lower').css('background-color', /[a-z]/.test(password) ? 'green' : 'red');
         $('#number').css('background-color', /\d/.test(password) ? 'green' : 'red');
         $('#symbol').css('background-color', /\W/.test(password) ? 'green' : 'red');
-        $('#match').css('background-color', (password.trim() === retypePassword.trim() && password.trim() !== '') ? 'green' : 'red');
+        $('#match').css('background-color', password === retypePassword ? 'green' : 'red');
     });
 
     $('#changePasswordForm').off('submit').on('submit', async function(e) {
@@ -143,21 +136,9 @@ $(document).ready( async function() {
     });
 
     $('#change-name').on('click', function() {
-        $('#currentFName').val($('#firstName').val());
-        $('#currentLName').val($('#lastName').val());
         attachCharCountListener('#currentFName', '#FNameCount');
         attachCharCountListener('#currentLName', '#LNameCount');
         $('#nameChangeModal').modal('show');
-    });
-
-    $('#changePasswordModal').on('hidden.bs.modal', function () {
-        $('#length').css('background-color', 'red');
-        $('#upper').css('background-color', 'red');
-        $('#lower').css('background-color', 'red');
-        $('#number').css('background-color', 'red');
-        $('#symbol').css('background-color', 'red');
-        $('#match').css('background-color', 'red');
-        $('#changePasswordForm').trigger('reset');
     });
 
     $('#nameChangeForm').off('submit').on('submit', async function(e) {
