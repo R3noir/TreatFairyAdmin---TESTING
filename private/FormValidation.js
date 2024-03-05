@@ -138,7 +138,7 @@ class Validation {
             return { error: 'Invalid invoice ID' };
         }
 
-        if(soldDate.getTime() > currentDate.getTime() && soldDate.getTime() <= comparisonDate.getTime()){
+        if(soldDate.getTime() > currentDate.getTime() || soldDate.getTime() <= comparisonDate.getTime()){
             return { error: 'Invalid date' };
         }
 
@@ -202,8 +202,11 @@ class Validation {
         
             let currentDate = new Date(Date.parse(this.getDate()));
             currentDate.setHours(0, 0, 0, 0);
+
+            let comparisonDate = new Date(Date.parse('2019-11-30'));
+            comparisonDate.setHours(0, 0, 0, 0);
         
-            const result = soldDate.getTime() <= currentDate.getTime() && soldDate.getTime() > Date.parse('2019-12-01');
+            const result = soldDate.getTime() <= currentDate.getTime() && soldDate.getTime() > comparisonDate.getTime();
             const field = 'Sold date';
             return {result, field};
         }
