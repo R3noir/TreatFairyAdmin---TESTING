@@ -12,7 +12,7 @@ class Authentication {
         return Authentication.instance;
     }
 
-    async signInWithPassword({ email, password }) {
+    async signInWithPassword({ email, password }, res) {
         try{
             const { data, error } = await this.database._client.auth.signInWithPassword({
                 email: email,
@@ -21,7 +21,8 @@ class Authentication {
             if(error) {
                 return { error : error.message };
             }
-            await (this.session = data.session.access_token);
+            //await (this.session = data.session.access_token);
+            res.cookie('session', data.session.access_token, { httpOnly: true });
             return { message: 'User signed in successfully' };
         }
         catch(e){
@@ -34,13 +35,13 @@ class Authentication {
         return user.data.user
     }
 
-    async isSessionExpired() {
+    async isSessionExpired(req) {
         try{
-            const user = await this.getUser();
-            if (!this.session | !user){
+            const sessionToken = req.cookies.session;
+            if (!sessionToken){
                 return { error: 'No session found' };
             }
-            const decodedToken = jwt.decode(this.session);
+            const decodedToken = jwt.decode(sessionToken);
             const currentTime = Date.now() / 1000;
             const bufferTime = 5 * 60;  // 5 minute
             
@@ -49,11 +50,11 @@ class Authentication {
                 console.log('Session expired')
                 return { error: 'Session expired' };
             }
-
+    
             if (decodedToken.exp < currentTime + bufferTime) {
                 console.log('Session will expire soon')
                 const refreshSession = (await this.database._client.auth.refreshSession()).data.session;
-                this.session = refreshSession.access_token;
+                req.cookies.session = refreshSession.access_token;
                 if (!refreshSession) {
                     return { error: 'Session expired' };
                 }
@@ -64,7 +65,7 @@ class Authentication {
             return { error: e.message }
         }
     }
-
+    
     async getUserByCookie(sessionId) {
         try {
             const { data: user, error } = await this.database._client.auth.api.getUser(sessionId);
@@ -102,18 +103,19 @@ class Authentication {
         }
     }
     
-    async setsession(accessToken, expiresIn, refreshToken, tokenType){
+    async setsession(accessToken, expiresIn, refreshToken, tokenType, res) {
         this.database._client.auth.signOut();
         const { data, error } = this.database._client.auth.setSession({
             access_token: accessToken,
             refresh_token: refreshToken,
         });
-        this.session = accessToken;
         if(error){
             return { error: error.message };
         }
+        // Set a cookie with the session token
+        res.cookie('session', accessToken, { httpOnly: true });
         return { message: 'Session set successfully' };
+        }
     }
-}
 
 module.exports = new Authentication(database);

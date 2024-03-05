@@ -6,7 +6,7 @@ const Query = require('./private/Queries.js');
 const Formvalidation = require('./private/FormValidation.js');
 
 async function ensureAuthenticated(req, res, next) {
-    await Auth.isSessionExpired().then(response => {
+    await Auth.isSessionExpired(req).then(response => {
         if (response.error) {
             return res.status(401).json({ error : response.error  });
         }

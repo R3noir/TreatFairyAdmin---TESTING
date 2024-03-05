@@ -8,7 +8,7 @@ router.post('/login', async (req, res) => {
     if(!Validate.validateEmail(email)) {
         return res.status(400).json({ error: 'Invalid email'});
     }
-    const response = await Auth.signInWithPassword({ email, password });
+    const response = await Auth.signInWithPassword({ email, password }, res);
     if(response.error) {
         return res.status(400).json({ error : response.error });
     }
@@ -54,7 +54,7 @@ router.post('/setsession' , async (req, res) => {
     if(!req.body.tokenType){
         return res.status(400).json({ error: 'Insufficient data'});
     }
-    const response = await Auth.setsession(req.body.accessToken, req.body.expiresIn, req.body.refreshToken, req.body.tokenType);
+    const response = await Auth.setsession(req.body.accessToken, req.body.expiresIn, req.body.refreshToken, req.body.tokenType, res);
     if(response.error) {
         return res.status(400).json({ error : response.error });
     }

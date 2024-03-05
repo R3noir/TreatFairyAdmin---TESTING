@@ -8,7 +8,7 @@ const Formvalidation = require('./private/FormValidation.js');
 const Insert = require('./private/Insert.js');
 
 async function ensureAuthenticated(req, res, next) {
-    await Auth.isSessionExpired().then(response => {
+    await Auth.isSessionExpired(req).then(response => {
         if (response.error) {
             return res.status(401).json({ error : response.error  });
         }

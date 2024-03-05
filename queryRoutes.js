@@ -8,7 +8,7 @@ router.use(bodyParser.json()); // for parsing application/json
 router.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 async function ensureAuthenticated(req, res, next) {
-    await Auth.isSessionExpired().then(response => {
+    await Auth.isSessionExpired(req).then(response => {
         if (response.error) {
             return res.status(401).json({ error : response.error  });
         }
