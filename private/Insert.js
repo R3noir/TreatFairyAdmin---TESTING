@@ -3,10 +3,6 @@ const database = require('./Database.js');
 class Insert {
     constructor(database) {
         this.database = database;
-        if (!Insert.instance) {
-            Insert.instance = this;
-        }
-        return Insert.instance;
     }
 
     async insertUser(user) {
@@ -35,7 +31,7 @@ class Insert {
 
     async insertInventory(item) {
         try{
-        const { data, error } = await database.client
+        const { data, error } = await this.database.client
             .from('inventory')
             .insert([item]);
         if (error) {
@@ -50,7 +46,7 @@ class Insert {
     }
     async insertSalesInvoice(invoice) {
         try{
-        const { data, error } = await database.client
+        const { data, error } = await this.database.client
             .from('invoice')
             .insert([invoice]);
         if (error) {
@@ -68,7 +64,7 @@ class Insert {
     }
     async insertSalesInvoiceItems(items) {
         try{
-        const { data, error } = await database.client
+        const { data, error } = await this.database.client
             .from('invoice_items')
             .insert([items]);
         if (error) {
@@ -83,5 +79,4 @@ class Insert {
     }
 }
 
-
-module.exports = new Insert(database);
+module.exports = Insert;

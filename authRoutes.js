@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Auth = require('./private/Auth.js');
 const Validate = require('./private/FormValidation.js');
+
+const Auth = require('./private/Auth.js');
+
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;

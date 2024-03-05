@@ -3,12 +3,7 @@ const database = require('./Database.js');
 class Queries {
     constructor(database) {
         this.database = database;
-        if (!Queries.instance) {
-            Queries.instance = this;
-        }
-        return Queries.instance;
     }
-
     async getInventory(offset, limit, archived, search, Sort) {
         try{
             const { data, error } = await this.database.client.rpc('getinventory', { offsets: offset, limits: limit, archiveds: archived, search: search, order_by: Sort})
@@ -171,5 +166,4 @@ class Queries {
         }
     }
 }
-
-module.exports = new Queries(database);
+module.exports = Queries;

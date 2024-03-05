@@ -3,10 +3,6 @@ const database = require('./Database.js');
 class Update {
     constructor(database) {
         this.database = database;
-        if (!Update.instance) {
-            Update.instance = this;
-        }
-        return Update.instance;
     }
     async updateInventory(item, id) {
         try{
@@ -126,4 +122,4 @@ class Update {
     }
 }
 
-module.exports = new Update(database);
+module.exports = Update;
