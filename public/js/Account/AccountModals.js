@@ -113,6 +113,7 @@ $(document).ready( async function() {
         const confirmNewPassword = $('#confirmNewPassword').val();
         if (newPassword !== confirmNewPassword) {
             ShowSnackbar({ message: 'Passwords do not match', color: errorcolor, icon: erroricon });
+            $('#change-password-btn').prop('disabled', false);
             return;
         }
         await fetch('/update/changepassword', {
