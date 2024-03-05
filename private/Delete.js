@@ -3,6 +3,10 @@ const database = require('./Database.js');
 class Delete {
     constructor(database) {
         this.database = database;
+        if (!Delete.instance) {
+            Delete.instance = this;
+        }
+        return Delete.instance;
     }
     async deleteInvoice(id) {
         try{

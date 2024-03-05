@@ -3,6 +3,10 @@ const database = require('./Database.js');
 class Queries {
     constructor(database) {
         this.database = database;
+        if (!Queries.instance) {
+            Queries.instance = this;
+        }
+        return Queries.instance;
     }
 
     async getInventory(offset, limit, archived, search, Sort) {

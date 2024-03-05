@@ -3,6 +3,7 @@ const express = require('express');
 const rateLimit = require("express-rate-limit");
 const app = express();
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const routes = require('./routes.js'); // Import your routes
 const queryRoutes = require('./queryRoutes.js'); // Import your query routes
 const authRoutes = require('./authRoutes.js'); // Import your authentication routes
@@ -16,6 +17,8 @@ const limiter = rateLimit({
   });  
 
 app.use(limiter);
+
+app.use(cookieParser());
 
 app.set('view engine', 'ejs');
 

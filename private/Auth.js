@@ -5,8 +5,13 @@ const Formvalidation = require('./FormValidation.js');
 class Authentication {
     constructor(database) {
         this.database = database;
-        this.session = null;
+        let session;
+        if (!Authentication.instance) {
+            Authentication.instance = this;
+        }
+        return Authentication.instance;
     }
+
     async signInWithPassword({ email, password }) {
         try{
             const { data, error } = await this.database._client.auth.signInWithPassword({
