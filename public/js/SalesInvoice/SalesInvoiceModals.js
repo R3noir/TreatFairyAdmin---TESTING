@@ -28,7 +28,6 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   $('#addItem').click(function() {
-    itemIndex = 0;
     $('#itemsContainer').append(`
       <div class="row" id="itemRow${itemIndex}">
         <div class="form-group col-6">
@@ -65,6 +64,7 @@ $(document).ready(function() {
   $('#invoiceModal').on('hidden.bs.modal', function () {
     $('#invoiceForm')[0].reset();
     $('#itemsContainer').empty();
+    itemIndex = 0;
   });
 });
 
