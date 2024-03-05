@@ -1,12 +1,8 @@
 const database = require('./Database.js');
 
-class Update {
+class Queries {
     constructor(database) {
         this.database = database;
-        if (!Update.instance) {
-            Update.instance = this;
-        }
-        return Update.instance;
     }
     async updateInventory(item, id) {
         try{

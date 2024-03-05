@@ -3,12 +3,8 @@ const database = require('./Database.js');
 class Insert {
     constructor(database) {
         this.database = database;
-        if (!Insert.instance) {
-            Insert.instance = this;
-        }
-        return Insert.instance;
     }
-
+    
     async insertUser(user) {
         try{
             const SanboxDatabase = require('./SandBoxedDatabase.js');
