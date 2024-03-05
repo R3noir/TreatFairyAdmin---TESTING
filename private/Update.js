@@ -1,6 +1,6 @@
 const database = require('./Database.js');
 
-class Queries {
+class Update {
     constructor(database) {
         this.database = database;
     }
