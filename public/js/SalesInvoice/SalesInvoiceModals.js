@@ -27,8 +27,8 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-  itemIndex = 0;
   $('#addItem').click(function() {
+    itemIndex = 0;
     $('#itemsContainer').append(`
       <div class="row" id="itemRow${itemIndex}">
         <div class="form-group col-6">
