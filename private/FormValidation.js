@@ -60,7 +60,7 @@ class Validation {
         return addressRegex.test(address);
     }
 
-    validateNewProduct(body){
+        validateNewProduct(body){
         if(!this.validateProductName(body.productName)){
             return { error: 'Invalid product name' };
         }
@@ -70,13 +70,13 @@ class Validation {
         if(body.quantity < 0 || body.quantity > 32767){
             return { error: 'Invalid quantity' };
         }
-        if(body.retailPrice <= 0 && body.retailPrice > 100000){
+        if(body.retailPrice <= 0 || body.retailPrice > 100000 || isNaN(Number(body.retailPrice))){
             return { error: 'Invalid retail price' };
         }
-        if(body.wholesalePrice <= 0 && body.wholesalePrice > 100000){
+        if(body.wholesalePrice <= 0 || body.wholesalePrice > 100000 || isNaN(Number(body.wholesalePrice))){
             return { error: 'Invalid wholesale price' };
         }
-        if(body.wholesalePrice > body.retailPrice){
+        if(Number(body.wholesalePrice) > Number(body.retailPrice)){
             return { error: 'Wholesale price is greater than retail price' };
         }
         return { message: 'Valid' };
@@ -116,7 +116,10 @@ class Validation {
     }
 
     validatePrice(wholesale, retail){
-        if(wholesale > retail){
+        if(isNaN(wholesale) || isNaN(retail)){
+            return true;
+        }
+        if(Number(wholesale) > Number(retail)){
             return true;
         }
         return false;
