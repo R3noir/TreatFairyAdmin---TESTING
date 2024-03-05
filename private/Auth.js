@@ -30,8 +30,8 @@ class Authentication {
         }
     }
 
-    async getUser() {
-        const user = (await this.database._client.auth.getUser());
+    async getUser(req) {
+        const user = (await this.database._client.auth.getUser(req.cookies.session));
         return user.data.user
     }
 

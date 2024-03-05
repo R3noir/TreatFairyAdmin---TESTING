@@ -34,7 +34,7 @@ router.post('/updateinventory', ensureAuthenticated ,async (req, res) => {
                 return res.status(400).json({ error: `Invalid ${isValid.field}` });
             }
         }
-        const userid = await(Query.getID())
+        const userid = await(Query.getID(req))
         const item_id = req.body.item_id;
         delete req.body.item_id;
         req.body.last_update_by = userid;
@@ -58,7 +58,7 @@ router.post('/archive', ensureAuthenticated ,async (req, res) => {
             return res.status(400).json({ error: 'Invalid item ID' });
         }
 
-        req.body.archived_by = await(Query.getID())
+        req.body.archived_by = await(Query.getID(req))
         req.body.archived_at = new Date().toLocaleString("en-US", {timeZone: "Asia/Manila"});
         req.body.archived = true;
         const item_id = req.body.item_id;
@@ -243,7 +243,7 @@ router.post('/updateinvoice', ensureAuthenticated ,async (req, res) => {
             }
         }
         let updatedData = {};
-        updatedData.last_update_by = await Query.getID();
+        updatedData.last_update_by = await Query.getID(req);
         updatedData.last_update_at = new Date().toLocaleString("en-US", {timeZone: "Asia/Manila"});
         if(req.body.updatedData.old_invoice_id){
             const {data, error} = await Update.updateSalesInvoice(updatedData, req.body.updatedData.invoice_id);
@@ -276,7 +276,7 @@ router.post('/changeemail', ensureAuthenticated ,async (req, res) => {
         if((await Query.checkIfAdminExists(req.body.newEmail)).data){
             return res.status(400).json({ error: 'Email already exists' });
         }
-        const { data, error } = await Update.updateuseremail(req.body.newEmail);
+        const { data, error } = await Update.updateuseremail(req.body.newEmail, req);
         if (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -295,7 +295,7 @@ router.post('/changepassword', ensureAuthenticated ,async (req, res) => {
         if(req.body.newPassword !== req.body.confirmNewPassword){
             return res.status(400).json({ error: 'Passwords do not match' });
         }
-        const { data, error } = await Update.updateuserpassword(req.body.currentPassword, req.body.newPassword);
+        const { data, error } = await Update.updateuserpassword(req.body.currentPassword, req.body.newPassword, req);
         if (error) {
             console.log(error)
             return res.status(500).json({ error: error });
@@ -315,7 +315,7 @@ router.post('/resetpassword', ensureAuthenticated ,async (req, res) => {
         if(req.body.newPassword !== req.body.confirmNewPassword){
             return res.status(400).json({ error: 'Passwords do not match' });
         }
-        const { data, error } = await Update.resetpassword(req.body.newPassword);
+        const { data, error } = await Update.resetpassword(req.body.newPassword, req);
         if (error) {
             console.log(error)
             return res.status(500).json({ error: error });
@@ -334,7 +334,7 @@ router.post('/changename', ensureAuthenticated ,async (req, res) => {
             if(!Formvalidation.validateFieldname(req.body.newFName)){
                 return res.status(400).json({ error: 'Invalid name' });
             }
-            const { data, error } = await Update.userfname(req.body.newFName);
+            const { data, error } = await Update.userfname(req.body.newFName, req);
             if (error) {
                 console.log(error)
                 return res.status(500).json({ error: error });
@@ -344,7 +344,7 @@ router.post('/changename', ensureAuthenticated ,async (req, res) => {
             if(!Formvalidation.validateFieldname(req.body.newLName)){
                 return res.status(400).json({ error: 'Invalid name' });
             }
-            const { data, error } = await Update.userlname(req.body.newLName);
+            const { data, error } = await Update.userlname(req.body.newLName, req);
             if (error) {
                 console.log(error)
                 return res.status(500).json({ error: error });

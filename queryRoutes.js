@@ -115,7 +115,7 @@ router.post('/fetchusers', ensureAuthenticated , async (req, res) => {
 })
 
 router.post('/userinfo', ensureAuthenticated , async (req, res) => {
-    await Queries.getuserinfo()
+    await Queries.getuserinfo(req)
     .then(response => {
         if(response.error) {
             return res.status(500).json({ error : response.error  });

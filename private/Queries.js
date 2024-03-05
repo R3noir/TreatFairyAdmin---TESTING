@@ -61,12 +61,12 @@ class Queries {
         }
     }
 
-    async getID(){
+    async getID(req){
         try{
             const { data, error } = await this.database.client
             .from('admin')
             .select('user_id')
-            .eq('auth_uuid', (await database._client.auth.getUser()).data.user.id)
+            .eq('auth_uuid', (await database._client.auth.getUser(req.cookies.session)).data.user.id)
             if (error) {
                 return { error: error.message };
             }
@@ -145,9 +145,9 @@ class Queries {
         }
     }
 
-    async getuserinfo(){
+    async getuserinfo(req){
         try{
-            const { data, error } = await this.database.client.rpc('getadmindetails', {p_auth_uuid: (await database._client.auth.getUser()).data.user.id})
+            const { data, error } = await this.database.client.rpc('getadmindetails', {p_auth_uuid: (await database._client.auth.getUser(req.cookies.session)).data.user.id})
             if (error) {
                 return { error: error.message  };
             }
