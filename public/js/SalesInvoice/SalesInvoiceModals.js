@@ -149,7 +149,7 @@ $(document).on('click', '.edit-button', function() {
 
     const form = $('#editInvoiceForm');
 
-    const formData = {
+    let formData = {
       invoice_id: parseInt(form.find('#editInvoiceID').val()),
       name: form.find('#editSoldTo').val(),
       sold_date: form.find('#editSoldDate').val(),
@@ -293,7 +293,7 @@ $('#editInvoiceModal').on('shown.bs.modal', function() {
 
 $('#invoiceForm').on('submit', async function(event) {
   event.preventDefault(); // Prevent the form from submitting via the browser
-  const formData = {
+  let formData = {
     invoiceID: $('#invoiceID').val(),
     soldTo: $('#soldTo').val(),
     soldDate: $('#soldDate').val(),
@@ -304,6 +304,7 @@ $('#invoiceForm').on('submit', async function(event) {
     amount_paid: $('#amountPaid').val(),
     items: []
   };
+  console.log(formData.items)
   for (let i = 0; i < itemIndex; i++) {
     formData.items.push({
       invoice_item_name: $('#itemName' + i).val(),
