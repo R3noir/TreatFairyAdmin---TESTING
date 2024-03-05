@@ -15,7 +15,7 @@ class Validation {
         return emailRegex.test(email);
     }
     validatePassword(password) {
-        const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,72}$/
+        const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,72}$/;
         return passwordRegex.test(password);
     }
     validateName(name) {
