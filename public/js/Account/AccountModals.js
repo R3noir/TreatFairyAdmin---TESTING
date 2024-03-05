@@ -69,7 +69,10 @@ $(document).ready( async function() {
                 ShowSnackbar({ message: data.error, color: errorcolor, icon: erroricon });
             } else {
                 ShowSnackbar({ message: 'Email change request has been sent!', color: successcolor, icon: successfuicon });
-                $('#emailChangeForm').trigger('reset');
+                $('#newEmail').val('');
+                $('#confirmNewEmail').val('');
+                $('#newEmailCount').text('0 / 255');
+                $('#confirmNewEmailCount').text('0 / 255');
                 $('#emailChangeModal').modal('hide');
                 $('#change-email-btn').prop('disabled', false);
             }
