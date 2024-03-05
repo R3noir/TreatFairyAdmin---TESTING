@@ -19,7 +19,7 @@ class Validation {
         return passwordRegex.test(password);
     }
     validateName(name) {
-        const nameRegex = /^[a-zA-Z\s]*[a-zA-Z][a-zA-Z\s]{0,69}$/;
+        const nameRegex = /^[a-zA-Z\s.]*[a-zA-Z][a-zA-Z\s.]{0,69}$/;
         return nameRegex.test(name) && !/\s{2,}/.test(name);
     }
     

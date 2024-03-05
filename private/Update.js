@@ -59,15 +59,15 @@ class Update {
         }
     }
 
-    async updateuseremail(email, req){
-        const { user, error } = await this.database.client.auth.updateUser(req.cookies.session, {email: email})
+    async updateuseremail(email){
+        const { user, error } = await this.database.client.auth.updateUser({email: email})
         if (error) {
             return { error: error.message }
         }
         return {data : user};
     }
 
-    async updateuserpassword(oldpassword, newpassword, req){
+    async updateuserpassword(oldpassword, newpassword){
         try{
             console.log(typeof(newpassword))
             const SanboxDatabase = require('./SandBoxedDatabase.js');
@@ -80,7 +80,7 @@ class Update {
             }
             else{
                 SanboxDatabase.client.auth.signOut();
-                const { user, error } = await this.database.client.auth.updateUser(req.cookies.session, {password: newpassword})
+                const { user, error } = await this.database.client.auth.updateUser({password: newpassword})
                 if (error) {
                     return { error: error.message }
                 }
@@ -92,9 +92,9 @@ class Update {
         }
     }
 
-    async resetpassword(newpassword, req){
+    async resetpassword(newpassword){
         try{
-            const { user, error } = await this.database.client.auth.updateUser(req.cookies.session, {password: newpassword})
+            const { user, error } = await this.database.client.auth.updateUser({password: newpassword})
             if (error) {
                 return { error: error.message }
             }
@@ -104,8 +104,8 @@ class Update {
             return { error: e }
         }
     }
-    async userfname(data, req){
-        const { user, error } = await this.database.client.auth.updateUser(req.cookies.session, {
+    async userfname(data){
+        const { user, error } = await this.database.client.auth.updateUser({
             data: { fname: data }
         })
         console.log(user, error)
@@ -114,8 +114,8 @@ class Update {
         }
         return {data : user};
     }
-    async userlname(data, req){
-        const { user, error } = await this.database.client.auth.updateUser(req.cookies.session, {
+    async userlname(data){
+        const { user, error } = await this.database.client.auth.updateUser({
             data: { lname: data }
         })
         console.log(user, error)

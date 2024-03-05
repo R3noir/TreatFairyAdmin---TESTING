@@ -276,7 +276,7 @@ router.post('/changeemail', ensureAuthenticated ,async (req, res) => {
         if((await Query.checkIfAdminExists(req.body.newEmail)).data){
             return res.status(400).json({ error: 'Email already exists' });
         }
-        const { data, error } = await Update.updateuseremail(req.body.newEmail, req);
+        const { data, error } = await Update.updateuseremail(req.body.newEmail);
         if (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -295,7 +295,7 @@ router.post('/changepassword', ensureAuthenticated ,async (req, res) => {
         if(req.body.newPassword !== req.body.confirmNewPassword){
             return res.status(400).json({ error: 'Passwords do not match' });
         }
-        const { data, error } = await Update.updateuserpassword(req.body.currentPassword, req.body.newPassword, req);
+        const { data, error } = await Update.updateuserpassword(req.body.currentPassword, req.body.newPassword);
         if (error) {
             console.log(error)
             return res.status(500).json({ error: error });
@@ -315,7 +315,7 @@ router.post('/resetpassword', ensureAuthenticated ,async (req, res) => {
         if(req.body.newPassword !== req.body.confirmNewPassword){
             return res.status(400).json({ error: 'Passwords do not match' });
         }
-        const { data, error } = await Update.resetpassword(req.body.newPassword, req);
+        const { data, error } = await Update.resetpassword(req.body.newPassword);
         if (error) {
             console.log(error)
             return res.status(500).json({ error: error });
@@ -334,7 +334,7 @@ router.post('/changename', ensureAuthenticated ,async (req, res) => {
             if(!Formvalidation.validateFieldname(req.body.newFName)){
                 return res.status(400).json({ error: 'Invalid name' });
             }
-            const { data, error } = await Update.userfname(req.body.newFName, req);
+            const { data, error } = await Update.userfname(req.body.newFName);
             if (error) {
                 console.log(error)
                 return res.status(500).json({ error: error });
@@ -344,7 +344,7 @@ router.post('/changename', ensureAuthenticated ,async (req, res) => {
             if(!Formvalidation.validateFieldname(req.body.newLName)){
                 return res.status(400).json({ error: 'Invalid name' });
             }
-            const { data, error } = await Update.userlname(req.body.newLName, req);
+            const { data, error } = await Update.userlname(req.body.newLName);
             if (error) {
                 console.log(error)
                 return res.status(500).json({ error: error });
