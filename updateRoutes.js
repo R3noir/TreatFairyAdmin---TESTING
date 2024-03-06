@@ -134,7 +134,7 @@ router.post('/updateinvoice', ensureAuthenticated ,async (req, res) => {
         }
         if(req.body.updatedItems.length > 0){
             for(let i = 0; i < req.body.updatedItems.length; i++){
-                if(req.body.updatedItems[i].item){
+                if(req.body.updatedItems[i].item !== null && req.body.updatedItems[i].item !== undefined){
                     if(!Formvalidation.validateProductName(req.body.updatedItems[i].item)){
                         return res.status(400).json({ message_error: 'Invalid item name' });
                     }
