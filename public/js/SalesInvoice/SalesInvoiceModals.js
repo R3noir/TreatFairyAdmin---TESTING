@@ -162,48 +162,49 @@ $(document).on('click', '.edit-button', function() {
       delete_items: itemsToDelete
     };
     
-    for (let i = 0; i < $('#editItemsContainer').children().length; i++) {
-      if($('#editItemId' + i).val() === undefined){
+    $('[id^="editItemName"]').each(function() {
+    const index = this.id.replace('editItemName', '');
+    if($('#editItemId' + index).val() === undefined){
         formData.new_items.push({
-          invoice_id: formData.invoice_id,
-          item: form.find('#editItemName' + i).val(),
-          quantity: parseInt(form.find('#editQuantity' + i).val()),
-          price: parseFloat(form.find('#editUnitPrice' + i).val())
+            invoice_id: formData.invoice_id,
+            item: form.find('#editItemName' + index).val(),
+            quantity: parseInt(form.find('#editQuantity' + index).val()),
+            price: parseFloat(form.find('#editUnitPrice' + index).val())
         });
-      }
-      else if($('#editItemId' + i).val() !== undefined){
-        const itemId = parseInt($('#editItemId' + i).val());
-        const itemName = form.find('#editItemName' + i).val();
-        const quantity = parseInt(form.find('#editQuantity' + i).val());
-        const price = parseFloat(form.find('#editUnitPrice' + i).val());
-      
-        const originalItem = data.items.find(item => item.id === itemId);
-      
-        if (originalItem) {
-          let updatedItem = {
-            id: itemId,
-            invoice_id: formData.invoice_id
-          };
-        
-          if(parseInt(formData.invoice_id) !== originalItem.invoice_id){
-            updatedItem.old_invoice_id = originalItem.invoice_id;
-          }
-      
-          if (originalItem.item !== itemName) {
-            updatedItem.item = itemName;
-          }
-      
-          if (originalItem.quantity !== quantity || originalItem.price !== price) {
-            updatedItem.quantity = quantity;
-            updatedItem.price = price;
-          }
-      
-          if (Object.keys(updatedItem).length > 2) {
-            formData.updated_items.push(updatedItem);
-          }
-        }
-      }
     }
+    else {
+        const itemId = parseInt($('#editItemId' + index).val());
+        const itemName = form.find('#editItemName' + index).val();
+        const quantity = parseInt(form.find('#editQuantity' + index).val());
+        const price = parseFloat(form.find('#editUnitPrice' + index).val());
+
+        const originalItem = data.items.find(item => item.id === itemId);
+
+        if (originalItem) {
+            let updatedItem = {
+                id: itemId,
+                invoice_id: formData.invoice_id
+            };
+
+            if(parseInt(formData.invoice_id) !== originalItem.invoice_id){
+                updatedItem.old_invoice_id = originalItem.invoice_id;
+            }
+
+            if (originalItem.item !== itemName) {
+                updatedItem.item = itemName;
+            }
+
+            if (originalItem.quantity !== quantity || originalItem.price !== price) {
+                updatedItem.quantity = quantity;
+                updatedItem.price = price;
+            }
+
+            if (Object.keys(updatedItem).length > 2) {
+                formData.updated_items.push(updatedItem);
+            }
+        }
+    }
+    });
 
     let newData = {};
     Object.keys(data).forEach(key => {
@@ -303,14 +304,15 @@ $('#invoiceForm').on('submit', async function(event) {
     amount_paid: $('#amountPaid').val(),
     items: []
   };
-  console.log(formData.items)
-  for (let i = 0; i < $('#itemsContainer').children().length; i++) {
+  $('[id^="itemName"]').each(function() {
+    const index = this.id.replace('itemName', '');
     formData.items.push({
-      invoice_item_name: $('#itemName' + i).val(),
-      invoice_item_quantity: $('#quantity' + i).val(),
-      invoice_item_price: $('#unitPrice' + i).val()
+        invoice_item_name: $(this).val(),
+        invoice_item_quantity: $('#quantity' + index).val(),
+        invoice_item_price: $('#unitPrice' + index).val()
     });
-  }
+});
+console.log(formData.items)
   await fetch('insert/salesinvoice', {
     method: 'POST',
     headers: {
