@@ -43,10 +43,12 @@ $(document).ready( async function() {
         const confirmNewEmail = $('#confirmNewEmail').val();
         if (newEmail !== confirmNewEmail) {
             ShowSnackbar({ message: 'Emails do not match', color: errorcolor, icon: erroricon });
+            $('#change-email-btn').prop('disabled', false);
             return;
         }
         if (currentEmail === newEmail) {
             ShowSnackbar({ message: 'New email cannot be the same as the current email', color: errorcolor, icon: erroricon });
+            $('#change-email-btn').prop('disabled', false);
             return;
         }
         await fetch('/update/changeemail', {
