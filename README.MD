@@ -8,7 +8,10 @@
 * Clone this repo/download it (https://github.com/R3noir/TreatFairyAdmin---TESTING/tree/final-branch)
 * Open in Visual Studio Code
 * Open Visual Studio Code Terminal (Top left corner where it says terminal)
-* Install the all npm modules required to run this project by running npm install  (Required)
+* Install the all npm modules required to run this project (Required)
+    ```
+    npm install
+    ```
 * Install the npm modules manually using these commands in visual studio code terminal (Optional)
     ```
     npm install @supabase/supabase-js
